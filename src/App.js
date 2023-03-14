@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 
 
 
@@ -7,10 +7,10 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import Navigation from './components/Navigation';
 import SearchForm from './components/SerachForm';
-// import AboutPage from './components/views/AboutPage';
-// import CreateEdit from './components/views/CreateEdit';
+import AboutPage from './components/views/AboutPage';
+import CreateEdit from './components/views/CreateEdit';
 import HomePage from './components/views/HomePage';
-// import Register from './components/views/Register';
+import Register from './components/views/Register';
 
 
 function App() {
@@ -24,10 +24,13 @@ function App() {
         {user ? <SearchForm /> : <LoginForm />}
       </header>
       <main>
-        <HomePage />
-        {/* <CreateEdit /> */}
-        {/* <Register /> */}
-        {/* <AboutPage /> */}
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/create' element={<CreateEdit />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/about' element={<AboutPage />} />
+        </Routes>
+
       </main>
       <footer>
         Blagovest Panayotov
