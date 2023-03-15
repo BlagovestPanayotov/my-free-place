@@ -8,7 +8,7 @@ function Register() {
                 <form id={styles.form}>
                     <table>                        
                         <tr>
-                            <label>Name</label>
+                            <label>Email</label>
                             <input name="name" type="text" />
                         </tr>
                         <tr>

@@ -15,7 +15,7 @@ import Register from './components/views/Register/Register';
 
 function App() {
 
-  const [user, setUser] = useState(1);
+  const [user, setUser] = useState(null);
 
   return (
     <>
