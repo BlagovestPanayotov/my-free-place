@@ -1,0 +1,68 @@
+.content {
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.8),
+    rgba(225, 225, 225, 0.2)
+  );
+  border-radius: 16px;
+  color: white;
+  height: 75em;
+  width: 104em;
+  margin-left: 0;
+  margin-top: 8em;
+  position: absolute;
+  padding: 2px;
+}
+
+.content h1 {
+  text-align: center;
+  margin-bottom: 2em;
+}
+.content p {
+  text-align: center;
+  margin-bottom: 8em;
+  font-size: 30px;
+  color: lightblue;
+}
+
+.destinationCart {
+  background-color: rgba(225, 225, 225, 0.85);
+  width: 30em;
+  text-align: center;
+  display: inline-block;
+  margin-top: 26em;
+  margin: 2em;
+  border: white solid 2px;
+  border-radius: 8px;
+  height: 28em;
+  color: rgba(0, 0, 0, 0.85);
+}
+.destinationCart img {
+  max-width: 95%;
+  text-align: center;
+  display: block;
+  margin: auto;
+  border: white solid 2px;
+  border-radius: 8em;
+  width: 20em;
+  height: 15em;
+}
+
+.destinationCart a {
+  display: inline-block;
+  padding: 8px;
+  margin: 25px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+  border: #000000 solid 1px;
+  border-radius: 8px;
+  background-color: white;
+  color: purple;
+}
+
+.destinationCart div :hover {
+  background-color: blue;
+  color: white;
+}
+
+
