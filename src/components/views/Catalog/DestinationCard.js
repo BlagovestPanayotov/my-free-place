@@ -9,7 +9,7 @@ function DestinationCard() {
             <h3>Destination</h3>
             <img src="./img/GOPR4169.JPG" alt="icland-black-sand-beach" />
             <h4><strong>Contrey:</strong> Some Contrey</h4>
-            <div id="button"><NavLink to={'/details'}>Details</NavLink></div>
+            <div id="button"><NavLink to={'/details/someId'}>Details</NavLink></div>
         </div>
     );
 }

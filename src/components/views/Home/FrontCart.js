@@ -7,7 +7,7 @@ function FrontCart() {
         <div className={style.frontCart}>
             <h3>Destination</h3>
             <img src="./img/GOPR4169.JPG" alt="icland-black-sand-beach" />
-            <div><NavLink to={'/details'}>Details</NavLink></div>
+            <div><NavLink to={'/details/someId'}>Details</NavLink></div>
         </div>
     );
 }

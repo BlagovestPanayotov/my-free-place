@@ -6,10 +6,10 @@ function CreateEdit() {
                 <h1><i>Create your place</i></h1>
                 <form id={styles.form}>
 
-                    <label>Destiantion name</label>
+                    <label>Destiantion name:</label>
                     <input name="destination" type="text" />
                     <br />
-                    <label>Country</label>
+                    <label>Country:</label>
                     <select id="country">
                         <option value="bulgaria">Bulgaria</option>
                         <option value="england">England</option>
@@ -17,10 +17,10 @@ function CreateEdit() {
                         <option value="portugal">Portugal</option>
                     </select>
                     <br />
-                    <label>Location</label>
+                    <label>Location:</label>
                     <input name="loation" type="text" />
                     <br />
-                    <label>Descriptuion</label>
+                    <label>Descriptuion:</label>
                     <textarea name="description" type="text" />
                     <br />
                     <span>

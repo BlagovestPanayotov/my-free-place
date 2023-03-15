@@ -8,15 +8,15 @@ function Register() {
                 <form id={styles.form}>
                     <table>                        
                         <tr>
-                            <label>Email</label>
+                            <label>Email:</label>
                             <input name="name" type="text" />
                         </tr>
                         <tr>
-                            <label>Password</label>
+                            <label>Password:</label>
                             <input name="password" type="password" />
                         </tr>
                         <tr>
-                            <label>Repeat password</label>
+                            <label>Repeat password:</label>
                             <input name="repass" type="password" />
                         </tr>
                         <span>

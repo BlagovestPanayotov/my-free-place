@@ -1,0 +1,32 @@
+.content {
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.8),
+    rgba(225, 225, 225, 0.2)
+  );
+  border-radius: 16px;
+  color: white;
+  height: 60em;
+  margin-left: 0;
+  width: 104em;
+  margin-top: 8em;
+  position: absolute;
+  padding: 2px;
+}
+
+.content h1 {
+  text-align: center;
+  margin-bottom: 2em;
+}
+.content p {
+  text-align: center;
+  margin-bottom: 8em;
+  font-size: 4em;
+  color: white;
+}
+
+#sad-face-img{
+  width: 16em;
+  height: 16em;
+  margin-left: 0em;
+  border-radius: 20em;
+}

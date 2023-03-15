@@ -8,14 +8,16 @@ import SearchForm from './components/SerachForm';
 import About from './components/views/About/About';
 import Catalog from './components/views/Catalog/Catalog';
 import CreateEdit from './components/views/CreateEdit/CreateEdit';
+import Details from './components/views/Detaiuls/Details';
 import Home from './components/views/Home/Home';
+import NotFound from './components/views/NotFound/NotFound';
 import Profile from './components/views/Profile/Profile';
 import Register from './components/views/Register/Register';
 
 
 function App() {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(2);
 
   return (
     <>
@@ -31,6 +33,8 @@ function App() {
           <Route path='/catalog' element={<Catalog />} />
           <Route path='/about' element={<About />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/details/:destinationId' element={<Details />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
 
       </main>
