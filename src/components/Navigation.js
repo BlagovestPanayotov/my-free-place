@@ -22,7 +22,7 @@ function Navigation({ user }) {
                 <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/about'}>About</NavLink></div></li>
 
             </ul>
-            <h1><i>My free plase</i></h1>
+            <h1><i>My free place</i></h1>
         </div>
     );
 }

@@ -20,7 +20,7 @@ import Register from './components/views/Register/Register';
 function App() {
 
   const navigate = useNavigate();
-  const [user, setUser] = useState(2);
+  const [user, setUser] = useState(null);
   const [countries, setCountries] = useState([]);
 
   const [lastDestinations, setLastDestinations] = useState([]);

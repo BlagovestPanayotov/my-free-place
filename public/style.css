@@ -24,7 +24,7 @@ header {
 }
 
 #navigation h1 {
-  margin-left: 8em;
+  margin-left: 3em;
   font-size: 50px;
   font-family: 'Dancing Script', cursive;
   color: antiquewhite;
@@ -92,6 +92,14 @@ header {
   margin-right: 10px;
 }
 
+#login-form button {
+  height: 35px;
+  width: 160px;
+  margin-bottom: 8px;
+  margin-left: 14.6em;
+  cursor: pointer;
+}
+
 #login-form form input,
 #search-form form input,
 #search-form form select {
@@ -108,9 +116,19 @@ header {
 }
 
 #login-form span {
-  float: right;
+  position: absolute;
+  display: block;
   text-align: center;
+  padding: 0 8px;
+  margin-top: -2em;
+  color: #000000;
+  font-size: 16px;
+  font-feature-settings: normal;
+  font-variant: normal;
+  line-height: normal;
   font-style: italic;
+  width: 160px;
+  right: 14em;
 }
 
 main {
@@ -146,7 +164,7 @@ footer {
   position: absolute;
 }
 
-.activeNav{
+.activeNav {
   background-color: grey;
   border-radius: 4px;
 }
