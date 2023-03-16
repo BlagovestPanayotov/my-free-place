@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
-import { createItem, getAll } from './services/data';
+import { createItem, getAll, getCountries } from './services/data';
 
 
 
@@ -21,6 +21,7 @@ function App() {
 
   const navigate = useNavigate();
   const [user, setUser] = useState(2);
+  const [countries, setCountries] = useState([]);
 
   const [lastDestinations, setLastDestinations] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -28,12 +29,13 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    getAll()
-      .then(data => {
-        setDestinations(Object.values(data));
-        setLastDestinations(Object.values(data).slice(-2));
-        setLoading(false);
-      });
+    Promise.all([getAll(), getCountries()]).then(([data, countries]) => {
+      setDestinations(Object.values(data));
+      setLastDestinations(Object.values(data).slice(-2));
+      setCountries(Object.entries(countries));
+      setLoading(false);
+    });
+
   }, []);
 
   const [hasEmptyFeild, setHasEmptyField] = useState(false);
@@ -57,12 +59,12 @@ function App() {
     <>
       <header>
         <Navigation user={user} />
-        {user ? <SearchForm /> : <LoginForm />}
+        {user ? <SearchForm countries={countries} /> : <LoginForm />}
       </header>
       <main>
         <Routes>
           <Route path='/' element={<Home loading={loading} lastDestinations={lastDestinations} />} />
-          <Route path='/create' element={<CreateEdit onCreateSubmit={onCreateSubmit} hasEmptyFeild={hasEmptyFeild} />} />
+          <Route path='/create' element={<CreateEdit countries={countries} onCreateSubmit={onCreateSubmit} hasEmptyFeild={hasEmptyFeild} />} />
           <Route path='/register' element={<Register />} />
           <Route path='/catalog' element={<Catalog loading={loading} destinations={destinations} />} />
           <Route path='/about' element={<About />} />

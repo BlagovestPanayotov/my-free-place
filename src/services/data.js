@@ -7,6 +7,7 @@ const endpoints = {
     'createItem': '/jsonstore/destinations',
     'deleteItem': '/data/albums/',
     'editItem': '/data/albums/',
+    'getCountries':'/jsonstore/countries',
     'searchItems': (query) => `/data/albums?where=name%20LIKE%20%22${query}%22`,
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
     // 'addLike': '/data/likes',
@@ -16,6 +17,10 @@ const endpoints = {
     // 'getComments': (itemId) => `/data/comments?where=gameId%3D%22${itemId}%22`,
     // 'postComment':'/data/comments',
 };
+
+export function getCountries(){
+    return get(endpoints.getCountries);
+}
 
 export function getAll() {
     return get(endpoints.getAll);

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './CreateEdit.module.css';
 import { submitHandler } from '../../../utils/util';
 
-function CreateEdit({ onCreateSubmit, hasEmptyFeild }) {
+function CreateEdit({ countries, onCreateSubmit, hasEmptyFeild }) {
     const [values, setValues] = useState({
         destination: '',
         country: '',
@@ -25,11 +25,7 @@ function CreateEdit({ onCreateSubmit, hasEmptyFeild }) {
                 <br />
                 <label htmlFor='country'>Country:</label>
                 <select value={values.country} onChange={onChangeHandler} id="country" name='country'>
-                    <option value="Bulgaria">Bulgaria</option>
-                    <option value="England">England</option>
-                    <option value="Iceland">Iceland</option>
-                    <option value="Portugal">Portugal</option>
-                    <option value="Scotland">Scotland</option>
+                    {countries.map(([k,v]) => <option key={k} value={v}>{v}</option>)}
                 </select>
                 <br />
                 <label htmlFor='location'>Location:</label>
