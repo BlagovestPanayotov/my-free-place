@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { Routes, Route, Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+import { createItem, getAll } from './services/data';
+
 
 
 import LoginForm from './components/LoginForm';
@@ -17,7 +19,40 @@ import Register from './components/views/Register/Register';
 
 function App() {
 
+  const navigate = useNavigate();
   const [user, setUser] = useState(2);
+
+  const [lastDestinations, setLastDestinations] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [destinations, setDestinations] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    getAll()
+      .then(data => {
+        setDestinations(Object.values(data));
+        setLastDestinations(Object.values(data).slice(-2));
+        setLoading(false);
+      });
+  }, []);
+
+  const [hasEmptyFeild, setHasEmptyField] = useState(false);
+
+  function onCreateSubmit(data) {
+    setHasEmptyField(Object.values(data).includes(''));
+    if (hasEmptyFeild) {
+      navigate('/create');
+    } else {
+      console.log('ha');
+      createItem(data)
+        .then(newDestination => {
+          setDestinations(state => [...state, newDestination]);
+          setLastDestinations(Object.values(destinations).slice(-2));
+          navigate('/catalog');
+        });
+    }
+
+  }
 
   return (
     <>
@@ -27,10 +62,10 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/create' element={<CreateEdit />} />
+          <Route path='/' element={<Home loading={loading} lastDestinations={lastDestinations} />} />
+          <Route path='/create' element={<CreateEdit onCreateSubmit={onCreateSubmit} hasEmptyFeild={hasEmptyFeild} />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/catalog' element={<Catalog />} />
+          <Route path='/catalog' element={<Catalog loading={loading} destinations={destinations} />} />
           <Route path='/about' element={<About />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/details/:destinationId' element={<Details />} />

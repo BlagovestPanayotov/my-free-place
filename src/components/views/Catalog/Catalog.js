@@ -2,13 +2,16 @@ import styles from './Catalog.module.css';
 import DestinationCard from './DestinationCard';
 
 
-function Catalog() {
+function Catalog({ loading, destinations }) {
     return (
         <div className={styles.content}>
-            <DestinationCard />
-            <DestinationCard />
-            <DestinationCard />
-            <DestinationCard />
+            {loading
+                ? <h1>Loading...</h1>
+                : destinations.map(x => <DestinationCard
+                    key={x._id}
+                    {...x}
+                />)
+            }
         </div>
     );
 }

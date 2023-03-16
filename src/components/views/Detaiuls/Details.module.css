@@ -5,7 +5,7 @@
   );
   border-radius: 16px;
   color: white;
-  height: 74em;
+  height: 78em;
   margin-left: 0;
   width: 104em;
   margin-top: 8em;
@@ -24,10 +24,10 @@
   color: lightblue;
 }
 
-#form {
+table {
   display: block;
-  width: 17em;
-  height: 12em;
+  width: 21em;
+  height: 15em;
   position: absolute;
   background-color: rgba(225, 225, 225, 0.85);
   padding: 32px;
@@ -35,44 +35,40 @@
   font-family: Arial, Helvetica, sans-serif;
   color: #000000;
   font-size: 50px;
-  margin-left: 8em;
+  margin-left: 6em;
 }
 
-#form label {
-  position: absolute;
+table tr {
+  position: relative;
   float: left;
+  display: block;
+  padding-bottom: 24px;
+  margin-top: 4px;
+  background-color: aliceblue;
+  width: 19.6em;
+  height: auto;
+  top: -30px;
+  border-radius: 4px;
+  
+}
+
+table div {
+  top: 18px;
   text-align: right;
   display: block;
-  margin-top: 3px;
-  margin-right: 10px;
-}
-
-#form select,
-#form input {
-  display: block;
-  height: 35px;
-  width: 160px;
+  height: auto;
+  width: 53em;
   padding: 0 8px;
-  margin-top: 16px;
-  margin-bottom: 8px;
-  margin-left: 40em;
   color: #000000;
   font-size: 16px;
-  font-variant: normal;
-  line-height: normal;
-  position: absolute;
+  position: relative;
 }
 
-#form textarea {
-  position: absolute;
-  padding: 8px 8px;
-  margin-top: 16px;
-  margin-bottom: 8px;
-  margin-left: 40em;
+table label {
+  position: relative;
+  padding: 0 8px;
   color: #000000;
   font-size: 16px;
-  font-variant: normal;
-  line-height: normal;
 }
 
 span {
@@ -89,13 +85,12 @@ span {
   font-style: italic;
   height: 35px;
   width: 160px;
-  right: 45em;
+  right: 25em;
 }
 button {
   height: 35px;
   width: 160px;
   margin-bottom: 8px;
-
 }
 
 span :hover {
@@ -108,4 +103,65 @@ img {
   height: 20em;
   margin-left: 42em;
   border-radius: 20em;
+}
+
+span button :disabled {
+  background-color: pink;
+}
+
+#comments {
+  margin: 27em;
+  color: #000000;
+  width: 36em;
+  position: absolute;
+  background-color: grey;
+  border-radius: 1em;
+  padding: 0 1em;
+}
+
+.comment-cart {
+  color: #000000;
+  position: relative;
+  width: 36em;
+  height: 4em;
+  background-color: aqua;
+  border-radius: 1em;
+  margin-bottom: 8px;
+}
+
+.comment-cart p {
+  position: absolute;
+  color: #000000;
+  font-size: 16px;
+  margin: 0em 0 3em 2em;
+  padding-top: 8px;
+}
+
+.comment-cart button {
+  display: inline-block;
+  position: relative;
+  height: 2em;
+  width: 4em;
+  margin: 2.5em 0 3em 2em;
+  text-align: center;
+  z-index: 1;
+}
+
+.comment-cart button:hover {
+  background-color: pink;
+  cursor: pointer;
+}
+
+.likes {
+  position: absolute;
+  text-align: center;
+  margin-left: 30em;
+  color: #000000;
+  background-color: gray;
+  border-radius: 2em;
+  font-size: 16px;
+  width: 80px;
+  height: 20px;
+  z-index: 1;
+  bottom: 4px;
 }

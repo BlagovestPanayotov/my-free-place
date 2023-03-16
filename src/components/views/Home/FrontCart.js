@@ -2,12 +2,14 @@ import style from './Home.module.css';
 import { NavLink } from 'react-router-dom';
 
 
-function FrontCart() {
+function FrontCart({
+    country, description, destination, imageUrl, location, _id
+}) {
     return (
         <div className={style.frontCart}>
-            <h3>Destination</h3>
-            <img src="./img/GOPR4169.JPG" alt="icland-black-sand-beach" />
-            <div><NavLink to={'/details/someId'}>Details</NavLink></div>
+            <h3>{description}</h3>
+            <img src={imageUrl} alt={destination} />
+            <div><NavLink to={`/details/${_id}`}>Details</NavLink></div>
         </div>
     );
 }
