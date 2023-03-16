@@ -43,11 +43,10 @@ function App() {
     if (hasEmptyFeild) {
       navigate('/create');
     } else {
-      console.log('ha');
       createItem(data)
         .then(newDestination => {
           setDestinations(state => [...state, newDestination]);
-          setLastDestinations(Object.values(destinations).slice(-2));
+          setLastDestinations(state => [state.pop(), newDestination]);
           navigate('/catalog');
         });
     }
