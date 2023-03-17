@@ -1,7 +1,7 @@
 import style from './Home.module.css';
 import FrontCart from './FrontCart';
 
-function HomePage({ lastDestinations, loading }) {
+function HomePage({ lastDestinations, loading, user }) {
 
     return (
         <>
@@ -13,6 +13,7 @@ function HomePage({ lastDestinations, loading }) {
                 {loading
                     ? <h1>Loading...</h1>
                     : lastDestinations.map(x => <FrontCart
+                        user={user}
                         key={x._id}
                         {...x}
                     />)

@@ -20,7 +20,7 @@ import Register from './components/views/Register/Register';
 function App() {
 
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(1);
   const [countries, setCountries] = useState([]);
 
   const [lastDestinations, setLastDestinations] = useState([]);
@@ -63,10 +63,10 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path='/' element={<Home loading={loading} lastDestinations={lastDestinations} />} />
+          <Route path='/' element={<Home loading={loading} lastDestinations={lastDestinations} user={user} />} />
           <Route path='/create' element={<CreateEdit countries={countries} onCreateSubmit={onCreateSubmit} hasEmptyFeild={hasEmptyFeild} />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/catalog' element={<Catalog loading={loading} destinations={destinations} />} />
+          <Route path='/catalog' element={<Catalog loading={loading} user={user} destinations={destinations} />} />
           <Route path='/about' element={<About />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/details/:destinationId' element={<Details />} />

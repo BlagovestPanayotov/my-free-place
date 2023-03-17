@@ -3,13 +3,13 @@ import { NavLink } from 'react-router-dom';
 
 
 function FrontCart({
-    country, description, destination, imageUrl, location, _id
+    country, description, destination, imageUrl, location, _id, user
 }) {
     return (
         <div className={style.frontCart}>
             <h3>{description}</h3>
             <img src={imageUrl} alt={destination} />
-            <div><NavLink to={`/details/${_id}`}>Details</NavLink></div>
+            {user && <div><NavLink to={`/details/${_id}`}>Details</NavLink></div>}
         </div>
     );
 }
