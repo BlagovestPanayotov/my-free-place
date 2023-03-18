@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
-import { createItem, getAll, getCountries } from './services/data';
+import { createItem, getAll, getById, getCountries } from './services/data';
 
 
-
+import { UserContext } from './contexts/UserContext';
 import LoginForm from './components/LoginForm';
 import Navigation from './components/Navigation';
 import SearchForm from './components/SerachForm';
@@ -15,30 +15,85 @@ import Home from './components/views/Home/Home';
 import NotFound from './components/views/NotFound/NotFound';
 import Profile from './components/views/Profile/Profile';
 import Register from './components/views/Register/Register';
+import { login, logout, register } from './services/auth';
 
 
 function App() {
 
   const navigate = useNavigate();
-  const [user, setUser] = useState(1);
+  const [user, setUser] = useState(null);
+
   const [countries, setCountries] = useState([]);
+  const [currentDestinationId, setCurrentDestinationId] = useState(null);
+  const [currentDestination, setCurrentDestination] = useState({});
+
+  const [hasEmptyFeild, setHasEmptyField] = useState(false);
 
   const [lastDestinations, setLastDestinations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [destinations, setDestinations] = useState([]);
 
+
+
+  useEffect(() => {
+    setLoading(true);
+    if (currentDestinationId) {
+      getById(currentDestinationId)
+        .then(data => {
+          setCurrentDestination(data);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [currentDestinationId]);
+
+
   useEffect(() => {
     setLoading(true);
     Promise.all([getAll(), getCountries()]).then(([data, countries]) => {
-      setDestinations(Object.values(data));
-      setLastDestinations(Object.values(data).slice(-2));
-      setCountries(Object.entries(countries));
+      setDestinations(data.results);
+      setLastDestinations(data.results.slice(-2));
+      setCountries(countries.results);
       setLoading(false);
     });
 
   }, []);
 
-  const [hasEmptyFeild, setHasEmptyField] = useState(false);
+
+  function onLoginSubmit(data) {
+    login(data)
+      .then(setUser)
+      .catch(err => {
+        console.log(err);
+        setUser(null);
+      });
+  }
+
+  function onRegisterSubmit(data) {
+    register(data)
+      .then(newUser => {
+        const { sessionToken, objecId } = JSON.parse(JSON.stringify(newUser));
+        const { username } = data;
+        setUser({
+          sessionToken,
+          username,
+          objecId
+        });
+        console.log(user);
+        navigate('/catalog');
+      })
+      .catch(err => {
+        console.log(err);
+        setUser(null);
+      });
+  }
+
+  function onLogoutClick() {
+    console.log('hi');
+    logout();
+    navigate('/home');
+  }
 
   function onCreateSubmit(data) {
     setHasEmptyField(Object.values(data).includes(''));
@@ -46,30 +101,33 @@ function App() {
       navigate('/create');
     } else {
       createItem(data)
-        .then(newDestination => {
-          setDestinations(state => [...state, newDestination]);
-          setLastDestinations(state => [state.pop(), newDestination]);
+        .then(({ objectId }) => {
+          setDestinations(state => [...state, { ...data, objectId }]);
+          setLastDestinations(state => [state.pop(), { ...data, objectId }]);
           navigate('/catalog');
         });
     }
+  }
 
+  function setCurrentDestinationIdHandler(id) {
+    setCurrentDestinationId(id);
   }
 
   return (
-    <>
+    <UserContext.Provider value={({ user })}>
       <header>
-        <Navigation user={user} />
-        {user ? <SearchForm countries={countries} /> : <LoginForm />}
+        <Navigation onLogoutClick={onLogoutClick} />
+        {user ? <SearchForm countries={countries} /> : <LoginForm onLoginSubmit={onLoginSubmit} />}
       </header>
       <main>
         <Routes>
-          <Route path='/' element={<Home loading={loading} lastDestinations={lastDestinations} user={user} />} />
+          <Route path='/' element={<Home loading={loading} lastDestinations={lastDestinations} />} />
           <Route path='/create' element={<CreateEdit countries={countries} onCreateSubmit={onCreateSubmit} hasEmptyFeild={hasEmptyFeild} />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/catalog' element={<Catalog loading={loading} user={user} destinations={destinations} />} />
+          <Route path='/register' element={<Register onRegisterSubmit={onRegisterSubmit} />} />
+          <Route path='/catalog' element={<Catalog loading={loading} destinations={destinations} />} />
           <Route path='/about' element={<About />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/details/:destinationId' element={<Details />} />
+          <Route path='/details/:destinationId' element={<Details loading={loading} currentDestination={currentDestination} setCurrentDestinationIdHandler={setCurrentDestinationIdHandler} />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
 
@@ -77,7 +135,7 @@ function App() {
       <footer>
         Blagovest Panayotov
       </footer>
-    </>
+    </UserContext.Provider >
   );
 }
 

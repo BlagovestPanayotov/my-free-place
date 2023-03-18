@@ -92,7 +92,8 @@ header {
   margin-right: 10px;
 }
 
-#login-form button {
+#login-form button,
+#search-form button {
   height: 35px;
   width: 160px;
   margin-bottom: 8px;

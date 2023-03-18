@@ -1,8 +1,11 @@
+import {useContext} from 'react';
+
 import style from './Home.module.css';
 import FrontCart from './FrontCart';
+import { UserContext } from '../../../contexts/UserContext';
 
-function HomePage({ lastDestinations, loading, user }) {
-
+function HomePage({ lastDestinations, loading }) {
+    const user = useContext(UserContext);
     return (
         <>
             <div className={style.content}>
@@ -14,7 +17,7 @@ function HomePage({ lastDestinations, loading, user }) {
                     ? <h1>Loading...</h1>
                     : lastDestinations.map(x => <FrontCart
                         user={user}
-                        key={x._id}
+                        key={x.objectId}
                         {...x}
                     />)
                 }

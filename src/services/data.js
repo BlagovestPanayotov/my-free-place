@@ -2,12 +2,12 @@ import { del, get, post, put } from './api.js';
 
 
 const endpoints = {
-    'getAll': '/jsonstore/destinations',
-    'getById': '/jsonstore/destinations/',
-    'createItem': '/jsonstore/destinations',
+    'getAll': '/classes/Destination',
+    'getById': '/data/destinations/',
+    'createItem': '/classes/Destination',
     'deleteItem': '/data/albums/',
     'editItem': '/data/albums/',
-    'getCountries':'/jsonstore/countries',
+    'getCountries': '/classes/Country',
     'searchItems': (query) => `/data/albums?where=name%20LIKE%20%22${query}%22`,
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
     // 'addLike': '/data/likes',
@@ -18,7 +18,7 @@ const endpoints = {
     // 'postComment':'/data/comments',
 };
 
-export function getCountries(){
+export function getCountries() {
     return get(endpoints.getCountries);
 }
 
@@ -30,8 +30,9 @@ export function getById(itemId) {
     return get(endpoints.getById + itemId);
 }
 
-export function createItem(data) {
-    return post(endpoints.createItem, data);
+export function createItem(data, userId) {
+    const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: userId } };
+    return post(endpoints.createItem, destinationData);
 }
 
 // export function deleteItem(itemId) {

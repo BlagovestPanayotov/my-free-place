@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { submitHandler } from '../utils/util';
 
 
-function LoginForm() {
+function LoginForm({ onLoginSubmit }) {
     const [values, setValues] = useState({
         username: '',
         password: ''
@@ -12,10 +13,12 @@ function LoginForm() {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }));
     }
 
+
+
     return (
         <div id="login-form">
             <h2>Member Login</h2>
-            <form>
+            <form onSubmit={submitHandler(onLoginSubmit, values)}>
                 <label htmlFor='username'>Username:</label>
                 <input name="username" type="text" value={values.username} onChange={onValueChange} />
                 <label htmlFor='password'>Password:</label>

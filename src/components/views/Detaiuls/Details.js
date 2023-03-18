@@ -6,20 +6,10 @@ import CommentCart from './CommentCart';
 import styles from './Details.module.css';
 
 
-function Details() {
-    const [loading, setLoading] = useState(false);
+function Details({ currentDestination, loading, setCurrentDestinationIdHandler }) {
 
-    const [currentDestination, setCurrentDestination] = useState({});
     const { destinationId } = useParams();
-
-    useEffect(() => {
-        setLoading(true);
-        getById(destinationId)
-            .then(data => {
-                setCurrentDestination(data);
-                setLoading(false);
-            });
-    }, [destinationId]);
+    setCurrentDestinationIdHandler(destinationId);
 
     return (
         <div className={styles.content}>

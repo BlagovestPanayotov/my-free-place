@@ -19,13 +19,13 @@ function CreateEdit({ countries, onCreateSubmit, hasEmptyFeild }) {
         <div className={styles.content}>
             <h1><i>Create your place</i></h1>
             {hasEmptyFeild && <h1>All fields are required!</h1>}
-            <form onSubmit={submitHandler(onCreateSubmit)} id={styles.form}>
+            <form onSubmit={submitHandler(onCreateSubmit, values)} id={styles.form}>
                 <label htmlFor="destination">Destiantion name:</label>
                 <input value={values.destination} onChange={onChangeHandler} name="destination" type="text" />
                 <br />
                 <label htmlFor='country'>Country:</label>
                 <select value={values.country} onChange={onChangeHandler} id="country" name='country'>
-                    {countries.map(([k,v]) => <option key={k} value={v}>{v}</option>)}
+                    {countries.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
                 </select>
                 <br />
                 <label htmlFor='location'>Location:</label>

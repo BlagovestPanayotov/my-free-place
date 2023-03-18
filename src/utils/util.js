@@ -1,8 +1,8 @@
-export function submitHandler(callback) {
+export function submitHandler(callback,values) {
     return (event) => {
         event.preventDefault();
-        const formData = Object.fromEntries(new FormData(event.target));
-
+        const formData = values;
+        
         callback(formData, event.target);
     };
 }

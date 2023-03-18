@@ -5,11 +5,11 @@ function SearchForm({ countries }) {
             <form>
                 <label>Country:</label>
                 <select id="country">
-                    {countries.map(([k, v]) => <option key={k} value={v}>{v}</option>)}
+                    {countries.map(({objectId,name}) => <option key={objectId} value={name}>{name}</option>)}
                 </select>
                 <label>Destiantion name:</label>
                 <input name="destination" type="text" />
-                <input type="submit" value="Search" />
+                <button type="submit">Search</button>
             </form>
         </div>
     );

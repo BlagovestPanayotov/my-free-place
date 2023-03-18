@@ -1,6 +1,13 @@
-import { NavLink, isActive, redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
+import { submitHandler } from '../utils/util';
 
-function Navigation({ user }) {
+
+
+function Navigation(onLogoutClick) {
+    const { user } = useContext(UserContext);
+
     return (
         <div id='navigation'>
             {user && <div id='profileNav'><NavLink to={'/profile'}><img src='/img/profile.jpg' alt='profile' width='31px' height='31px' /></NavLink></div>}
@@ -11,7 +18,7 @@ function Navigation({ user }) {
                     ? <>
                         <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/create'}>Create</NavLink></div></li>
                         <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/free-time'}>Free Time</NavLink></div></li>
-                        <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/logout'}>Logout</NavLink></div></li>
+                        <li><div><NavLink onClick={submitHandler(onLogoutClick,null)}>Logout</NavLink></div></li>
                     </>
                     :
                     <>
