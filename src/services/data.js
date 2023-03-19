@@ -30,9 +30,10 @@ export function getById(itemId) {
     return get(endpoints.getById + itemId);
 }
 
-export function createItem(data, userId) {
-    const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: userId } };
-    return post(endpoints.createItem, destinationData);
+export function createItem(data, user) {
+    console.log(data);
+    const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: user.objectId } };
+    return post(endpoints.createItem, destinationData, user);
 }
 
 // export function deleteItem(itemId) {

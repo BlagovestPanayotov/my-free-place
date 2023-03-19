@@ -4,12 +4,12 @@ const host = 'https://parseapi.back4app.com';
 const appId = '7lsh5rhmA2IVHfHGm1lbZ5kA9hZBWVbAjABErazj';
 const apiKey = 'nvZyKVTNAPJhHeVBA9ITJEugXEBKIMNjiJxKLIHn';
 
-async function request(method, url='/', body) {
+async function request(method, url = '/', body, user) {
     const options = {
         method,
         headers: {
             'X-Parse-Application-Id': appId,
-            'X-Parse-JavaScript-Key': apiKey 
+            'X-Parse-JavaScript-Key': apiKey
         }
     };
 
@@ -18,7 +18,6 @@ async function request(method, url='/', body) {
         options.body = JSON.stringify(body);
     }
 
-    const user = getUserData();
     if (user) {
         options.headers['X-Parse-Session-Token'] = user.sessionToken;
     }

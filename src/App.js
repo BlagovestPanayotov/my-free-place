@@ -63,24 +63,8 @@ function App() {
 
   function onLoginSubmit(data) {
     login(data)
-      .then(setUser)
-      .catch(err => {
-        console.log(err);
-        setUser(null);
-      });
-  }
-
-  function onRegisterSubmit(data) {
-    register(data)
       .then(newUser => {
-        const { sessionToken, objecId } = JSON.parse(JSON.stringify(newUser));
-        const { username } = data;
-        setUser({
-          sessionToken,
-          username,
-          objecId
-        });
-        console.log(user);
+        setUser(newUser);
         navigate('/catalog');
       })
       .catch(err => {
@@ -89,18 +73,36 @@ function App() {
       });
   }
 
-  function onLogoutClick() {
-    console.log('hi');
-    logout();
-    navigate('/home');
+  async function onRegisterSubmit(data) {
+    register(data)
+      .then(newUser => {
+        setUser(newUser);
+        navigate('/catalog');
+        console.log(user);
+      })
+      .catch(err => {
+        console.log(err.message);
+        setUser(null);
+      });
+  }
+
+  function onLogoutClick(e) {
+    e.preventDefault();
+    logout(user)
+      .then(data => {
+        setUser(null);
+      });
+
+    navigate('/');
   }
 
   function onCreateSubmit(data) {
     setHasEmptyField(Object.values(data).includes(''));
+    console.log(data);
     if (hasEmptyFeild) {
       navigate('/create');
     } else {
-      createItem(data)
+      createItem(data, user)
         .then(({ objectId }) => {
           setDestinations(state => [...state, { ...data, objectId }]);
           setLastDestinations(state => [state.pop(), { ...data, objectId }]);

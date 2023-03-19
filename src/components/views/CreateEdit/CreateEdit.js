@@ -5,7 +5,7 @@ import { submitHandler } from '../../../utils/util';
 function CreateEdit({ countries, onCreateSubmit, hasEmptyFeild }) {
     const [values, setValues] = useState({
         destination: '',
-        country: '',
+        country: 'Bulgaria',
         location: '',
         imageUrl: '',
         description: ''
