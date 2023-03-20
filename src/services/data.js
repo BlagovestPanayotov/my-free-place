@@ -6,13 +6,14 @@ import { del, get, post, put } from './api.js';
 
 
 const endpoints = {
-    'getAll': '/classes/Destination',
+    'getAll': '/classes/Destination/?count=1',
     'getById': '/classes/Destination/',
     'createItem': '/classes/Destination',
     'deleteItem': '/classes/Destination/',
     'editItem': '/classes/Destination/',
     'getCountries': '/classes/Country',
     'searchItems': (query) => `/data/albums?where=name%20LIKE%20%22${query}%22`,
+    'getMyItems': (userId) => `/classes/Destination?count=1&where=%7B%22owner%22%3A%7B%22%24regex%22%3A%22${userId}%22%7D%7D`
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
     // 'addLike': '/data/likes',
     // 'getLikes': (itemId) => `/data/likes?where=theaterId%3D%22${itemId}%22&distinct=_ownerId&count`,
@@ -36,21 +37,21 @@ export function getById(itemId) {
 
 export function createItem(data, user) {
     const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: user.objectId } };
-    return post(endpoints.createItem, destinationData, user);
+    return post(endpoints.createItem, user, destinationData);
 }
 
 export function deleteItem(itemId, user) {
-    return del(endpoints.deleteItem + itemId, {}, user);
+    return del(endpoints.deleteItem + itemId, user);
 }
 
 export function editItem(itemId, data, user) {
     const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: user.objectId } };
-    return put(endpoints.editItem + itemId, destinationData, user);
+    return put(endpoints.editItem + itemId, user, destinationData);
 }
 
-// // export function getMyItems(userId) {
-// //     return get(endpoints.getMyItems(userId));
-// // }
+export function getMyItems(userId, user) {
+    return get(endpoints.getMyItems(userId), user);
+}
 
 // // // export function getResentGames() {
 // // //     return get(endpoints.getResentGames);

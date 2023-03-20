@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { getAll, getById, getCountries } from './services/data';
+import { getAll, getById, getCountries, getMyItems } from './services/data';
 
 
 import { UserContext } from './contexts/UserContext';
@@ -17,12 +17,14 @@ import Profile from './components/views/Profile/Profile';
 import Register from './components/views/Register/Register';
 import { DestinationsContext } from './contexts/DestinationsContext';
 import Edit from './components/views/Edit/Edit';
+import MyDestinations from './components/views/Catalog/MyDestinations';
 
 
 function App() {
 
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [userDestinations, setUserDestination] = useState([]);
     const [countries, setCountries] = useState([]);
 
     const [currentDestinationId, setCurrentDestinationId] = useState(null);
@@ -55,6 +57,17 @@ function App() {
 
     }, []);
 
+    useEffect(() => {
+        if (user) {
+            console.log(user.objectId);
+            getMyItems(user.objectId, user)
+                .then((data) => setUserDestination(data.results))
+                .catch(console.log);
+        } else {
+            return;
+        }
+    }, [user]);
+
 
     return (
         <UserContext.Provider value={({ user, setUser })}>
@@ -65,6 +78,10 @@ function App() {
             <main>
                 <Routes>
                     <Route path='/register' element={<Register navigate={navigate} />} />
+                    <Route path='/my-destinations' element={<MyDestinations loading={loading} userDestinations={userDestinations} />} />
+                    <Route path='/about' element={<About />} />
+                    <Route path='/profile' element={<Profile />} />
+                    <Route path='*' element={<NotFound />} />
                     <Route path='/' element={
                         <DestinationsContext.Provider value={destinationsContext}>
                             <Home loading={loading} />
@@ -90,9 +107,6 @@ function App() {
                             <Edit loading={loading} countries={countries} navigate={navigate} />
                         </DestinationsContext.Provider>
                     } />
-                    <Route path='/about' element={<About />} />
-                    <Route path='/profile' element={<Profile />} />
-                    <Route path='*' element={<NotFound />} />
                 </Routes>
             </main>
             <footer>

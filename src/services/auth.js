@@ -8,7 +8,7 @@ const endpoints = {
 };
 
 export async function login({ username, password }) {
-    const { objectId, sessionToken } = await post(endpoints.login, { username, password });
+    const { objectId, sessionToken } = await post(endpoints.login, undefined, { username, password });
     const user = {
         sessionToken,
         objectId,
@@ -18,7 +18,7 @@ export async function login({ username, password }) {
 }
 
 export async function register({ email, username, password }) {
-    const { sessionToken, objectId } = await post(endpoints.register, { email, username, password });
+    const { sessionToken, objectId } = await post(endpoints.register, undefined, { email, username, password });
     const user = {
         sessionToken,
         objectId,
@@ -29,6 +29,6 @@ export async function register({ email, username, password }) {
 
 export async function logout(user) {
     // clearUserData();
-    await get(endpoints.logout,undefined,user);
+    await get(endpoints.logout, user);
     return null;
 }

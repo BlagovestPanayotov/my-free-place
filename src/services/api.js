@@ -4,7 +4,7 @@ const host = 'https://parseapi.back4app.com';
 const appId = '7lsh5rhmA2IVHfHGm1lbZ5kA9hZBWVbAjABErazj';
 const apiKey = 'nvZyKVTNAPJhHeVBA9ITJEugXEBKIMNjiJxKLIHn';
 
-async function request(method, url = '/', body, user) {
+async function request(method, url = '/', user, body) {
     const options = {
         method,
         headers: {
@@ -19,6 +19,7 @@ async function request(method, url = '/', body, user) {
     }
 
     if (user) {
+        console.log(user.sessionToken);
         options.headers['X-Parse-Session-Token'] = user.sessionToken;
     }
 
