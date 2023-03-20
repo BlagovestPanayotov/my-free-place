@@ -12,7 +12,7 @@ const endpoints = {
     'deleteItem': '/classes/Destination/',
     'editItem': '/classes/Destination/',
     'getCountries': '/classes/Country',
-    'searchItems': (query) => `/data/albums?where=name%20LIKE%20%22${query}%22`,
+    'searchItems': (query) => `/classes/Destination?where=%7B%22destination%22%3A%7B%22%24regex%22%3A%22${query}%22%7D%7D`,
     'getMyItems': (userId) => `/classes/Destination?count=1&where=%7B%22owner%22%3A%7B%22%24regex%22%3A%22${userId}%22%7D%7D`
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
     // 'addLike': '/data/likes',
@@ -53,6 +53,10 @@ export function getMyItems(userId, user) {
     return get(endpoints.getMyItems(userId), user);
 }
 
+export function searchItems(query, user) {
+    return get(endpoints.searchItems(query), user);
+}
+
 // // // export function getResentGames() {
 // // //     return get(endpoints.getResentGames);
 // // // }
@@ -77,7 +81,4 @@ export function getMyItems(userId, user) {
 // //     return get(endpoints.hasLiked(itemId, userId))
 // // }
 
-// export function searchItems(query){
-//     return get(endpoints.searchItems(query));
-// }
 

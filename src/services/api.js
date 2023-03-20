@@ -19,12 +19,12 @@ async function request(method, url = '/', user, body) {
     }
 
     if (user) {
-        console.log(user.sessionToken);
         options.headers['X-Parse-Session-Token'] = user.sessionToken;
     }
 
     try {
         const response = await fetch(host + url, options);
+        
 
         if (response.status === 204 || method === 'delete') {
             return {};
@@ -32,6 +32,7 @@ async function request(method, url = '/', user, body) {
 
         const result = await response.json();
 
+        console.log(result);
         if (!response.ok) {
             if (response.status === 403) {
                 clearUserData();

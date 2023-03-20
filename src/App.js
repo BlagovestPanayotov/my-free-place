@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { getAll, getById, getCountries, getMyItems } from './services/data';
+import { getAll, getCountries, getMyItems } from './services/data';
 
 
 import { UserContext } from './contexts/UserContext';
@@ -59,7 +59,6 @@ function App() {
 
     useEffect(() => {
         if (user) {
-            console.log(user.objectId);
             getMyItems(user.objectId, user)
                 .then((data) => setUserDestination(data.results))
                 .catch(console.log);
@@ -73,7 +72,11 @@ function App() {
         <UserContext.Provider value={({ user, setUser })}>
             <header>
                 <Navigation navigate={navigate} />
-                {user ? <SearchForm countries={countries} /> : <LoginForm navigate={navigate} />}
+                {user ?
+                    <DestinationsContext.Provider value={destinationsContext}>
+                        <SearchForm countries={countries} navigate={navigate} />
+                    </DestinationsContext.Provider>
+                    : <LoginForm navigate={navigate} />}
             </header>
             <main>
                 <Routes>
