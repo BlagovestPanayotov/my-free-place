@@ -1,15 +1,48 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getById } from '../../../services/data';
+import { useContext, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { DestinationsContext } from '../../../contexts/DestinationsContext';
+import { UserContext } from '../../../contexts/UserContext';
+import { deleteItem, getById } from '../../../services/data';
 
 import CommentCart from './CommentCart';
 import styles from './Details.module.css';
 
 
-function Details({ currentDestination, loading, setCurrentDestinationIdHandler }) {
+function Details({ loading }) {
+    const { currentDestination, setCurrentDestination, setDestinations, destinations, setLastDestinations } = useContext(DestinationsContext);
+    const { user } = useContext(UserContext);
+
+    const navigate = useNavigate();
 
     const { destinationId } = useParams();
-    setCurrentDestinationIdHandler(destinationId);
+
+
+    useEffect(() => {
+        if (destinationId) {
+            getById(destinationId)
+                .then(data => {
+                    setCurrentDestination(data);
+                })
+                .catch(err => console.log);
+        } else {
+            return;
+        }
+    }, [destinationId]);
+
+    function onDeleteClick() {
+        if (window.confirm('Are you sure you want to delete this destination?')) {
+            deleteItem(destinationId, user);
+            
+            const newDestinations = destinations.filter(x => x.objectId !== destinationId);
+
+            setDestinations(newDestinations);
+            setLastDestinations(newDestinations.slice(-2));
+            navigate('/catalog');
+        } else {
+            return;
+        }
+    }
+
 
     return (
         <div className={styles.content}>
@@ -41,8 +74,8 @@ function Details({ currentDestination, loading, setCurrentDestinationIdHandler }
                     </table>
                     <span>
                         <button >Like / Liked: 1</button>
-                        <button>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={() => navigate('/edit/' + destinationId)}>Edit</button>
+                        <button onClick={onDeleteClick}>Delete</button>
                     </span>
                     <div id={styles.comments}>
                         <h4>Comments:</h4>

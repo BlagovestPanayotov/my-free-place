@@ -1,8 +1,14 @@
-import { useState } from 'react';
-import styles from './CreateEdit.module.css';
+import { useContext, useState } from 'react';
+import styles from './Create.module.css';
 import { submitHandler } from '../../../utils/util';
+import { createItem } from '../../../services/data';
+import { UserContext } from '../../../contexts/UserContext';
+import { DestinationsContext } from '../../../contexts/DestinationsContext';
 
-function CreateEdit({ countries, onCreateSubmit, hasEmptyFeild }) {
+function Create({ countries, navigate }) {
+    const { user } = useContext(UserContext);
+    const { setDestinations, setLastDestinations } = useContext(DestinationsContext);
+
     const [values, setValues] = useState({
         destination: '',
         country: 'Bulgaria',
@@ -10,9 +16,24 @@ function CreateEdit({ countries, onCreateSubmit, hasEmptyFeild }) {
         imageUrl: '',
         description: ''
     });
+    const [hasEmptyFeild, setHasEmptyField] = useState(false);
 
     function onChangeHandler(e) {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }));
+    }
+
+    function onCreateSubmit(data) {
+        setHasEmptyField(Object.values(data).includes(''));
+        if (hasEmptyFeild) {
+            navigate('/create');
+        } else {
+            createItem(data, user)
+                .then(({ objectId }) => {
+                    setDestinations(state => [...state, { ...data, objectId }]);
+                    setLastDestinations(state => [state.pop(), { ...data, objectId }]);
+                    navigate('/catalog');
+                });
+        }
     }
 
     return (
@@ -46,4 +67,4 @@ function CreateEdit({ countries, onCreateSubmit, hasEmptyFeild }) {
     );
 }
 
-export default CreateEdit;
+export default Create;

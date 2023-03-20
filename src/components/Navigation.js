@@ -1,12 +1,23 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
-import { submitHandler } from '../utils/util';
+import { logout } from '../services/auth';
 
 
 
-function Navigation({ onLogoutClick }) {
-    const { user } = useContext(UserContext);
+function Navigation({ navigate }) {
+    const { user, setUser } = useContext(UserContext);
+
+    function onLogoutClick(e) {
+        e.preventDefault();
+        logout(user)
+            .then(data => {
+                setUser(null);
+            });
+
+        navigate('/');
+    }
+
     return (
         <div id='navigation'>
             {user && <div id='profileNav'><NavLink to={'/profile'}><img src='/img/profile.jpg' alt='profile' width='31px' height='31px' /></NavLink></div>}

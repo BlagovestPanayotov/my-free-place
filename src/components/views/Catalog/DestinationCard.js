@@ -4,7 +4,13 @@ import styles from './Catalog.module.css';
 
 
 function DestinationCard({
-    country, description, destination, imageUrl, location, _id, user
+    objectId,
+    destination,
+    country,
+    location,
+    imageUrl,
+    description,
+    user
 }) {
     return (
         <div className={styles.destinationCart}>
@@ -12,7 +18,7 @@ function DestinationCard({
             <img src={imageUrl} alt={description} />
             <h4><strong>Country: </strong> {country}</h4>
             <div>Likes: 1</div>
-            {user && <div id="button"><NavLink to={`/details/${_id}`}>Details</NavLink></div>}
+            {user && <div id="button"><NavLink to={`/details/${objectId}`}>Details</NavLink></div>}
         </div>
     );
 }

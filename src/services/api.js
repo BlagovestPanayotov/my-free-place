@@ -1,4 +1,4 @@
-import { clearUserData, getUserData } from '../utils/util.js';
+import { clearUserData } from '../utils/util.js';
 
 const host = 'https://parseapi.back4app.com';
 const appId = '7lsh5rhmA2IVHfHGm1lbZ5kA9hZBWVbAjABErazj';
@@ -25,8 +25,8 @@ async function request(method, url = '/', body, user) {
     try {
         const response = await fetch(host + url, options);
 
-        if (response.status === 204) {
-            return response;
+        if (response.status === 204 || method === 'delete') {
+            return {};
         }
 
         const result = await response.json();

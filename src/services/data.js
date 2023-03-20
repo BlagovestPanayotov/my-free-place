@@ -1,12 +1,16 @@
 import { del, get, post, put } from './api.js';
 
+// pagination for back4app => https://parseapi.back4app.com/classes/Destination?limit={1}&skip={0}
+// count of collection => https://parseapi.back4app.com/classes/Destination?count=1&limit=0
+//serch query => https://parseapi.back4app.com/classes/{collection name}?where=%7B%22{field name}%22%3A%7B%22%24regex%22%3A%22{text}%22%7D%7D
+
 
 const endpoints = {
     'getAll': '/classes/Destination',
-    'getById': '/data/destinations/',
+    'getById': '/classes/Destination/',
     'createItem': '/classes/Destination',
-    'deleteItem': '/data/albums/',
-    'editItem': '/data/albums/',
+    'deleteItem': '/classes/Destination/',
+    'editItem': '/classes/Destination/',
     'getCountries': '/classes/Country',
     'searchItems': (query) => `/data/albums?where=name%20LIKE%20%22${query}%22`,
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
@@ -31,18 +35,18 @@ export function getById(itemId) {
 }
 
 export function createItem(data, user) {
-    console.log(data);
     const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: user.objectId } };
     return post(endpoints.createItem, destinationData, user);
 }
 
-// export function deleteItem(itemId) {
-//     return del(endpoints.deleteItem + itemId);
-// }
+export function deleteItem(itemId, user) {
+    return del(endpoints.deleteItem + itemId, {}, user);
+}
 
-// export function editItem(itemId, data) {
-//     return put(endpoints.editItem + itemId, data);
-// }
+export function editItem(itemId, data, user) {
+    const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: user.objectId } };
+    return put(endpoints.editItem + itemId, destinationData, user);
+}
 
 // // export function getMyItems(userId) {
 // //     return get(endpoints.getMyItems(userId));

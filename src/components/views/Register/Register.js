@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from '../../../contexts/UserContext';
+import { register } from '../../../services/auth';
 import { submitHandler } from '../../../utils/util';
 import styles from './Register.module.css';
 
-function Register({ onRegisterSubmit }) {
+function Register({ navigate }) {
+    const { user, setUser } = useContext(UserContext);
     const [values, setValues] = useState({
         username: '',
         email: '',
@@ -12,6 +15,19 @@ function Register({ onRegisterSubmit }) {
 
     function onValueChange(e) {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }));
+    }
+
+    function onRegisterSubmit(data) {
+        register(data)
+            .then(newUser => {
+                setUser(newUser);
+                navigate('/catalog');
+                console.log(user);
+            })
+            .catch(err => {
+                console.log(err.message);
+                setUser(null);
+            });
     }
 
     return (

@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
+import { login } from '../services/auth';
 import { submitHandler } from '../utils/util';
 
 
-function LoginForm({ onLoginSubmit }) {
+function LoginForm({ navigate }) {
+    const { setUser } = useContext(UserContext);
+
     const [values, setValues] = useState({
         username: '',
         password: ''
@@ -13,6 +17,17 @@ function LoginForm({ onLoginSubmit }) {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }));
     }
 
+    function onLoginSubmit(data) {
+        login(data)
+            .then(newUser => {
+                setUser(newUser);
+                navigate('/catalog');
+            })
+            .catch(err => {
+                console.log(err);
+                setUser(null);
+            });
+    }
 
 
     return (
