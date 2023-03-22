@@ -1,5 +1,7 @@
 import style from './Home.module.css';
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../../contexts/UserContext';
 
 
 function FrontCart({
@@ -9,8 +11,9 @@ function FrontCart({
     location,
     imageUrl,
     description,
-    user
 }) {
+    const { user } = useContext(UserContext);
+
     return (
         <div className={style.frontCart}>
             <h3>{description}</h3>

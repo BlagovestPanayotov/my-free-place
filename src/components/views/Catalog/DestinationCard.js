@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { UserContext } from '../../../contexts/UserContext';
 
 import styles from './Catalog.module.css';
 
@@ -10,8 +12,8 @@ function DestinationCard({
     location,
     imageUrl,
     description,
-    user
 }) {
+    const { user } = useContext(UserContext);
     return (
         <div className={styles.destinationCart}>
             <h3>{destination}</h3>
