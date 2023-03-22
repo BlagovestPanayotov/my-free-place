@@ -11,7 +11,7 @@ function SearchForm({ countries, navigate }) {
 
     const [values, setValues] = useState({
         destination: '',
-        country: 'Bulgatia'
+        country: ''
     });
 
     function onValueChange(e) {
@@ -19,7 +19,7 @@ function SearchForm({ countries, navigate }) {
     }
 
     function onSearchSubmit(data) {
-        searchItems(values.destination, user)
+        searchItems(values, user)
             .then(result => {
                 setDestinations(result.results);
                 navigate('/catalog');
@@ -32,7 +32,8 @@ function SearchForm({ countries, navigate }) {
             <h2>See if we have what you are looking for.</h2>
             <form onSubmit={submitHandler(onSearchSubmit, values)}>
                 <label>Country:</label>
-                <select id="country" value={values.country} onChange={onValueChange}>
+                <select id="country" name='country' value={values.country} onChange={onValueChange}>
+                    <option key={'<*%all%*>'} value={''}>All</option>
                     {countries.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
                 </select>
                 <label>Destiantion name:</label>

@@ -24,6 +24,7 @@ function App() {
 
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+
     const [userDestinations, setUserDestination] = useState([]);
     const [countries, setCountries] = useState([]);
 
@@ -45,6 +46,14 @@ function App() {
         lastDestinations,
         setLastDestinations
     };
+
+    useEffect(() => {
+        setUser(JSON.parse(window.localStorage.getItem('user')));
+    }, []);
+
+    useEffect(() => {
+        window.localStorage.setItem('user', JSON.stringify(user));
+    });
 
     useEffect(() => {
         setLoading(true);

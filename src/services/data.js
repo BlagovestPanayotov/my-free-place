@@ -12,8 +12,27 @@ const endpoints = {
     'deleteItem': '/classes/Destination/',
     'editItem': '/classes/Destination/',
     'getCountries': '/classes/Country',
-    'searchItems': (query) => `/classes/Destination?where=%7B%22destination%22%3A%7B%22%24regex%22%3A%22${query}%22%7D%7D`,
-    'getMyItems': (userId) => `/classes/Destination?count=1&where=%7B%22owner%22%3A%7B%22%24regex%22%3A%22${userId}%22%7D%7D`
+    'searchItems': ({ destination, country }) => {
+        const query = encodeURIComponent(JSON.stringify({
+            "destination": {
+                "$regex": destination
+            },
+            "country": {
+                "$regex": country
+            }
+        }));
+
+        return `/classes/Destination?where=${query}`;
+    },
+    'getMyItems': (userId) => {
+        const query = encodeURIComponent(JSON.stringify({
+            "owner": {
+                "$regex": userId
+            }
+        }));
+
+        return `/classes/Destination?count=1&where=${query}`;
+    }
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
     // 'addLike': '/data/likes',
     // 'getLikes': (itemId) => `/data/likes?where=theaterId%3D%22${itemId}%22&distinct=_ownerId&count`,
@@ -53,8 +72,8 @@ export function getMyItems(userId, user) {
     return get(endpoints.getMyItems(userId), user);
 }
 
-export function searchItems(query, user) {
-    return get(endpoints.searchItems(query), user);
+export function searchItems(values, user) {
+    return get(endpoints.searchItems(values), user);
 }
 
 // // // export function getResentGames() {
