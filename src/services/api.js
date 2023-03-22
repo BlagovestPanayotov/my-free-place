@@ -1,5 +1,6 @@
 import { clearUserData } from '../utils/util.js';
 
+
 const host = 'https://parseapi.back4app.com';
 const appId = '7lsh5rhmA2IVHfHGm1lbZ5kA9hZBWVbAjABErazj';
 const apiKey = 'nvZyKVTNAPJhHeVBA9ITJEugXEBKIMNjiJxKLIHn';
@@ -24,7 +25,7 @@ async function request(method, url = '/', user, body) {
 
     try {
         const response = await fetch(host + url, options);
-        
+
 
         if (response.status === 204 || method === 'delete') {
             return {};
@@ -33,8 +34,10 @@ async function request(method, url = '/', user, body) {
         const result = await response.json();
 
         if (!response.ok) {
-            if (response.status === 403) {
-                clearUserData();
+            console.log(response);
+            if (response.status === 400) {
+                window.localStorage.setItem('user', null);
+                window.location.reload(false);
             }
             throw new Error(result.message || result.error);
         }

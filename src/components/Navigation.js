@@ -12,7 +12,7 @@ function Navigation({ navigate }) {
         e.preventDefault();
         logout(user)
             .then(data => {
-                setUser(null);
+                setUser();
             });
 
         navigate('/');

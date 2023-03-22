@@ -48,7 +48,12 @@ function App() {
     };
 
     useEffect(() => {
-        setUser(JSON.parse(window.localStorage.getItem('user')));
+        try {
+            setUser(JSON.parse(window.localStorage.getItem('user')));
+        } catch (err) {
+            console.log(err.message);
+            setUser(null);
+        }
     }, []);
 
     useEffect(() => {

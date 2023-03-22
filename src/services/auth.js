@@ -1,4 +1,3 @@
-import { clearUserData, setUserData } from '../utils/util.js';
 import { get, post } from './api.js';
 
 const endpoints = {
@@ -28,7 +27,6 @@ export async function register({ email, username, password }) {
 }
 
 export async function logout(user) {
-    // clearUserData();
     await get(endpoints.logout, user);
     return null;
 }

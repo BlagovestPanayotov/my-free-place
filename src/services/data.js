@@ -4,6 +4,9 @@ import { del, get, post, put } from './api.js';
 // count of collection => https://parseapi.back4app.com/classes/Destination?count=1&limit=0
 //serch query => https://parseapi.back4app.com/classes/{collection name}?where=%7B%22{field name}%22%3A%7B%22%24regex%22%3A%22{text}%22%7D%7D
 
+const ownerField = (id) => `{ __type: 'Pointer', className: '_User', objectId: ${id}; }`;
+
+
 
 const endpoints = {
     'getAll': '/classes/Destination/?count=1',
@@ -55,7 +58,7 @@ export function getById(itemId) {
 }
 
 export function createItem(data, user) {
-    const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: user.objectId } };
+    const destinationData = { ...data, owner: ownerField(user.objectId) };
     return post(endpoints.createItem, user, destinationData);
 }
 
