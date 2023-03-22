@@ -1,6 +1,3 @@
-import { clearUserData } from '../utils/util.js';
-
-
 const host = 'https://parseapi.back4app.com';
 const appId = '7lsh5rhmA2IVHfHGm1lbZ5kA9hZBWVbAjABErazj';
 const apiKey = 'nvZyKVTNAPJhHeVBA9ITJEugXEBKIMNjiJxKLIHn';
