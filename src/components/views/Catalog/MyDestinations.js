@@ -5,7 +5,6 @@ import DestinationCard from './DestinationCard';
 
 
 function MyDestinations({ loading, userDestinations }) {
-    console.log(userDestinations);
 
     const { user } = useContext(UserContext);
 

@@ -5,9 +5,8 @@ import { createItem } from '../../../services/data';
 import { UserContext } from '../../../contexts/UserContext';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { string, z } from 'zod';
-
+import { yupResolver } from '@hookform/resolvers/yup';
+import { object, string } from 'yup';
 
 function Create({ countries, navigate }) {
     const { user } = useContext(UserContext);
@@ -22,43 +21,34 @@ function Create({ countries, navigate }) {
     };
 
 
-    const schema = z.object({
-        name: string().min(3, { message: 'The destination must contain at least 3 characters!' }),
-        location: string().min(3, { message: 'The locatrion must contain at least 3 characters!' }),
+    const schema = object({
+        destination: string().min(3, 'The destination must contain at least 3 characters!'),
+        location: string().min(3, 'The locatrion must contain at least 3 characters!'),
         imageUrl: string(),
-        description: string().max(100, { message: 'The description can contain maximum 100 characters!' }),
+        description: string().max(100, 'The description can contain maximum 100 characters!'),
         country: string()
-    });
+    }).required();
 
-    const { register, handleSubmit, formState } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues,
-        resolver: zodResolver(schema)
+        resolver: yupResolver(schema)
     });
 
-    const { errors } = formState;
-
-    const [hasEmptyFeild, setHasEmptyField] = useState(false);
-
-    function onCreateSubmit(data) {
-        console.log(data);
-        // setHasEmptyField(Object.values(data).includes(''));
-        // if (hasEmptyFeild) {
-        //     navigate('/create');
-        // } else {
-        //     createItem(data, user)
-        //         .then(({ objectId }) => {
-        //             setDestinations(state => [...state, { ...data, objectId }]);
-        //             setLastDestinations(state => [state.pop(), { ...data, objectId }]);
-        //             navigate('/catalog');
-        //         });
-        // }
+    function onSubmit(data) {
+        createItem(data, user)
+            .then(({ objectId }) => {
+                console.log(data);
+                setDestinations(state => [...state, { ...data, objectId }]);
+                setLastDestinations(state => [state.pop(), { ...data, objectId }]);
+                navigate('/catalog');
+            })
+            .catch(err => console.log);
     }
 
     return (
         <div className={styles.content}>
             <h1><i>Create your place</i></h1>
-            {hasEmptyFeild && <h1>All fields are required!</h1>}
-            <form onSubmit={handleSubmit(onCreateSubmit)} id={styles.form}>
+            <form onSubmit={handleSubmit(onSubmit)} id={styles.form}>
                 <label htmlFor="destination">Destiantion name:</label>
                 <input {...register('destination')} type="text" />
                 <div className='error'>{errors.destination?.message}</div>

@@ -22,7 +22,6 @@ function Register({ navigate }) {
             .then(newUser => {
                 setUser(newUser);
                 navigate('/catalog');
-                console.log(user);
             })
             .catch(err => {
                 console.log(err.message);
