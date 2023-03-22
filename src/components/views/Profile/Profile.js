@@ -1,11 +1,12 @@
+import { onBackClick } from '../../../utils/util';
 import styles from './Profile.module.css';
 
 
-function Profile() {
+function Profile({navigate}) {
     return (
         <div className={styles.content}>
             <h1><i>CUserName</i></h1>
-            <img src='/img/profile.jpg' alt='profile'/>
+            <img src='/img/profile.jpg' alt='profile' />
             <form id={styles.form}>
 
                 <label>First Name:</label>
@@ -21,13 +22,14 @@ function Profile() {
                 <input name="phone-number" type="text" />
                 <br />
                 <label>Email:</label>
-                <input name="email" type="text" disabled defaultValue={'user.emal@abv.bg'}/>
+                <input name="email" type="text" disabled defaultValue={'user.emal@abv.bg'} />
                 <br />
                 <label>Image Url:</label>
-                <input name="image-url" type="text"/>
+                <input name="image-url" type="text" />
                 <br />
                 <span>
-                    <input type="submit" value="Update" />
+                    <button type="submit">Update</button>
+                    <button onClick={(e)=>onBackClick(e,navigate)}>Back</button>
                 </span>
 
             </form>

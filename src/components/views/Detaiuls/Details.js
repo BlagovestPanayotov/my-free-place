@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { deleteItem, getById } from '../../../services/data';
+import { onBackClick } from '../../../utils/util';
 
 import CommentCart from './CommentCart';
 import styles from './Details.module.css';
@@ -32,7 +33,7 @@ function Details({ loading }) {
     function onDeleteClick() {
         if (window.confirm('Are you sure you want to delete this destination?')) {
             deleteItem(destinationId, user);
-            
+
             const newDestinations = destinations.filter(x => x.objectId !== destinationId);
 
             setDestinations(newDestinations);
@@ -76,6 +77,9 @@ function Details({ loading }) {
                         <button >Like / Liked: 1</button>
                         <button onClick={() => navigate('/edit/' + destinationId)}>Edit</button>
                         <button onClick={onDeleteClick}>Delete</button>
+                        <br />
+                        <br />
+                        <button onClick={e => onBackClick(e, navigate)}>Back</button>
                     </span>
                     <div id={styles.comments}>
                         <h4>Comments:</h4>

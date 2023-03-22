@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import styles from './Create.module.css';
-import { submitHandler } from '../../../utils/util';
+import { onBackClick, submitHandler } from '../../../utils/util';
 import { createItem } from '../../../services/data';
 import { UserContext } from '../../../contexts/UserContext';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
@@ -60,6 +60,7 @@ function Create({ countries, navigate }) {
                 <br />
                 <span>
                     <button type="submit">Submit</button>
+                    <button onClick={e => onBackClick(e, navigate)}>Back</button>
                 </span>
 
             </form>

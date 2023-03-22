@@ -96,8 +96,8 @@ function App() {
                 <Routes>
                     <Route path='/register' element={<Register navigate={navigate} />} />
                     <Route path='/my-destinations' element={<MyDestinations loading={loading} userDestinations={userDestinations} />} />
-                    <Route path='/about' element={<About />} />
-                    <Route path='/profile' element={<Profile />} />
+                    <Route path='/about' element={<About navigate={navigate} />} />
+                    <Route path='/profile' element={<Profile navigate={navigate} />} />
                     <Route path='*' element={<NotFound />} />
                     <Route path='/' element={
                         <DestinationsContext.Provider value={destinationsContext}>

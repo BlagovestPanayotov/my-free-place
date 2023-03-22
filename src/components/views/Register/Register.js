@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { register } from '../../../services/auth';
-import { submitHandler } from '../../../utils/util';
+import { onBackClick, submitHandler } from '../../../utils/util';
 import styles from './Register.module.css';
 
 function Register({ navigate }) {
@@ -44,7 +44,8 @@ function Register({ navigate }) {
                     <label htmlFor="repass">Repeat password:</label>
                     <input name="repass" type="password" value={values.repass} onChange={onValueChange} />
                     <span>
-                        <input type="submit" value="Register" />
+                        <button type="submit">Register</button>
+                        <button onClick={(e) => onBackClick(e, navigate)}>Back</button>
                     </span>
                 </form>
             </div>

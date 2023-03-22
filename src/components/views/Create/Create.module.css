@@ -77,17 +77,16 @@
   line-height: normal;
 }
 
-#form span {
-  position: absolute;
-  display: block;
+#form span button {
+  position: relative;
+  display: inline-block;
   text-align: center;
   font-style: italic;
   width: 160px;
-  right: 20em;
-  margin-top: 10em;
+  bottom: 26em;
 }
 
-#form span :hover {
+#form span button:hover {
   background-color: aqua;
   cursor: pointer;
 }
