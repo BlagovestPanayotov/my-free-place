@@ -6,7 +6,7 @@ import { UserContext } from '../../../contexts/UserContext';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 
 function HomePage({ loading }) {
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const { lastDestinations } = useContext(DestinationsContext);
     return (
         <>
@@ -16,7 +16,10 @@ function HomePage({ loading }) {
             </div>
             <div className={style['side-content']}>
                 {loading
-                    ? <h1>Loading...</h1>
+                    ? <>
+                        <div className="loader"></div>
+                        <div className="loader"></div>
+                    </>
                     : lastDestinations.map(x => <FrontCart
                         user={user}
                         key={x.objectId}

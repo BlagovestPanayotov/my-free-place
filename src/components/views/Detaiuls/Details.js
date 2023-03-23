@@ -9,7 +9,7 @@ import CommentCart from './CommentCart';
 import styles from './Details.module.css';
 
 
-function Details({ loading }) {
+function Details({ loading,setLoading }) {
     const { currentDestination, setCurrentDestination, setDestinations, destinations, setLastDestinations } = useContext(DestinationsContext);
     const { user } = useContext(UserContext);
 
@@ -19,10 +19,12 @@ function Details({ loading }) {
 
 
     useEffect(() => {
+        setLoading(true);
         if (destinationId) {
             getById(destinationId)
                 .then(data => {
                     setCurrentDestination(data);
+                    setLoading(false);
                 })
                 .catch(err => console.log);
         } else {
@@ -48,7 +50,7 @@ function Details({ loading }) {
     return (
         <div className={styles.content}>
             {loading
-                ? <h1>Loading...</h1>
+                ? <div className="loader"></div>
                 : <>
                     <h1><i>{currentDestination.destination}</i></h1>
                     <img src={currentDestination.imageUrl} alt={currentDestination.destination} />
@@ -75,7 +77,7 @@ function Details({ loading }) {
                     </table>
                     <span>
                         <button >Like / Liked: 1</button>
-                        <button onClick={() => navigate('/edit/' + destinationId)}>Edit</button>
+                        <button onClick={() => navigate(`/${destinationId}/edit`)}>Edit</button>
                         <button onClick={onDeleteClick}>Delete</button>
                         <br />
                         <br />

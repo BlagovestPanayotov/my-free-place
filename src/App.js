@@ -116,14 +116,14 @@ function App() {
                             <Catalog loading={loading} />
                         </DestinationsContext.Provider>
                     } />
-                    <Route path='/details/:destinationId' element={
+                    <Route path='/:destinationId/details/' element={
                         <DestinationsContext.Provider value={destinationsContext}>
-                            <Details loading={loading} />
+                            <Details loading={loading} setLoading={setLoading} />
                         </DestinationsContext.Provider>
                     } />
-                    <Route path='/edit/:destinationId' element={
+                    <Route path='/:destinationId/edit' element={
                         <DestinationsContext.Provider value={destinationsContext}>
-                            <Edit loading={loading} countries={countries} navigate={navigate} />
+                            <Edit loading={loading} setLoading={setLoading} countries={countries} navigate={navigate} />
                         </DestinationsContext.Provider>
                     } />
                 </Routes>

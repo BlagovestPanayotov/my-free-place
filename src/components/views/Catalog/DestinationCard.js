@@ -20,7 +20,7 @@ function DestinationCard({
             <img src={imageUrl} alt={description} />
             <h4><strong>Country: </strong> {country}</h4>
             <div>Likes: 1</div>
-            {user && <div id="button"><NavLink to={`/details/${objectId}`}>Details</NavLink></div>}
+            {user && <div id="button"><NavLink to={`/${objectId}/details`}>Details</NavLink></div>}
         </div>
     );
 }

@@ -9,12 +9,13 @@ import styles from './Profile.module.css';
 
 function Profile({ navigate }) {
     const { user } = useContext(UserContext);
+    
     const defaultValues = {
         firsName: user?.firsName,
         lastName: user?.lastName,
         countryOfLiving: user?.countryOfLiving,
         phoneNumber: user?.phoneNumber,
-        email: user.email,
+        email: user?.email,
         imageUrl: user?.imageUrl
     };
 
@@ -41,7 +42,7 @@ function Profile({ navigate }) {
     return (
         <div className={styles.content}>
             <h1><i>CUserName</i></h1>
-            <img src={user.imageUrl ? user.imageUrl : '/img/usersImages/default-user.png'} alt='profile' />
+            <img src={user?.imageUrl ? user?.imageUrl : '/img/usersImages/default-user.png'} alt='profile' />
             <form id={styles.form} onSubmit={handleSubmit(onSubmit)}>
 
                 <label>First Name:</label>

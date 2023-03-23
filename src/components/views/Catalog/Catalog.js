@@ -13,7 +13,7 @@ function Catalog({ loading }) {
     return (
         <div className={styles.content}>
             {loading
-                ? <h1>Loading...</h1>
+                ? <div className="loader"></div>
                 : destinations.map(x => <DestinationCard
                     user={user}
                     key={x.objectId}
