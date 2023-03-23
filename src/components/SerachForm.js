@@ -1,25 +1,25 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import { DestinationsContext } from '../contexts/DestinationsContext';
 import { UserContext } from '../contexts/UserContext';
 import { searchItems } from '../services/data';
-import { submitHandler } from '../utils/util';
 
 function SearchForm({ countries, navigate }) {
 
-    const { destination, setDestinations } = useContext(DestinationsContext);
+    const { setDestinations } = useContext(DestinationsContext);
     const { user } = useContext(UserContext);
 
-    const [values, setValues] = useState({
+    const defaultValues = {
         destination: '',
         country: ''
+    };
+
+    const { register, handleSubmit } = useForm({
+        defaultValues,
     });
 
-    function onValueChange(e) {
-        setValues(state => ({ ...state, [e.target.name]: e.target.value }));
-    }
-
-    function onSearchSubmit(data) {
-        searchItems(values, user)
+    function onSubmit(data) {
+        searchItems(data, user)
             .then(result => {
                 setDestinations(result.results);
                 navigate('/catalog');
@@ -30,14 +30,14 @@ function SearchForm({ countries, navigate }) {
     return (
         <div id="search-form">
             <h2>See if we have what you are looking for.</h2>
-            <form onSubmit={submitHandler(onSearchSubmit, values)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <label>Country:</label>
-                <select id="country" name='country' value={values.country} onChange={onValueChange}>
+                <select id="country" {...register('country')}>
                     <option key={'<*%all%*>'} value={''}>All</option>
                     {countries.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
                 </select>
                 <label>Destiantion name:</label>
-                <input name="destination" type="text" value={values.destination} onChange={onValueChange} />
+                <input {...register('destination')} type="text" />
                 <button type="submit">Search</button>
             </form>
         </div>

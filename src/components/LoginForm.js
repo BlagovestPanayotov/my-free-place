@@ -1,23 +1,31 @@
-import { useContext, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { object, string } from 'yup';
 import { UserContext } from '../contexts/UserContext';
 import { login } from '../services/auth';
-import { submitHandler } from '../utils/util';
 
 
 function LoginForm({ navigate }) {
     const { setUser } = useContext(UserContext);
 
-    const [values, setValues] = useState({
+    const defaultValues = {
         username: '',
         password: ''
+    };
+
+    const schema = object({
+        username: string().min(3, 'The username must contain at least 3 characters!'),
+        password: string().min(3, 'The password must contain at least 3 characters!')
+    }).required();
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues,
+        resolver: yupResolver(schema)
     });
 
-    function onValueChange(e) {
-        setValues(state => ({ ...state, [e.target.name]: e.target.value }));
-    }
-
-    function onLoginSubmit(data) {
+    function onSubmit(data) {
         login(data)
             .then(newUser => {
                 setUser(newUser);
@@ -33,11 +41,13 @@ function LoginForm({ navigate }) {
     return (
         <div id="login-form">
             <h2>Member Login</h2>
-            <form onSubmit={submitHandler(onLoginSubmit, values)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor='username'>Username:</label>
-                <input name="username" type="text" value={values.username} onChange={onValueChange} />
+                <input {...register('username')} type="text" />
+                <div className='error'>{errors.username?.message}</div>
                 <label htmlFor='password'>Password:</label>
-                <input name="password" type="password" value={values.password} onChange={onValueChange} />
+                <input {...register('password')} type="password" />
+                <div className='error'>{errors.password?.message}</div>
                 <button type="submit" >Login </button>
             </form>
             <span>Not a member? Register <Link to={'/register'}>here</Link>.</span>

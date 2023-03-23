@@ -1,17 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './Edit.module.css';
-import { submitHandler } from '../../../utils/util';
+import { onBackClick, submitHandler } from '../../../utils/util';
 import { editItem, getById } from '../../../services/data';
 import { UserContext } from '../../../contexts/UserContext';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { useParams } from 'react-router-dom';
+import { object, string } from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 function Edit({ countries, navigate }) {
-    const { currentDestination, setCurrentDestination, destinations, setDestinations, setLastDestinations } = useContext(DestinationsContext);
 
-    const { destinationId } = useParams();
     const { user } = useContext(UserContext);
-
+    const { currentDestination, setCurrentDestination, destinations, setDestinations, setLastDestinations } = useContext(DestinationsContext);
+    const { destinationId } = useParams();
 
     useEffect(() => {
         if (destinationId) {
@@ -25,62 +27,66 @@ function Edit({ countries, navigate }) {
         }
     }, [destinationId]);
 
-    const [values, setValues] = useState(({
+    const defaultValues = {
         destination: currentDestination.destination,
         country: currentDestination.country,
         location: currentDestination.location,
         imageUrl: currentDestination.imageUrl,
-        description: currentDestination.description,
-        owner: {
-            __type: 'Pointer',
-            className: '_User',
-            objectId: user.objectId
-        }
-    }));
-    const [hasEmptyFeild, setHasEmptyField] = useState(false);
+        description: currentDestination.description
+    };
 
-    function onChangeHandler(e) {
-        setValues(state => ({ ...state, [e.target.name]: e.target.value }));
-    }
+    const schema = object({
+        destination: string().min(3, 'The destination must contain at least 3 characters!'),
+        location: string().min(3, 'The locatrion must contain at least 3 characters!'),
+        imageUrl: string(),
+        description: string().max(100, 'The description can contain maximum 100 characters!'),
+        country: string()
+    }).required();
 
-    function onCreateSubmit(data) {
-        setHasEmptyField(Object.values(data).includes(''));
-        if (hasEmptyFeild) {
-            navigate('/create');
-        } else {
-            editItem(destinationId, values, user)
-                .then(({ objectId }) => {
-                    setDestinations(state => state.map(x => x.objectId === destinationId ? Object.assign(x, values) : x));
-                    setLastDestinations(destinations.slice(-2));
-                    navigate('/catalog');
-                });
-        }
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues,
+        resolver: yupResolver(schema)
+    });
+
+    function onSubmit(data) {
+        editItem(destinationId, data, user)
+            .then(({ objectId }) => {
+                setDestinations(state => state.map(x => x.objectId === destinationId ? Object.assign(x, data) : x));
+                setLastDestinations(destinations.slice(-2));
+                navigate('/catalog');
+            })
+            .catch(err => console.log);
     }
 
     return (
         <div className={styles.content}>
             <h1><i>Create your place</i></h1>
-            {hasEmptyFeild && <h1>All fields are required!</h1>}
-            <form onSubmit={submitHandler(onCreateSubmit, values)} id={styles.form}>
+            <form onSubmit={handleSubmit(onSubmit)} id={styles.form}>
                 <label htmlFor="destination">Destiantion name:</label>
-                <input value={values.destination} onChange={onChangeHandler} name="destination" type="text" />
+                <input {...register('destination')} name="destination" type="text" />
+                <div className='error'>{errors.destination?.message}</div>
                 <br />
                 <label htmlFor='country'>Country:</label>
-                <select value={values.country} onChange={onChangeHandler} id="country" name='country'>
+                <select {...register('country')} id="country" name='country'>
                     {countries?.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
                 </select>
+                <div className='error'>{errors.country?.message}</div>
                 <br />
                 <label htmlFor='location'>Location:</label>
-                <input value={values.location} onChange={onChangeHandler} name="location" type="text" />
+                <input {...register('location')} name="location" type="text" />
+                <div className='error'>{errors.location?.message}</div>
                 <br />
                 <label htmlFor='imageUrl'>ImageURL:</label>
-                <input value={values.imageUrl} onChange={onChangeHandler} name="imageUrl" type="text" />
+                <input {...register('imageUrl')} name="imageUrl" type="text" />
+                <div className='error'>{errors.imageUrl?.message}</div>
                 <br />
                 <label htmlFor='description'>Descriptuion:</label>
-                <textarea value={values.description} onChange={onChangeHandler} name="description" type="text" />
+                <textarea {...register('description')} name="description" type="text" />
+                <div className='error'>{errors.description?.message}</div>
                 <br />
                 <span>
                     <button type="submit">Submit</button>
+                    <button onClick={e => onBackClick(e, navigate)}>Back</button>
                 </span>
 
             </form>

@@ -49,9 +49,11 @@ function App() {
 
     useEffect(() => {
         try {
-            setUser(JSON.parse(window.localStorage.getItem('user')));
+            if (window.localStorage.getItem('user')) {
+                setUser(JSON.parse(window.localStorage.getItem('user')));
+            }
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
             setUser(null);
         }
     }, []);

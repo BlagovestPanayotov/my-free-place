@@ -31,10 +31,10 @@ async function request(method, url = '/', user, body) {
         const result = await response.json();
 
         if (!response.ok) {
-            console.log(response);
+            
             if (response.status === 400) {
                 window.localStorage.setItem('user', null);
-                // window.location.reload(false);
+                window.location.reload(false);
             }
             throw new Error(result.message || result.error);
         }

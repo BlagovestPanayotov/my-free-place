@@ -37,7 +37,6 @@ function Create({ countries, navigate }) {
     function onSubmit(data) {
         createItem(data, user)
             .then(({ objectId }) => {
-                console.log(data);
                 setDestinations(state => [...state, { ...data, objectId }]);
                 setLastDestinations(state => [state.pop(), { ...data, objectId }]);
                 navigate('/catalog');

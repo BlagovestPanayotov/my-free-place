@@ -65,7 +65,7 @@ export function deleteItem(itemId, user) {
 }
 
 export function editItem(itemId, data, user) {
-    const destinationData = { ...data, owner: { __type: 'Pointer', className: '_User', objectId: user.objectId } };
+    const destinationData = { ...data, owner: ownerField(user.objectId) };
     return put(endpoints.editItem + itemId, user, destinationData);
 }
 
