@@ -1,24 +1,40 @@
-import { useContext, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { object, ref, string } from 'yup';
 import { UserContext } from '../../../contexts/UserContext';
-import { register } from '../../../services/auth';
-import { onBackClick, submitHandler } from '../../../utils/util';
+import * as authService from '../../../services/auth';
+import { onBackClick } from '../../../utils/util';
 import styles from './Register.module.css';
 
 function Register({ navigate }) {
-    const { user, setUser } = useContext(UserContext);
-    const [values, setValues] = useState({
+    const { setUser } = useContext(UserContext);
+    const defaultValues = {
         username: '',
         email: '',
         password: '',
-        repass: ''
+        repass: '',
+    };
+
+    const schema = object({
+        username: string().min(8, 'The username must contain at least 8 characters!'),
+        email: string().email('Invalid email!'),
+        password: string()
+            .min(8, 'Password must be 8 characters long'),
+            // .matches(/[0-9]/, 'Password requires a number')
+            // .matches(/[a-z]/, 'Password requires a lowercase letter')
+            // .matches(/[A-Z]/, 'Password requires an uppercase letter')
+            // .matches(/[^\w]/, 'Password requires a symbol'),
+        repass: string().oneOf([ref('password'), null], 'Password dosen\'t match')
+    }).required();
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues,
+        resolver: yupResolver(schema)
     });
 
-    function onValueChange(e) {
-        setValues(state => ({ ...state, [e.target.name]: e.target.value }));
-    }
-
-    function onRegisterSubmit(data) {
-        register(data)
+    function onSubmit(data) {
+        authService.register(data)
             .then(newUser => {
                 setUser(newUser);
                 navigate('/catalog');
@@ -33,15 +49,19 @@ function Register({ navigate }) {
         <>
             <div className={styles.content}>
                 <h1><i>Register</i></h1>
-                <form id={styles.form} onSubmit={submitHandler(onRegisterSubmit, values)}>
+                <form id={styles.form} onSubmit={handleSubmit(onSubmit)}>
                     <label htmlFor="username">Username:</label>
-                    <input name="username" type="text" value={values.name} onChange={onValueChange} />
+                    <input {...register('username')} type="text" />
+                    <div className='error'>{errors.username?.message}</div>
                     <label htmlFor="email">Email:</label>
-                    <input name="email" type="text" value={values.name} onChange={onValueChange} />
+                    <input {...register('email')} type="text" />
+                    <div className='error'>{errors.email?.message}</div>
                     <label htmlFor="password">Password:</label>
-                    <input name="password" type="password" value={values.password} onChange={onValueChange} />
+                    <input {...register('password')} type="password" />
+                    <div className='error'>{errors.password?.message}</div>
                     <label htmlFor="repass">Repeat password:</label>
-                    <input name="repass" type="password" value={values.repass} onChange={onValueChange} />
+                    <input {...register('repass')} type="password" />
+                    <div className='error'>{errors.repass?.message}</div>
                     <span>
                         <button type="submit">Register</button>
                         <button onClick={(e) => onBackClick(e, navigate)}>Back</button>

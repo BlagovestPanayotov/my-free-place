@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { number, object, string } from 'yup';
+import { object, string } from 'yup';
 import { UserContext } from '../../../contexts/UserContext';
 import { onBackClick } from '../../../utils/util';
 import styles from './Profile.module.css';

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext} from 'react';
 import styles from './Create.module.css';
 import { onBackClick } from '../../../utils/util';
 import { createItem } from '../../../services/data';

@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import styles from './Edit.module.css';
-import { onBackClick, submitHandler } from '../../../utils/util';
+import { onBackClick } from '../../../utils/util';
 import { editItem, getById } from '../../../services/data';
 import { UserContext } from '../../../contexts/UserContext';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
