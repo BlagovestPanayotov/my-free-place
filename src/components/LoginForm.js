@@ -48,6 +48,7 @@ function LoginForm({ navigate }) {
                 <label htmlFor='password'>Password:</label>
                 <input {...register('password')} type="password" />
                 <div className='error'>{errors.password?.message}</div>
+                <div className='login-error'>Username or password not correct!</div>
                 <button type="submit" >Login </button>
             </form>
             <span>Not a member? Register <Link to={'/register'}>here</Link>.</span>

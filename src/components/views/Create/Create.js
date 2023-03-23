@@ -1,4 +1,4 @@
-import { useContext} from 'react';
+import { useContext } from 'react';
 import styles from './Create.module.css';
 import { onBackClick } from '../../../utils/util';
 import { createItem } from '../../../services/data';
@@ -48,28 +48,33 @@ function Create({ countries, navigate }) {
         <div className={styles.content}>
             <h1><i>Create your place</i></h1>
             <form onSubmit={handleSubmit(onSubmit)} id={styles.form}>
-                <label htmlFor="destination">Destiantion name:</label>
-                <input {...register('destination')} type="text" />
-                <div className='error'>{errors.destination?.message}</div>
-                <br />
-                <label htmlFor='country'>Country:</label>
-                <select {...register('country')}>
-                    {countries.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
-                </select>
-                <div className='error'>{errors.country?.message}</div>
-                <br />
-                <label htmlFor='location'>Location:</label>
-                <input {...register('location')} type="text" />
-                <div className='error'>{errors.location?.message}</div>
-                <br />
-                <label htmlFor='imageUrl'>ImageURL:</label>
-                <input {...register('imageUrl')} type="text" />
-                <div className='error'>{errors.imageUrl?.message}</div>
-                <br />
-                <label htmlFor='description'>Descriptuion:</label>
-                <textarea {...register('description')} type="text" />
-                <div className='error'>{errors.description?.message}</div>
-                <br />
+                <div className={styles.conteiner}>
+                    <label htmlFor="destination">Destiantion name:</label>
+                    <input {...register('destination')} type="text" />
+                    <div className={styles.error}>{errors.repass?.message}</div>
+                </div>
+                <div className={styles.conteiner}>
+                    <label htmlFor='country'>Country:</label>
+                    <select {...register('country')}>
+                        {countries.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
+                    </select>
+                    <div className={styles.error}>{errors.repass?.message}</div>
+                </div>
+                <div className={styles.conteiner}>
+                    <label htmlFor='location'>Location:</label>
+                    <input {...register('location')} type="text" />
+                    <div className={styles.error}>{errors.repass?.message}</div>
+                </div>
+                <div className={styles.conteiner}>
+                    <label htmlFor='imageUrl'>ImageURL:</label>
+                    <input {...register('imageUrl')} type="text" />
+                    <div className={styles.error}>{errors.repass?.message}</div>
+                </div>
+                <div className={styles.conteiner}>
+                    <label htmlFor='description'>Descriptuion:</label>
+                    <textarea {...register('description')} type="text" />
+                    <div className={styles.error}>{errors.repass?.message}</div>
+                </div>
                 <span>
                     <button type="submit">Submit</button>
                     <button onClick={e => onBackClick(e, navigate)}>Back</button>

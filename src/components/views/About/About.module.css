@@ -24,11 +24,3 @@
   color: lightblue;
 }
 
-button {
-  margin-left: 56em;
-}
-button:hover {
-  position: absolute;
-  background-color: aqua;
-  cursor: pointer;
-}

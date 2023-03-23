@@ -52,16 +52,16 @@ function Register({ navigate }) {
                 <form id={styles.form} onSubmit={handleSubmit(onSubmit)}>
                     <label htmlFor="username">Username:</label>
                     <input {...register('username')} type="text" />
-                    <div className='error'>{errors.username?.message}</div>
+                    <div className={styles.error}>{errors.username?.message}</div>
                     <label htmlFor="email">Email:</label>
                     <input {...register('email')} type="text" />
-                    <div className='error'>{errors.email?.message}</div>
+                    <div className={styles.error}>{errors.email?.message}</div>
                     <label htmlFor="password">Password:</label>
                     <input {...register('password')} type="password" />
-                    <div className='error'>{errors.password?.message}</div>
+                    <div className={styles.error}>{errors.password?.message}</div>
                     <label htmlFor="repass">Repeat password:</label>
                     <input {...register('repass')} type="password" />
-                    <div className='error'>{errors.repass?.message}</div>
+                    <div className={styles.error}>{errors.repass?.message}</div>
                     <span>
                         <button type="submit">Register</button>
                         <button onClick={(e) => onBackClick(e, navigate)}>Back</button>

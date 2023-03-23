@@ -39,12 +39,11 @@
 }
 
 #form label {
-  position: absolute;
   float: left;
   text-align: right;
   display: block;
-  margin-top: 3px;
   margin-right: 10px;
+
 }
 
 #form select,
@@ -53,41 +52,49 @@
   height: 35px;
   width: 160px;
   padding: 0 8px;
-  margin-top: 16px;
-  margin-bottom: 8px;
   margin-left: 40em;
   color: #000000;
   font-size: 16px;
   font-variant: normal;
   line-height: normal;
-  position: absolute;
+
 }
 
 #form textarea {
-  position: absolute;
   height: 100px;
   width: 160px;
   padding: 8px 8px;
-  margin-top: 16px;
-  margin-bottom: 8px;
-  margin-left: 40em;
+  margin-left: 21em;
   color: #000000;
   font-size: 16px;
   font-variant: normal;
   line-height: normal;
+
 }
 
-#form span {
-  position: absolute;
-  display: block;
+#form span button {
+  position: relative;
+  display: inline-block;
   text-align: center;
   font-style: italic;
   width: 160px;
-  right: 20em;
-  margin-top: 10em;
+  bottom: 32em;
+
 }
 
-#form span :hover {
+#form span button:hover {
   background-color: aqua;
   cursor: pointer;
+}
+
+.error {
+  font-size: 16px;
+  color: red;
+  position: relative;
+  margin-left: 40em;
+  margin-bottom: 1em;
+}
+
+.conteiner {
+  display: inline-table;
 }

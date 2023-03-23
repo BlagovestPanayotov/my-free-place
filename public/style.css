@@ -101,6 +101,12 @@ header {
   cursor: pointer;
 }
 
+#login-form button:hover,
+#search-form button:hover {
+  background-color: aqua;
+  cursor: pointer;
+}
+
 #login-form form input,
 #search-form form input,
 #search-form form select {
@@ -168,4 +174,11 @@ footer {
 .activeNav {
   background-color: grey;
   border-radius: 4px;
+}
+
+.login-error {
+  font-size: 15px;
+  color: red;
+  margin-left: 8em;
+  margin-bottom: 0em;
 }
