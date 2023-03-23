@@ -1,5 +1,7 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { object, string } from 'yup';
 import { DestinationsContext } from '../contexts/DestinationsContext';
 import { UserContext } from '../contexts/UserContext';
 import { searchItems } from '../services/data';
@@ -14,8 +16,14 @@ function SearchForm({ countries, navigate }) {
         country: ''
     };
 
+    const schema = object({
+        destination: string(),
+        country: string()
+    });
+
     const { register, handleSubmit } = useForm({
         defaultValues,
+        resolver: yupResolver(schema)
     });
 
     function onSubmit(data) {
