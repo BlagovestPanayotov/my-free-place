@@ -87,7 +87,7 @@
   margin-top: 3em;
 }
 
-#form span :hover {
+#form button:hover {
   background-color: aqua;
   cursor: pointer;
 }
