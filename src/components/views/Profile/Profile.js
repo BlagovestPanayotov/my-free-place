@@ -10,20 +10,21 @@ import styles from './Profile.module.css';
 function Profile({ navigate }) {
     const { user } = useContext(UserContext);
     const defaultValues = {
-        destination: '',
-        country: '',
-        location: '',
-        imageUrl: '',
-        description: ''
+        firsName: user?.firsName,
+        lastName: user?.lastName,
+        countryOfLiving: user?.countryOfLiving,
+        phoneNumber: user?.phoneNumber,
+        email: user.email,
+        imageUrl: user?.imageUrl
     };
 
 
     const schema = object({
-        'first-name': string().min(3, 'The First name must contain at least 3 characters!').optional(),
-        'last-name': string().min(3, 'The Last name must contain at least 3 characters!').optional(),
-        'image-url': string().optional().max(100, 'The url can\'t be more than 100 characters'),
-        'country': string().optional().max(30, 'The country can\'t be more than 30 characters'),
-        'phone-number': string().max(15, 'The phone number can\'t be more than 15 numbers').optional()
+        firsName: string().min(3, 'The First name must contain at least 3 characters!').optional(),
+        lastName: string().min(3, 'The Last name must contain at least 3 characters!').optional(),
+        imageUrl: string().optional().max(100, 'The url can\'t be more than 100 characters'),
+        countryOfLiving: string().optional().max(30, 'The country can\'t be more than 30 characters'),
+        phoneNumber: string().max(15, 'The phone number can\'t be more than 15 numbers').optional()
     }).required();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -40,32 +41,32 @@ function Profile({ navigate }) {
     return (
         <div className={styles.content}>
             <h1><i>CUserName</i></h1>
-            <img src='/img/profile.jpg' alt='profile' />
+            <img src={user.imageUrl ? user.imageUrl : '/img/usersImages/default-user.png'} alt='profile' />
             <form id={styles.form} onSubmit={handleSubmit(onSubmit)}>
 
                 <label>First Name:</label>
-                <input {...register('first-name')} type="text" />
-                <div className='error'>{errors['first-name']?.message}</div>
+                <input {...register('firsName')} type="text" />
+                <div className='error'>{errors['firstName']?.message}</div>
                 <br />
                 <label>Last Name:</label>
-                <input {...register('last-name')} type="text" />
-                <div className='error'>{errors['last-name']?.message}</div>
+                <input {...register('lastName')} type="text" />
+                <div className='error'>{errors['lastName']?.message}</div>
                 <br />
                 <label>Contry of living:</label>
-                <input {...register('country')} type="text" />
-                <div className='error'>{errors['country']?.message}</div>
+                <input {...register('countryOfLiving')} type="text" />
+                <div className='error'>{errors['countryOfLiving']?.message}</div>
                 <br />
                 <label>Phone number:</label>
-                <input {...register('phone-number')} type="number" />
-                <div className='error'>{errors['phone-number']?.message}</div>
+                <input {...register('phoneNumber')} type="number" />
+                <div className='error'>{errors['phoneNumber']?.message}</div>
                 <br />
                 <label>Email:</label>
                 <input {...register('email')} type="text" disabled defaultValue={user?.username} />
                 <div className='error'>{errors['email']?.message}</div>
                 <br />
                 <label>Image Url:</label>
-                <input {...register('image-url')} type="text" />
-                <div className='error'>{errors['image-url']?.message}</div>
+                <input {...register('imageUrl')} type="text" />
+                <div className='error'>{errors['imageUrl']?.message}</div>
                 <br />
                 <span>
                     <button type="submit">Update</button>

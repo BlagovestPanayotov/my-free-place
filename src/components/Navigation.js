@@ -21,7 +21,10 @@ function Navigation({ navigate }) {
 
     return (
         <div id='navigation'>
-            {user && <div id='profileNav'><NavLink to={'/profile'}><img src='/img/profile.jpg' alt='profile' width='31px' height='31px' /></NavLink></div>}
+            {user && <div id='profileNav'><NavLink to={'/profile'}>
+                <img src={user.imgUrl ? user.imgUrl : '/img/usersImages/default-user.png'}
+                    alt='profile' width='31px' height='31px' />
+            </NavLink></div>}
             <ul>
                 <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/'}>Home</NavLink></div></li>
                 <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/catalog'}>Catalog</NavLink></div></li>
