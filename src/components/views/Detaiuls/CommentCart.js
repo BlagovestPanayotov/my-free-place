@@ -9,7 +9,7 @@ function CommentCart({ content, owner }) {
     return (
         <div className={styles['comment-cart']}>
             <p>{content}</p>
-            {owner.objectId === user.objectId ?
+            {owner?.objectId === user?.objectId ?
                 <button>Delete</button>
                 : <button>Like</button>
             }

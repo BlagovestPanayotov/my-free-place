@@ -4,7 +4,8 @@ import { del, get, post, put } from './api.js';
 // count of collection => https://parseapi.back4app.com/classes/Destination?count=1&limit=0
 //serch query => https://parseapi.back4app.com/classes/{collection name}?where=%7B%22{field name}%22%3A%7B%22%24regex%22%3A%22{text}%22%7D%7D
 
-const ownerField = (id) => ({ __type: 'Pointer', className: '_User', objectId: id });
+const ownerFieldParser = (userId) => ({ __type: 'Pointer', className: '_User', objectId: userId });
+const destinationFieldParser = (destinationId) => ({ __type: 'Pointer', className: 'Destination', objectId: destinationId });
 
 const endpoints = {
     'getAll': '/classes/Destination/?count=1',
@@ -46,15 +47,17 @@ const endpoints = {
                 "$regex": destinationId
             }
         }));
+
         return `/classes/Comment?where=${query}&count=1`;
-    }
+    },
+    'postComment': '/classes/Comment',
+
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
     // 'addLike': '/data/likes',
     // 'getLikes': (itemId) => `/data/likes?where=theaterId%3D%22${itemId}%22&distinct=_ownerId&count`,
     // 'hasLiked': (itemId, userId) => `/data/likes?where=theaterId%3D%22${itemId}%22%20and%20_ownerId%3D%22${userId}%22&count`,
     // 'getResentGames': '/data/games?sortBy=_createdOn%20desc&distinct=category&offset=0&pageSize=3',
 
-    // 'postComment':'/data/comments',
 };
 
 export function getCountries() {
@@ -70,7 +73,7 @@ export function getById(itemId) {
 }
 
 export function createItem(data, user) {
-    const destinationData = { ...data, owner: ownerField(user.objectId) };
+    const destinationData = { ...data, owner: ownerFieldParser(user.objectId) };
     return post(endpoints.createItem, user, destinationData);
 }
 
@@ -79,7 +82,7 @@ export function deleteItem(itemId, user) {
 }
 
 export function editItem(itemId, data, user) {
-    const destinationData = { ...data, owner: ownerField(user.objectId) };
+    const destinationData = { ...data, owner: ownerFieldParser(user.objectId) };
     return put(endpoints.editItem + itemId, user, destinationData);
 }
 
@@ -95,13 +98,17 @@ export function getComments(destinationId) {
     return get(endpoints.getComments(destinationId));
 }
 
+export function postComment(data, user, destinationId) {
+    const commentData = {
+        ...data,
+        owner: ownerFieldParser(user.objectId),
+        destination: destinationFieldParser(destinationId)
+    };
+    return post(endpoints.postComment, user, commentData);
+}
+
 // // // export function getResentGames() {
 // // //     return get(endpoints.getResentGames);
-// // // }
-
-
-// // // export function postComment(data){
-// // //     return post(endpoints.postComment,data);
 // // // }
 
 // // export function addLike(data) {

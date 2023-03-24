@@ -1,8 +1,11 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useContext, useEffect, useState } from 'react';
+import { useForm, } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import { object, string } from 'yup';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
-import { deleteItem, getById, getComments } from '../../../services/data';
+import { deleteItem, getById, getComments, postComment } from '../../../services/data';
 import { onBackClick } from '../../../utils/util';
 
 import CommentCart from './CommentCart';
@@ -52,6 +55,40 @@ function Details() {
         }
     }
 
+    //On submit
+
+    const defaultValues = {
+        content: ''
+    };
+
+    const schema = object({
+        content: string().min(3, 'The content must contain at least 3 characters!').max(50, 'The content can be maximum 50 cahracter!')
+    }).required();
+
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+        defaultValues,
+        resolver: yupResolver(schema)
+    });
+
+    function onSubmit(data) {
+        setLoading(true);
+        postComment(data, user, destinationId)
+            .then(result => {
+                const newComment = {
+                    content: data.content,
+                    destination: { __type: 'Pointer', className: 'Destination', objectId: destinationId },
+                    owner: { __type: 'Pointer', className: '_User', objectId: user.objectId },
+                    objectId: result.objectId
+                };
+                setComments(state => [...state, newComment]);
+                reset();
+                setLoading(false);
+            })
+            .catch(err => console.log);
+    }
+
+
+
     const destinationOwner = currentDestination.owner?.objectId;
 
     return (
@@ -98,11 +135,14 @@ function Details() {
                     </span>
                     <div id={styles.comments}>
                         <h4>Comments:</h4>
-                        <form id={styles.postComentForm}>
-                            <label id={styles.labelComentForm}>Write Comment</label>
-                            <textarea></textarea>
+
+                        <form id={styles.postComentForm} onSubmit={handleSubmit(onSubmit)}>
+                            <label htmlFor='content' id={styles.labelComentForm}>Write Comment</label>
+                            <textarea {...register('content')}></textarea>
+                            <p id={styles.errorP}>{errors.content?.message}</p>
                             <button type='submiut' id={styles.btnComentForm}>Post Comment</button>
                         </form>
+
                         <div id={styles.commentCardsContainer}>
                             {comments?.length > 0 ?
                                 comments.map(c => <CommentCart key={c.objectId} {...c}></CommentCart>)
