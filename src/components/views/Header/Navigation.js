@@ -4,7 +4,6 @@ import { UserContext } from '../../../contexts/UserContext';
 import { logout } from '../../../services/auth';
 
 
-
 function Navigation({ navigate }) {
     const { user, setUser } = useContext(UserContext);
 

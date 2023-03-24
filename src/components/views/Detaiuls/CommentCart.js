@@ -1,6 +1,5 @@
 import styles from './Details.module.css';
 
-
 function CommentCart(){
     return (
         <div className={styles['comment-cart']}>

@@ -7,8 +7,6 @@ import { UserContext } from '../../../contexts/UserContext';
 import { login } from '../../../services/auth';
 
 
-
-
 function LoginForm({ navigate }) {
 
     const { setUser } = useContext(UserContext);

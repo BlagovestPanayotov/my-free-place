@@ -6,6 +6,7 @@ import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { searchItems } from '../../../services/data';
 
+
 function SearchForm({ navigate }) {
 
     const { setDestinations, countries } = useContext(DestinationsContext);

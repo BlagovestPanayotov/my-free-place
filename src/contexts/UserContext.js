@@ -5,17 +5,24 @@ export const UserContext = createContext(undefined);
 export const UserProvider = ({
     children
 }) => {
-    const [user, setUser] = useState(() => {
+    const [user, setUser] = useState();
+
+    useEffect(() => {
         try {
-            if (window.localStorage.getItem('user')) {
-                const state = (JSON.parse(window.localStorage.getItem('user')));
-                return state;
-            }
+            setUser(JSON.parse(window.localStorage.getItem('user')));
         } catch (err) {
-            console.error(err.message);
-            return null;
+            console.log(err.message);
+            setUser(null);
         }
-    });
+    }, []);
+
+    useEffect(() => {
+        if (!user) {
+            localStorage.removeItem('user');
+        } else {
+            window.localStorage.setItem('user', JSON.stringify(user));
+        }
+    }, [user]);
 
     const userContext = {
         user,
