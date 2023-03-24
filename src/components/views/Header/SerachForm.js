@@ -2,13 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { object, string } from 'yup';
-import { DestinationsContext } from '../contexts/DestinationsContext';
-import { UserContext } from '../contexts/UserContext';
-import { searchItems } from '../services/data';
+import { DestinationsContext } from '../../../contexts/DestinationsContext';
+import { UserContext } from '../../../contexts/UserContext';
+import { searchItems } from '../../../services/data';
 
-function SearchForm({ countries, navigate }) {
+function SearchForm({ navigate }) {
 
-    const { setDestinations } = useContext(DestinationsContext);
+    const { setDestinations, countries } = useContext(DestinationsContext);
     const { user } = useContext(UserContext);
 
     const defaultValues = {

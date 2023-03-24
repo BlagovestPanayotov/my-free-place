@@ -9,10 +9,14 @@ import { object, string } from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-function Edit({ loading, setLoading, countries, navigate }) {
+function Edit({ navigate }) {
 
     const { user } = useContext(UserContext);
-    const { currentDestination, setCurrentDestination, destinations, setDestinations, setLastDestinations } = useContext(DestinationsContext);
+    const { currentDestination, setCurrentDestination,
+        destinations, setDestinations,
+        setLastDestinations,
+        loading, setLoading,
+        countries } = useContext(DestinationsContext);
     const { destinationId } = useParams();
 
     useEffect(() => {

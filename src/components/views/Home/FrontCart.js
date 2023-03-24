@@ -11,8 +11,8 @@ function FrontCart({
     location,
     imageUrl,
     description,
+    user
 }) {
-    const { user } = useContext(UserContext);
 
     return (
         <div className={style.frontCart}>

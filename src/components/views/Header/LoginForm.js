@@ -3,11 +3,14 @@ import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { object, string } from 'yup';
-import { UserContext } from '../contexts/UserContext';
-import { login } from '../services/auth';
+import { UserContext } from '../../../contexts/UserContext';
+import { login } from '../../../services/auth';
+
+
 
 
 function LoginForm({ navigate }) {
+
     const { setUser } = useContext(UserContext);
 
     const defaultValues = {

@@ -8,9 +8,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
 
-function Create({ countries, navigate }) {
+function Create({ navigate }) {
     const { user } = useContext(UserContext);
-    const { setDestinations, setLastDestinations } = useContext(DestinationsContext);
+    const { setDestinations, setLastDestinations, countries } = useContext(DestinationsContext);
 
     const defaultValues = {
         destination: '',

@@ -9,8 +9,11 @@ import CommentCart from './CommentCart';
 import styles from './Details.module.css';
 
 
-function Details({ loading,setLoading }) {
-    const { currentDestination, setCurrentDestination, setDestinations, destinations, setLastDestinations } = useContext(DestinationsContext);
+function Details() {
+    const { currentDestination, setCurrentDestination,
+        destinations, setDestinations,
+        setLastDestinations,
+        loading, setLoading } = useContext(DestinationsContext);
     const { user } = useContext(UserContext);
 
     const navigate = useNavigate();
