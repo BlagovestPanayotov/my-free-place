@@ -29,7 +29,7 @@ function Edit({ navigate }) {
         } else {
             return;
         }
-    }, [destinationId]);
+    }, [destinationId,setCurrentDestination]);
 
     const defaultValues = {
         destination: currentDestination.destination,

@@ -10,7 +10,6 @@ export const DestinationsProvider = ({ children }) => {
 
     const [countries, setCountries] = useState([]);
     const [userDestinations, setUserDestination] = useState([]);
-    const [currentDestinationId, setCurrentDestinationId] = useState(null);
     const [currentDestination, setCurrentDestination] = useState({});
     const [destinations, setDestinations] = useState([]);
     const [lastDestinations, setLastDestinations] = useState([]);
@@ -21,8 +20,6 @@ export const DestinationsProvider = ({ children }) => {
         setCountries,
         userDestinations,
         setUserDestination,
-        currentDestinationId,
-        setCurrentDestinationId,
         currentDestination,
         setCurrentDestination,
         destinations,
@@ -46,9 +43,13 @@ export const DestinationsProvider = ({ children }) => {
 
     useEffect(() => {
         if (user) {
-            console.log(user);
+            setLoading(true);
             getMyItems(user.objectId, user)
-                .then((data) => setUserDestination(data.results))
+                .then((data) => {
+                    setUserDestination(data.results);
+                    setLoading(false);
+                }
+                )
                 .catch(console.log);
         } else {
             return;

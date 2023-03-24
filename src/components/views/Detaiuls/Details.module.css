@@ -15,7 +15,6 @@
 
 .content h1 {
   text-align: center;
-  margin-bottom: 2em;
 }
 .content p {
   text-align: center;
@@ -27,7 +26,7 @@
 table {
   display: block;
   width: 21em;
-  height: 15em;
+  height: 16.5em;
   position: absolute;
   background-color: rgba(225, 225, 225, 0.85);
   padding: 32px;
@@ -49,7 +48,6 @@ table tr {
   height: auto;
   top: -30px;
   border-radius: 4px;
-  
 }
 
 table div {
@@ -110,7 +108,7 @@ span button :disabled {
 }
 
 #comments {
-  margin: 27em;
+  margin: 24em;
   color: #000000;
   width: 36em;
   position: absolute;
@@ -147,7 +145,8 @@ span button :disabled {
   z-index: 1;
 }
 
-.comment-cart button:hover {
+.comment-cart button:hover,
+#btnComentForm:hover {
   background-color: pink;
   cursor: pointer;
 }
@@ -156,7 +155,7 @@ span button :disabled {
   position: absolute;
   text-align: center;
   margin-left: 30em;
-  color: #000000;
+  color: white;
   background-color: gray;
   border-radius: 2em;
   font-size: 16px;
@@ -164,4 +163,45 @@ span button :disabled {
   height: 20px;
   z-index: 1;
   bottom: 4px;
+  background-color: green;
+}
+
+#postComentForm {
+  display: grid;
+  text-align: center;
+}
+#labelcomentForm {
+  color: white;
+  display: block;
+}
+#btnComentForm {
+  margin: auto;
+}
+
+#commentCardsContainer {
+  height: 16em;
+}
+
+#pagin {
+  display: block;
+  position: absolute;
+  left: 50em;
+  height: 1em;
+  bottom: 26em;
+  width: 100%;
+}
+
+#pagin span {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  top: 25em;
+  text-decoration: underline;
+}
+
+#pagin span:hover{
+  color: aqua;
+  cursor: pointer;
 }

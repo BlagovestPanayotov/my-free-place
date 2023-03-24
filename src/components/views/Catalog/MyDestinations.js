@@ -5,15 +5,15 @@ import styles from './Catalog.module.css';
 import DestinationCard from './DestinationCard';
 
 
-function MyDestinations({ loading }) {
+function MyDestinations() {
 
     const { user } = useContext(UserContext);
-    const { userDestinations } = useContext(DestinationsContext);
+    const { userDestinations, loading } = useContext(DestinationsContext);
 
     return (
         <div className={styles.content}>
             {loading
-                ? <h1>Loading...</h1>
+                ? <div className="loader"></div>
                 : userDestinations.map(x => <DestinationCard
                     user={user}
                     key={x.objectId}
