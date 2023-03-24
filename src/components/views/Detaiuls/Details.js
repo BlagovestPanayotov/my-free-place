@@ -105,7 +105,7 @@ function Details() {
                         </form>
                         <div id={styles.commentCardsContainer}>
                             {comments?.length > 0 ?
-                                comments.map(c => <CommentCart key={c.objectId} content={c.content}></CommentCart>)
+                                comments.map(c => <CommentCart key={c.objectId} {...c}></CommentCart>)
                                 : <h3>No comments yet</h3>
                             }
                         </div>

@@ -1,15 +1,19 @@
-// import { useContext } from 'react';
-// import { UserContext } from '../../../contexts/UserContext';
+import { useContext } from 'react';
+import { UserContext } from '../../../contexts/UserContext';
 import styles from './Details.module.css';
 
-function CommentCart({content}) {
-    // const { user } = useContext(UserContext);
+function CommentCart({ content, owner }) {
+    const { user } = useContext(UserContext);
+   
 
     return (
         <div className={styles['comment-cart']}>
             <p>{content}</p>
-            <button>Like</button>
-            <button>Delete</button>
+            {owner.objectId === user.objectId ?
+                <button>Delete</button>
+                : <button>Like</button>
+            }
+
             <div className={styles.likes}>Likes: 4</div>
         </div>
     );
