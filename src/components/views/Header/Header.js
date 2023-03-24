@@ -6,7 +6,6 @@ import SearchForm from './SerachForm';
 
 function Header({ navigate }) {
     const { user } = useContext(UserContext);
-    console.log(user);
     return (
         <>
             <Navigation navigate={navigate} />

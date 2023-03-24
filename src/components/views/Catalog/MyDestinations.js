@@ -1,12 +1,14 @@
 import { useContext } from 'react';
+import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import styles from './Catalog.module.css';
 import DestinationCard from './DestinationCard';
 
 
-function MyDestinations({ loading, userDestinations }) {
+function MyDestinations({ loading }) {
 
     const { user } = useContext(UserContext);
+    const { userDestinations } = useContext(DestinationsContext);
 
     return (
         <div className={styles.content}>

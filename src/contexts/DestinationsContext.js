@@ -1,9 +1,13 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { getAll, getCountries, getMyItems } from '../services/data';
+import { UserContext } from './UserContext';
 
 export const DestinationsContext = createContext(null);
 
-export const DestinationsProvider = ({ children, user }) => {
+export const DestinationsProvider = ({ children }) => {
+
+    const { user } = useContext(UserContext);
+
     const [countries, setCountries] = useState([]);
     const [userDestinations, setUserDestination] = useState([]);
     const [currentDestinationId, setCurrentDestinationId] = useState(null);
@@ -42,6 +46,7 @@ export const DestinationsProvider = ({ children, user }) => {
 
     useEffect(() => {
         if (user) {
+            console.log(user);
             getMyItems(user.objectId, user)
                 .then((data) => setUserDestination(data.results))
                 .catch(console.log);
@@ -49,6 +54,8 @@ export const DestinationsProvider = ({ children, user }) => {
             return;
         }
     }, [user]);
+
+
 
     return (
         <DestinationsContext.Provider value={destinationsContext}>
