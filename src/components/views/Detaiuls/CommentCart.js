@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../contexts/UserContext';
 import { addLikeComment, deleteComent, getLikesComment, hasLikedComment } from '../../../services/data';
 import styles from './Details.module.css';
@@ -42,11 +41,8 @@ function CommentCart({ content, objectId: commentId, setComments, owner }) {
     return (
         <div className={styles['comment-cart']}>
             <p>{content}</p>
-            {owner?.objectId === user?.objectId ?
-                <button onClick={onDelete}>Delete</button>
-                : hasLiked ? <></>
-                    : <button onClick={onLike}>Like</button>
-            }
+            {owner?.objectId === user?.objectId && <button onClick={onDelete}>Delete</button>}
+            {!hasLiked && <button onClick={onLike}>Like</button>}
 
             <div className={styles.likes}>Likes: {countLikes}</div>
         </div>
