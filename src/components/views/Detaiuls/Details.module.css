@@ -210,3 +210,10 @@ span button :disabled {
   margin: 0;
   color: rgb(255, 120, 120);
 }
+
+#likeDisplay{
+  background-color: white;
+  color: blue;
+  cursor: auto;
+  border-radius: 1em;
+}

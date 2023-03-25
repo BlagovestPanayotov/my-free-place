@@ -12,6 +12,7 @@ function DestinationCard({
     location,
     imageUrl,
     description,
+    owner
 }) {
     const { user } = useContext(UserContext);
     return (
@@ -19,7 +20,7 @@ function DestinationCard({
             <h3>{destination}</h3>
             <img src={imageUrl} alt={description} />
             <h4><strong>Country: </strong> {country}</h4>
-            <div>Likes: 1</div>
+            <div>Created by: {owner?.username}</div>
             {user && <div id="button"><NavLink to={`/${objectId}/details`}>Details</NavLink></div>}
         </div>
     );

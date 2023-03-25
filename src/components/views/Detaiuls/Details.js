@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
-import { deleteItem, getById, getComments, postComment } from '../../../services/data';
+import { addLikeDestination, deleteItem, getById, getComments, getLikesDestination, hasLikedDestination, postComment } from '../../../services/data';
 import { onBackClick } from '../../../utils/util';
 
 import CommentCart from './CommentCart';
@@ -24,22 +24,30 @@ function Details() {
     const { destinationId } = useParams();
 
     const [comments, setComments] = useState([]);
+    const [countLikesPost, setCountLikesPost] = useState(0);
+    const [hasLikedPost, setHasLikedPost] = useState(true);
 
 
     useEffect(() => {
         setLoading(true);
         if (destinationId) {
-            Promise.all([getById(destinationId), getComments(destinationId)])
-                .then(([dataDestination, dataComments]) => {
+            Promise.all([getById(destinationId),
+            getComments(destinationId),
+            getLikesDestination(destinationId),
+            hasLikedDestination(destinationId, user?.objectId)])
+                .then(([dataDestination, dataComments, likesData, hasLikedData]) => {
                     setCurrentDestination(dataDestination);
                     setComments(dataComments.results);
+                    console.log(likesData);
+                    setCountLikesPost(likesData.count);
+                    setHasLikedPost(hasLikedData.results?.length > 0);
                     setLoading(false);
                 })
                 .catch(err => console.log);
         } else {
             return;
         }
-    }, [destinationId, setCurrentDestination, setLoading]);
+    }, [destinationId, setCurrentDestination, user, setLoading]);
 
     function onDeleteClick() {
         if (window.confirm('Are you sure you want to delete this destination?')) {
@@ -71,7 +79,6 @@ function Details() {
     });
 
     function onSubmit(data) {
-        setLoading(true);
         postComment(data, user, destinationId)
             .then(result => {
                 const newComment = {
@@ -82,11 +89,19 @@ function Details() {
                 };
                 setComments(state => [...state, newComment]);
                 reset();
-                setLoading(false);
             })
             .catch(err => console.log);
     }
 
+    //On like
+    function onLike() {
+        setHasLikedPost(true);
+        addLikeDestination(destinationId, user)
+            .then(result => {
+                setCountLikesPost(state => state += 1);
+            })
+            .catch(err => console.log);
+    }
 
 
     const destinationOwner = currentDestination.owner?.objectId;
@@ -120,13 +135,15 @@ function Details() {
                         </tbody>
                     </table>
                     <span>
+                        <button id={styles.likeDisplay} disabled>Likes: {countLikesPost}</button>
                         {
                             destinationOwner === user?.objectId
                                 ? <>
                                     <button onClick={() => navigate(`/${destinationId}/edit`)}>Edit</button>
                                     <button onClick={onDeleteClick}>Delete</button>
                                 </>
-                                : <button >Like / Liked: 1</button>
+                                : !hasLikedPost && <button onClick={onLike}>{'Give a Like <3'}</button>
+
                         }
 
                         <br />

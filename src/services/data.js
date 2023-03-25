@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import { del, get, post, put } from './api.js';
 
 // pagination for back4app => https://parseapi.back4app.com/classes/Destination?limit={1}&skip={0}
@@ -9,7 +10,8 @@ const destinationPointer = (destinationId) => ({ __type: 'Pointer', className: '
 const commentPointer = (commentId) => ({ __type: 'Pointer', className: 'Comment', objectId: commentId });
 
 const endpoints = {
-    'getAll': '/classes/Destination/?count=1',
+    //destinations data
+    'getAll': '/classes/Destination/?count=1&include=owner',
     'getById': '/classes/Destination/',
     'createItem': '/classes/Destination',
     'deleteItem': '/classes/Destination/',
@@ -34,9 +36,10 @@ const endpoints = {
             }
         }));
 
-        return `/classes/Destination?count=1&where=${query}`;
+        return `/classes/Destination?count=1&where=${query}&include=owner`;
     },
 
+    //comments data
     'getComments': (destinationId, ownerId) => {
         //Kz8JWGaAcS owner
         //ZQcrzDGT6S destination
@@ -50,6 +53,8 @@ const endpoints = {
     },
     'postComment': '/classes/Comment',
     'deleteComent': (commentId) => `/classes/Comment/${commentId}`,
+
+    //comments likes
     'getLikesComment': (commentId) => {
         const query = encodeURIComponent(JSON.stringify({
             "commentId": {
@@ -59,9 +64,7 @@ const endpoints = {
 
         return `/classes/LikeComment?where=${query}&count=1`;
     },
-
     'hasLikedComment': (commentId, userId) => {
-
         const query = encodeURIComponent(JSON.stringify({
             "commentId": {
                 "$regex": commentId
@@ -70,11 +73,33 @@ const endpoints = {
                 "$regex": userId
             }
         }));
-
-
         return `/classes/LikeComment?where=${query}`;
     },
     'addLikeComment': '/classes/LikeComment',
+
+    //destinations likes
+    'getLikesDestination': (destinationId) => {
+        const query = encodeURIComponent(JSON.stringify({
+            "destinationId": {
+                "$regex": destinationId
+            }
+        }));
+
+        return `/classes/LikeDestination?where=${query}&count=1`;
+    },
+    'hasLikedDestination': (destinationId, userId) => {
+        const query = encodeURIComponent(JSON.stringify({
+            "destinationId": {
+                "$regex": destinationId
+            },
+            "ownerId": {
+                "$regex": userId
+            }
+        }));
+        return `/classes/LikeDestination?where=${query}`;
+    },
+    'addLikeDestination': '/classes/LikeDestination',
+
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
     // 'addLike': '/data/likes',
     // 'getResentGames': '/data/games?sortBy=_createdOn%20desc&distinct=category&offset=0&pageSize=3',
@@ -150,6 +175,22 @@ export function addLikeComment(commentId, user) {
         commentId: commentPointer(commentId)
     };
     return post(endpoints.addLikeComment, user, data);
+}
+
+export function getLikesDestination(destinationId) {
+    return get(endpoints.getLikesDestination(destinationId));
+}
+
+export function hasLikedDestination(destinationId, userId) {
+    return get(endpoints.hasLikedDestination(destinationId, userId));
+}
+
+export function addLikeDestination(destinationId, user) {
+    const data = {
+        ownerId: ownerPointer(user.objectId),
+        destinationId: destinationPointer(destinationId)
+    };
+    return post(endpoints.addLikeDestination, user, data);
 }
 
 

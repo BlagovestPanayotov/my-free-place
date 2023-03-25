@@ -6,25 +6,24 @@ import styles from './Details.module.css';
 function CommentCart({ content, objectId: commentId, setComments, owner }) {
     const { user } = useContext(UserContext);
     const [countLikes, setCountLikes] = useState(0);
-    const [hasLiked, setHasLiked] = useState(false);
+    const [hasLiked, setHasLiked] = useState(true);
 
 
 
     useEffect(() => {
-        Promise.all([getLikesComment(commentId), hasLikedComment(commentId, user.objectId)])
+        Promise.all([getLikesComment(commentId), hasLikedComment(commentId, user?.objectId)])
             .then(([likesData, result]) => {
                 setCountLikes(likesData.count);
-                setHasLiked(((likesData.results).some(x => x.ownerId.objectId === user.objectId)));
                 setHasLiked(result.results?.length > 0);
             })
             .catch(err => console.log);
     }, [commentId, user]);
 
     function onLike() {
+        setHasLiked(true);
         addLikeComment(commentId, user)
             .then(result => {
                 setCountLikes(state => state += 1);
-                setHasLiked(true);
             });
     }
 
