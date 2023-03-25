@@ -49,6 +49,7 @@ const endpoints = {
         return `/classes/Comment?where=${query}&count=1`;
     },
     'postComment': '/classes/Comment',
+    'deleteComent': (commentId) => `/classes/Comment/${commentId}`,
     'getLikesComment': (commentId) => {
         const query = encodeURIComponent(JSON.stringify({
             "commentId": {
@@ -129,6 +130,10 @@ export function postComment(data, user, destinationId) {
             (destinationId)
     };
     return post(endpoints.postComment, user, commentData);
+}
+
+export function deleteComent(commentId, user) {
+    return del(endpoints.deleteComent(commentId), user);
 }
 
 export function getLikesComment(commentId) {

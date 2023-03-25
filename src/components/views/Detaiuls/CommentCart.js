@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../contexts/UserContext';
-import { addLikeComment, getLikesComment, hasLikedComment } from '../../../services/data';
+import { addLikeComment, deleteComent, getLikesComment, hasLikedComment } from '../../../services/data';
 import styles from './Details.module.css';
 
-function CommentCart({ content, objectId: commentId, owner }) {
+function CommentCart({ content, objectId: commentId, setComments, owner }) {
     const { user } = useContext(UserContext);
     const [countLikes, setCountLikes] = useState(0);
     const [hasLiked, setHasLiked] = useState(false);
+
+
 
     useEffect(() => {
         Promise.all([getLikesComment(commentId), hasLikedComment(commentId, user.objectId)])
@@ -26,11 +29,21 @@ function CommentCart({ content, objectId: commentId, owner }) {
             });
     }
 
+    function onDelete() {
+        if (window.confirm('Are you sure you want to delete this post?')) {
+            deleteComent(commentId, user)
+                .then(result => setComments(state => state.filter(c => c.objectId !== commentId)))
+                .catch(err => console.log);
+        } else {
+            return;
+        }
+    }
+
     return (
         <div className={styles['comment-cart']}>
             <p>{content}</p>
             {owner?.objectId === user?.objectId ?
-                <button>Delete</button>
+                <button onClick={onDelete}>Delete</button>
                 : hasLiked ? <></>
                     : <button onClick={onLike}>Like</button>
             }

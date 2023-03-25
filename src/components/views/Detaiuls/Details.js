@@ -145,7 +145,12 @@ function Details() {
 
                         <div id={styles.commentCardsContainer}>
                             {comments?.length > 0 ?
-                                comments.map(c => <CommentCart key={c.objectId} {...c}></CommentCart>)
+                                comments.map(c =>
+                                    <CommentCart
+                                        key={c.objectId}
+                                        setComments={setComments}
+                                        {...c}>
+                                    </CommentCart>)
                                 : <h3>No comments yet</h3>
                             }
                         </div>
