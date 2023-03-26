@@ -100,6 +100,10 @@ const endpoints = {
     },
     'addLikeDestination': '/classes/LikeDestination',
 
+    //user data
+
+    'getUserData': (userId) => `/users/${userId}`
+
     // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
     // 'addLike': '/data/likes',
     // 'getResentGames': '/data/games?sortBy=_createdOn%20desc&distinct=category&offset=0&pageSize=3',
@@ -191,6 +195,10 @@ export function addLikeDestination(destinationId, user) {
         destinationId: destinationPointer(destinationId)
     };
     return post(endpoints.addLikeDestination, user, data);
+}
+
+export function getUserData(user) {
+    return get(endpoints.getUserData(user.objectId, user)); 
 }
 
 

@@ -5,7 +5,7 @@ import { logout } from '../../../services/auth';
 
 
 function Navigation({ navigate }) {
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser, userData } = useContext(UserContext);
 
     function onLogoutClick(e) {
         e.preventDefault();
@@ -20,7 +20,7 @@ function Navigation({ navigate }) {
     return (
         <div id='navigation'>
             {user && <div id='profileNav'><NavLink to={'/profile'}>
-                <img src={user.imgUrl ? user.imgUrl : '/img/usersImages/default-user.png'}
+                <img src={userData.imageUrl ? userData.imageUrl : '/img/usersImages/default-user.png'}
                     alt='profile' width='31px' height='31px' />
             </NavLink></div>}
             <ul>

@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
+import { getUserData } from '../services/data';
 
 export const UserContext = createContext(undefined);
 
@@ -6,7 +7,9 @@ export const UserProvider = ({
     children
 }) => {
     const [user, setUser] = useState();
+    const [userData, setUserData] = useState();
 
+    
     useEffect(() => {
         try {
             setUser(JSON.parse(window.localStorage.getItem('user')));
@@ -15,7 +18,7 @@ export const UserProvider = ({
             setUser(null);
         }
     }, []);
-
+    
     useEffect(() => {
         if (!user) {
             localStorage.removeItem('user');
@@ -23,10 +26,22 @@ export const UserProvider = ({
             window.localStorage.setItem('user', JSON.stringify(user));
         }
     }, [user]);
+    
+    useEffect(() => {
+        if (user) {
+            getUserData(user)
+                .then(setUserData)
+                .catch(err => console.log);
+        } else {
+            setUserData(null);
+        }
+    }, [user]);
 
     const userContext = {
         user,
-        setUser
+        setUser,
+        userData,
+        setUserData
     };
 
     return (

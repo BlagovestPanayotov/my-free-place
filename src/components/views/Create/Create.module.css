@@ -43,7 +43,6 @@
   text-align: right;
   display: block;
   margin-right: 10px;
-
 }
 
 #form select,
@@ -57,7 +56,6 @@
   font-size: 16px;
   font-variant: normal;
   line-height: normal;
-
 }
 
 #form textarea {
@@ -69,7 +67,6 @@
   font-size: 16px;
   font-variant: normal;
   line-height: normal;
-
 }
 
 #form span button {
@@ -79,7 +76,6 @@
   font-style: italic;
   width: 160px;
   bottom: 32em;
-
 }
 
 #form span button:hover {

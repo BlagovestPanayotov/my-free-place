@@ -34,7 +34,7 @@ async function request(method, url = '/', user, body) {
             
             if (response.status === 400) {
                 window.localStorage.removeItem('user');
-                window.location.reload(false);
+                // window.location.reload(false);
             }
             throw new Error(result.message || result.error);
         }
