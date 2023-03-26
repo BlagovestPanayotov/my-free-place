@@ -11,7 +11,7 @@ import styles from './Profile.module.css';
 
 function Profile({ navigate }) {
     const { user, userData, setUserData } = useContext(UserContext);
-    console.log(userData);
+    const { loading, setLoading } = useContext(DestinationsContext);;
 
     const defaultValues = {
         firstName: userData?.firstName,
@@ -36,50 +36,58 @@ function Profile({ navigate }) {
     });
 
     function onSubmit(data) {
-        console.log('HERE');
+        setLoading(true);
         updateUser(user, data)
             .then(result => {
                 setUserData(state => Object.assign(userData, data));
+                setLoading(false);
+                navigate('/profile');
             })
-            .catch(console.log);
+            .catch(err => {
+                navigate('/home');
+                console.log(err);
+            });
     }
 
     return (
         <div className={styles.content}>
             <h1><i>{userData?.username}</i></h1>
-            <img src={userData?.imageUrl ? userData.imageUrl : '/img/usersImages/default-user.png'} alt='profile' />
-            <form id={styles.form} onSubmit={handleSubmit(onSubmit)}>
-                <div className={styles.conteiner}>
-                    <label>First Name:</label>
-                    <input {...register('firstName')} type="text" />
-                    <div className={styles.error}>{errors['firstName']?.message}</div>
-                </div>
-                <div className={styles.conteiner}>
-                    <label>Last Name:</label>
-                    <input {...register('lastName')} type="text" />
-                    <div className={styles.error}>{errors['lastName']?.message}</div>
-                </div>
-                <div className={styles.conteiner}>
-                    <label>Contry of living:</label>
-                    <input {...register('countryOfLiving')} type="text" />
-                    <div className={styles.error}>{errors['countryOfLiving']?.message}</div>
-                </div>
-                <div className={styles.conteiner}>
-                    <label>Email:</label>
-                    <input {...register('email')} type="text" defaultValue={userData?.email} />
-                    <div className={styles.error}>{errors['email']?.message}</div>
-                </div>
-                <div className={styles.conteiner}>
-                    <label>Image Url:</label>
-                    <input {...register('imageUrl')} type="text" />
-                    <div className={styles.error}>{errors['imageUrl']?.message}</div>
-                </div>
-                <span>
-                    <button type="submit">Update</button>
-                    <button onClick={(e) => onBackClick(e, navigate)}>Back</button>
-                </span>
+            {loading ? <div className="loader"></div>
+                : <>
+                    <img src={userData?.imageUrl ? userData.imageUrl : '/img/usersImages/default-user.png'} alt='profile' />
+                    <form id={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                        <div className={styles.conteiner}>
+                            <label>First Name:</label>
+                            <input {...register('firstName')} type="text" />
+                            <div className={styles.error}>{errors['firstName']?.message}</div>
+                        </div>
+                        <div className={styles.conteiner}>
+                            <label>Last Name:</label>
+                            <input {...register('lastName')} type="text" />
+                            <div className={styles.error}>{errors['lastName']?.message}</div>
+                        </div>
+                        <div className={styles.conteiner}>
+                            <label>Contry of living:</label>
+                            <input {...register('countryOfLiving')} type="text" />
+                            <div className={styles.error}>{errors['countryOfLiving']?.message}</div>
+                        </div>
+                        <div className={styles.conteiner}>
+                            <label>Email:</label>
+                            <input {...register('email')} type="text" defaultValue={userData?.email} />
+                            <div className={styles.error}>{errors['email']?.message}</div>
+                        </div>
+                        <div className={styles.conteiner}>
+                            <label>Image Url:</label>
+                            <input {...register('imageUrl')} type="text" />
+                            <div className={styles.error}>{errors['imageUrl']?.message}</div>
+                        </div>
+                        <span>
+                            <button type="submit">Update</button>
+                            <button onClick={(e) => onBackClick(e, navigate)}>Back</button>
+                        </span>
 
-            </form>
+                    </form>
+                </>}
         </div>
     );
 }
