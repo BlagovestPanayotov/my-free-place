@@ -96,7 +96,7 @@ span :hover {
   cursor: pointer;
 }
 
-img {
+.imgDetails {
   width: 20em;
   height: 20em;
   margin-left: 42em;

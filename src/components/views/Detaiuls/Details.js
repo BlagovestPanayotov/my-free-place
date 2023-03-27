@@ -7,6 +7,7 @@ import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { addLikeDestination, deleteItem, getById, getComments, getLikesDestination, hasLikedDestination, postComment } from '../../../services/data';
 import { onBackClick } from '../../../utils/util';
+import { ImageModal } from '../../modals/ImageModal';
 
 import CommentCart from './CommentCart';
 import styles from './Details.module.css';
@@ -26,6 +27,7 @@ function Details() {
     const [comments, setComments] = useState([]);
     const [countLikesPost, setCountLikesPost] = useState(0);
     const [hasLikedPost, setHasLikedPost] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
 
 
     useEffect(() => {
@@ -104,6 +106,8 @@ function Details() {
     }
 
 
+
+
     const destinationOwner = currentDestination.owner?.objectId;
 
     return (
@@ -112,7 +116,8 @@ function Details() {
                 ? <div className="loader"></div>
                 : <>
                     <h1><i>{currentDestination.destination}</i></h1>
-                    <img src={currentDestination.imageUrl} alt={currentDestination.destination} />
+                    <img className={styles.imgDetails}  onClick={() => setOpenModal(true)} src={currentDestination.imageUrl} alt={currentDestination.destination} />
+                    <ImageModal open={openModal} setOpenModal={setOpenModal} imageUrl={currentDestination.imageUrl} />
                     <table id={styles.form}>
                         <tbody>
                             <tr>
