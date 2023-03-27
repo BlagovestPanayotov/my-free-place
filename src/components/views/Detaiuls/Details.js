@@ -7,6 +7,7 @@ import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { addLikeDestination, deleteItem, getById, getComments, getLikesDestination, hasLikedDestination, postComment } from '../../../services/data';
 import { onBackClick } from '../../../utils/util';
+import { DeleteModal } from '../../modals/DeleteModal';
 import { ImageModal } from '../../modals/ImageModal';
 
 import CommentCart from './CommentCart';
@@ -27,7 +28,8 @@ function Details() {
     const [comments, setComments] = useState([]);
     const [countLikesPost, setCountLikesPost] = useState(0);
     const [hasLikedPost, setHasLikedPost] = useState(true);
-    const [openModal, setOpenModal] = useState(false);
+    const [openModalImage, setOpenModalImage] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
 
     useEffect(() => {
@@ -40,7 +42,6 @@ function Details() {
                 .then(([dataDestination, dataComments, likesData, hasLikedData]) => {
                     setCurrentDestination(dataDestination);
                     setComments(dataComments.results);
-                    console.log(likesData);
                     setCountLikesPost(likesData.count);
                     setHasLikedPost(hasLikedData.results?.length > 0);
                     setLoading(false);
@@ -52,7 +53,6 @@ function Details() {
     }, [destinationId, setCurrentDestination, user, setLoading]);
 
     function onDeleteClick() {
-        if (window.confirm('Are you sure you want to delete this destination?')) {
             deleteItem(destinationId, user);
 
             const newDestinations = destinations.filter(x => x.objectId !== destinationId);
@@ -60,9 +60,6 @@ function Details() {
             setDestinations(newDestinations);
             setLastDestinations(newDestinations.slice(-2));
             navigate('/catalog');
-        } else {
-            return;
-        }
     }
 
     //On submit
@@ -116,8 +113,9 @@ function Details() {
                 ? <div className="loader"></div>
                 : <>
                     <h1><i>{currentDestination.destination}</i></h1>
-                    <img className={styles.imgDetails}  onClick={() => setOpenModal(true)} src={currentDestination.imageUrl} alt={currentDestination.destination} />
-                    <ImageModal open={openModal} setOpenModal={setOpenModal} imageUrl={currentDestination.imageUrl} />
+                    <img className={styles.imgDetails} onClick={() => setOpenModalImage(true)} src={currentDestination.imageUrl} alt={currentDestination.destination} />
+                    <ImageModal open={openModalImage} setOpenModalImage={setOpenModalImage} imageUrl={currentDestination.imageUrl} />
+                    <DeleteModal openDeleteModal={openDeleteModal} setOenDeleteModal={setOpenDeleteModal} onDeleteClick={onDeleteClick} />
                     <table id={styles.form}>
                         <tbody>
                             <tr>
@@ -145,7 +143,7 @@ function Details() {
                             destinationOwner === user?.objectId
                                 ? <>
                                     <button onClick={() => navigate(`/${destinationId}/edit`)}>Edit</button>
-                                    <button onClick={onDeleteClick}>Delete</button>
+                                    <button onClick={() => setOpenDeleteModal(true)}>Delete</button>
                                 </>
                                 : !hasLikedPost && <button onClick={onLike}>{'Give a Like <3'}</button>
 

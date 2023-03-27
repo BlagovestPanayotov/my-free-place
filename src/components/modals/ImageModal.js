@@ -1,13 +1,13 @@
 import styles from './Modals.module.css';
 
-export const ImageModal = ({ open, imageUrl, setOpenModal }) => {
+export const ImageModal = ({ open, imageUrl, setOpenModalImage }) => {
     if (!open) {
         return null;
     }
     return (
-        <div className={styles.overlay}>
+        <div className={styles.overlay} id={styles['overlay-img']}>
             <div className="modal-Contailner">
-                <img onClick={() => setOpenModal(false)} src={imageUrl} alt='profile' />
+                <img onClick={() => setOpenModalImage(false)} src={imageUrl} alt='profile' />
             </div>
         </div>
     );

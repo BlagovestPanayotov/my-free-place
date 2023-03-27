@@ -9,8 +9,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
 
 function Create({ navigate }) {
-    const { user } = useContext(UserContext);
+    const { user, userData } = useContext(UserContext);
     const { setDestinations, setLastDestinations, countries } = useContext(DestinationsContext);
+    console.log(userData);
 
     const defaultValues = {
         destination: '',
@@ -37,8 +38,8 @@ function Create({ navigate }) {
     function onSubmit(data) {
         createItem(data, user)
             .then(({ objectId }) => {
-                setDestinations(state => [...state, { ...data, objectId }]);
-                setLastDestinations(state => [state.pop(), { ...data, objectId }]);
+                setDestinations(state => [...state, { ...data, objectId, owner: user }]);
+                setLastDestinations(state => [state.pop(), { ...data, objectId, owner: user }]);
                 navigate('/catalog');
             })
             .catch(err => console.log);
