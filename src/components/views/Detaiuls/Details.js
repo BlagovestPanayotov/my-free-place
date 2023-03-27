@@ -18,7 +18,8 @@ function Details() {
     const { currentDestination, setCurrentDestination,
         destinations, setDestinations,
         setLastDestinations,
-        loading, setLoading } = useContext(DestinationsContext);
+        loading, setLoading,
+        userDestination, setUserDestination } = useContext(DestinationsContext);
     const { user } = useContext(UserContext);
 
     const navigate = useNavigate();
@@ -53,13 +54,18 @@ function Details() {
     }, [destinationId, setCurrentDestination, user, setLoading]);
 
     function onDeleteClick() {
-            deleteItem(destinationId, user);
+        deleteItem(destinationId, user);
 
-            const newDestinations = destinations.filter(x => x.objectId !== destinationId);
+        const newDestinations = destinations.filter(x => x.objectId !== destinationId);
+        console.log(userDestination);
+        setUserDestination(state => state.filter(x => x.objectId !== destinationId));
+        console.log(userDestination);
 
-            setDestinations(newDestinations);
-            setLastDestinations(newDestinations.slice(-2));
-            navigate('/catalog');
+
+
+        setDestinations(newDestinations);
+        setLastDestinations(newDestinations.slice(-2));
+        navigate('/catalog');
     }
 
     //On submit

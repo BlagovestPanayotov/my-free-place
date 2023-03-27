@@ -11,14 +11,14 @@ import styles from './Profile.module.css';
 
 function Profile({ navigate }) {
     const { user, userData, setUserData } = useContext(UserContext);
-    const { loading, setLoading } = useContext(DestinationsContext);;
+    const { loading, setLoading } = useContext(DestinationsContext);
+
+    console.log(userData);
 
     const defaultValues = {
         firstName: userData?.firstName,
         lastName: userData?.lastName,
         countryOfLiving: userData?.countryOfLiving,
-        phoneNumber: userData?.phoneNumber,
-        email: userData?.email,
         imageUrl: userData?.imageUrl
     };
 
@@ -26,7 +26,6 @@ function Profile({ navigate }) {
         firstName: string().min(3, 'The First name must contain at least 3 characters!'),
         lastName: string().min(3, 'The Last name must contain at least 3 characters!'),
         countryOfLiving: string().min(3, 'The country must contain at least 3 characters!'),
-        email: string().email('Invalid email'),
         imageUrl: string().min(1, 'Image URL is required~'),
     }).required();
 
@@ -70,11 +69,6 @@ function Profile({ navigate }) {
                             <label>Contry of living:</label>
                             <input {...register('countryOfLiving')} type="text" />
                             <div className={styles.error}>{errors['countryOfLiving']?.message}</div>
-                        </div>
-                        <div className={styles.conteiner}>
-                            <label>Email:</label>
-                            <input {...register('email')} type="text" defaultValue={userData?.email} />
-                            <div className={styles.error}>{errors['email']?.message}</div>
                         </div>
                         <div className={styles.conteiner}>
                             <label>Image Url:</label>
