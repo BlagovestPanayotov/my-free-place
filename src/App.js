@@ -14,6 +14,9 @@ import Header from './components/views/Header/Header';
 
 import { DestinationsProvider } from './contexts/DestinationsContext';
 import { UserProvider } from './contexts/UserContext';
+import { UserGuard } from './components/guards/UserGuard';
+import { OwnerGuard } from './components/guards/OwnerGuard';
+import { NotUserGuard } from './components/guards/NotUserGuard';
 
 
 function App() {
@@ -30,12 +33,18 @@ function App() {
                     <Routes>
                         <Route path='/' element={<Home />} />
                         <Route path='/catalog' element={<Catalog />} />
-                        <Route path='/my-destinations' element={<MyDestinations />} />
-                        <Route path='/:destinationId/details/' element={<Details />} />
-                        <Route path='/:destinationId/edit' element={<Edit navigate={navigate} />} />
-                        <Route path='/create' element={<Create navigate={navigate} />} />
-                        <Route path='/profile' element={<Profile navigate={navigate} />} />
-                        <Route path='/register' element={<Register navigate={navigate} />} />
+                        <Route element={<UserGuard />}>
+                            <Route path='/my-destinations' element={<MyDestinations />} />
+                            <Route path='/:destinationId/details/' element={<Details />} />
+                            <Route element={<OwnerGuard />}>
+                                <Route path='/:destinationId/edit' element={<Edit navigate={navigate} />} />
+                            </Route>
+                            <Route path='/create' element={<Create navigate={navigate} />} />
+                            <Route path='/profile' element={<Profile navigate={navigate} />} />
+                        </Route>
+                        <Route element={<NotUserGuard />}>
+                            <Route path='/register' element={<Register navigate={navigate} />} />
+                        </Route>
                         <Route path='/about' element={<About navigate={navigate} />} />
                         <Route path='*' element={<NotFound />} />
                     </Routes>

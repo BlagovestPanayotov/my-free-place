@@ -6,19 +6,18 @@ export const UserContext = createContext(undefined);
 export const UserProvider = ({
     children
 }) => {
-    const [user, setUser] = useState();
-    const [userData, setUserData] = useState();
-
-    
-    useEffect(() => {
+    const [user, setUser] = useState(() => {
         try {
-            setUser(JSON.parse(window.localStorage.getItem('user')));
+            return JSON.parse(window.localStorage.getItem('user'));
         } catch (err) {
             console.log(err.message);
-            setUser(null);
+            return null;
         }
-    }, []);
+    });
     
+    const [userData, setUserData] = useState();
+
+
     useEffect(() => {
         if (!user) {
             localStorage.removeItem('user');
@@ -26,7 +25,7 @@ export const UserProvider = ({
             window.localStorage.setItem('user', JSON.stringify(user));
         }
     }, [user]);
-    
+
     useEffect(() => {
         if (user) {
             getUserData(user)
@@ -36,6 +35,8 @@ export const UserProvider = ({
             setUserData(null);
         }
     }, [user]);
+
+
 
     const userContext = {
         user,

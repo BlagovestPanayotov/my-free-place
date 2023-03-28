@@ -9,6 +9,7 @@ import styles from './Register.module.css';
 
 function Register({ navigate }) {
     const { setUser } = useContext(UserContext);
+    
     const defaultValues = {
         username: '',
         email: '',
@@ -44,7 +45,7 @@ function Register({ navigate }) {
                 setUser(null);
             });
     }
-
+    
     return (
         <>
             <div className={styles.content}>
