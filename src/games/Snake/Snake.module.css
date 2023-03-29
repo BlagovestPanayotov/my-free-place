@@ -14,7 +14,7 @@
 }
 
 .canvas {
-  display: inline-block;
+  display: absolute;
   width: 800px;
   height: 800px;
   position: absolute;
@@ -25,4 +25,27 @@
   color: #000000;
   font-size: 50px;
   margin-left: 6em;
+  margin-top: 19em;
+}
+
+.overlay {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 200%;
+  height: 200%;
+  z-index: 2;
+  top: 0;
+  margin-top: 0;
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+.exitButton {
+  position: absolute;
+  top: 100em;
+  right: 25em;
+}
+
+.noOverflow{
+  overflow: hidden;
 }

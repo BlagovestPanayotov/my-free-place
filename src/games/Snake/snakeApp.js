@@ -1,4 +1,4 @@
-export const runSnake = (canvas,ctx) => {
+export const runSnake = (canvas, ctx) => {
     // const ctx = canvas.getContext('2d');
 
     const fieldSize = 20;
@@ -159,6 +159,11 @@ export const runSnake = (canvas,ctx) => {
     }
 
     function gameOver() {
+        const choice = window.confirm(`Game over!\nYour score: ${(size - 3) * 100}\nPlay again?`);
+
+        if (choice) {
+            start();
+        }
         clearInterval(timer);
     }
 
