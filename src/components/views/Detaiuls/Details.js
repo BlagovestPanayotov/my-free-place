@@ -8,6 +8,7 @@ import { UserContext } from '../../../contexts/UserContext';
 import { addLikeDestination, deleteItem, getById, getComments, getLikesDestination, hasLikedDestination, postComment } from '../../../services/data';
 import { onBackClick } from '../../../utils/util';
 import { DeleteModal } from '../../modals/DeleteModal';
+import EditModal from '../../modals/EditModal';
 import { ImageModal } from '../../modals/ImageModal';
 
 import CommentCart from './CommentCart';
@@ -31,6 +32,7 @@ function Details() {
     const [hasLikedPost, setHasLikedPost] = useState(true);
     const [openModalImage, setOpenModalImage] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
 
 
     useEffect(() => {
@@ -122,6 +124,7 @@ function Details() {
                     <img className={styles.imgDetails} onClick={() => setOpenModalImage(true)} src={currentDestination.imageUrl} alt={currentDestination.destination} />
                     <ImageModal open={openModalImage} setOpenModalImage={setOpenModalImage} imageUrl={currentDestination.imageUrl} />
                     <DeleteModal openDeleteModal={openDeleteModal} setOenDeleteModal={setOpenDeleteModal} onDeleteClick={onDeleteClick} />
+                    <EditModal openEditModal={openEditModal} setOpenEditModal={setOpenEditModal} />
                     <table id={styles.form}>
                         <tbody>
                             <tr>
@@ -148,7 +151,7 @@ function Details() {
                         {
                             destinationOwner === user?.objectId
                                 ? <>
-                                    <button onClick={() => navigate(`/${destinationId}/edit`)}>Edit</button>
+                                    <button onClick={() => setOpenEditModal(true)}>Edit</button>
                                     <button onClick={() => setOpenDeleteModal(true)}>Delete</button>
                                 </>
                                 : !hasLikedPost && <button onClick={onLike}>{'Give a Like <3'}</button>
