@@ -8,14 +8,12 @@ import Home from './components/views/Home/Home';
 import NotFound from './components/views/NotFound/NotFound';
 import Profile from './components/views/Profile/Profile';
 import Register from './components/views/Register/Register';
-import Edit from './components/views/Edit/Edit';
 import MyDestinations from './components/views/Catalog/MyDestinations';
 import Header from './components/views/Header/Header';
 
 import { DestinationsProvider } from './contexts/DestinationsContext';
 import { UserProvider } from './contexts/UserContext';
 import { UserGuard } from './components/guards/UserGuard';
-import { OwnerGuard } from './components/guards/OwnerGuard';
 import { NotUserGuard } from './components/guards/NotUserGuard';
 
 
@@ -36,9 +34,6 @@ function App() {
                         <Route element={<UserGuard />}>
                             <Route path='/my-destinations' element={<MyDestinations />} />
                             <Route path='/:destinationId/details/' element={<Details />} />
-                            <Route element={<OwnerGuard />}>
-                                <Route path='/:destinationId/edit' element={<Edit navigate={navigate} />} />
-                            </Route>
                             <Route path='/create' element={<Create navigate={navigate} />} />
                             <Route path='/profile' element={<Profile navigate={navigate} />} />
                         </Route>
