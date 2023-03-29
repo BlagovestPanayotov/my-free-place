@@ -16,6 +16,7 @@ import { UserProvider } from './contexts/UserContext';
 import { UserGuard } from './components/guards/UserGuard';
 import { NotUserGuard } from './components/guards/NotUserGuard';
 import ErrorBoundary from './components/views/ErrorBoundary';
+import { Snake } from './games/Snake/Snake';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                                 <Route path='/:destinationId/details/' element={<Details />} />
                                 <Route path='/create' element={<Create navigate={navigate} />} />
                                 <Route path='/profile' element={<Profile navigate={navigate} />} />
+                                <Route path='free-time' element={<Snake />} />
                             </Route>
                             <Route element={<NotUserGuard />}>
                                 <Route path='/register' element={<Register navigate={navigate} />} />
