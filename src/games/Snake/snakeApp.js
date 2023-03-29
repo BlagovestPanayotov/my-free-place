@@ -79,26 +79,26 @@ export const runSnake = (canvas,ctx) => {
 
         snake.x += direction.x;
         snake.y += direction.y;
-        if (snake.y == -1) {// to come from the other side
+        if (snake.y === -1) {// to come from the other side
             snake.y = vSize - 1;
         }
-        if (snake.y == vSize) {
+        if (snake.y === vSize) {
             snake.y = 0;
         }
-        if (snake.x == -1) {
+        if (snake.x === -1) {
             snake.x = hSize - 1;
         }
-        if (snake.x == hSize) {
+        if (snake.x === hSize) {
             snake.x = 0;
         }
 
         for (let segment of tail) {
-            if (segment.x == snake.x && segment.y == snake.y) {
+            if (segment.x === snake.x && segment.y === snake.y) {
                 gameOver();
             }
         }
 
-        if (snake.x == apple.x && snake.y == apple.y) {
+        if (snake.x === apple.x && snake.y === apple.y) {
             spawnApple();
             size++;
         }
@@ -109,7 +109,7 @@ export const runSnake = (canvas,ctx) => {
         apple.y = Math.floor(Math.random() * vSize);
 
         for (let segment of tail) {
-            if (segment.x == apple.x && segment.y == apple.y) {
+            if (segment.x === apple.x && segment.y === apple.y) {
                 spawnApple();
             }
         }
