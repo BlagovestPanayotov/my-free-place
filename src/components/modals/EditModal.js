@@ -18,7 +18,6 @@ function EditModal({ openEditModal, setOpenEditModal }) {
         loading, setLoading,
         countries } = useContext(DestinationsContext);
     const { destinationId } = useParams();
-    console.log(destinationId);
 
     const defaultValues = {
         destination: currentDestination.destination,

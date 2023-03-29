@@ -15,6 +15,7 @@ import { DestinationsProvider } from './contexts/DestinationsContext';
 import { UserProvider } from './contexts/UserContext';
 import { UserGuard } from './components/guards/UserGuard';
 import { NotUserGuard } from './components/guards/NotUserGuard';
+import ErrorBoundary from './components/views/ErrorBoundary';
 
 
 function App() {
@@ -22,33 +23,35 @@ function App() {
     const navigate = useNavigate();
 
     return (
-        <UserProvider>
-            <DestinationsProvider>
-                <header>
-                    <Header navigate={navigate} />
-                </header>
-                <main>
-                    <Routes>
-                        <Route path='/' element={<Home />} />
-                        <Route path='/catalog' element={<Catalog />} />
-                        <Route element={<UserGuard />}>
-                            <Route path='/my-destinations' element={<MyDestinations />} />
-                            <Route path='/:destinationId/details/' element={<Details />} />
-                            <Route path='/create' element={<Create navigate={navigate} />} />
-                            <Route path='/profile' element={<Profile navigate={navigate} />} />
-                        </Route>
-                        <Route element={<NotUserGuard />}>
-                            <Route path='/register' element={<Register navigate={navigate} />} />
-                        </Route>
-                        <Route path='/about' element={<About navigate={navigate} />} />
-                        <Route path='*' element={<NotFound />} />
-                    </Routes>
-                </main>
-                <footer>
-                    Blagovest Panayotov
-                </footer>
-            </DestinationsProvider>
-        </UserProvider>
+        <ErrorBoundary>
+            <UserProvider>
+                <DestinationsProvider>
+                    <header>
+                        <Header navigate={navigate} />
+                    </header>
+                    <main>
+                        <Routes>
+                            <Route path='/' element={<Home />} />
+                            <Route path='/catalog' element={<Catalog />} />
+                            <Route element={<UserGuard />}>
+                                <Route path='/my-destinations' element={<MyDestinations />} />
+                                <Route path='/:destinationId/details/' element={<Details />} />
+                                <Route path='/create' element={<Create navigate={navigate} />} />
+                                <Route path='/profile' element={<Profile navigate={navigate} />} />
+                            </Route>
+                            <Route element={<NotUserGuard />}>
+                                <Route path='/register' element={<Register navigate={navigate} />} />
+                            </Route>
+                            <Route path='/about' element={<About navigate={navigate} />} />
+                            <Route path='*' element={<NotFound />} />
+                        </Routes>
+                    </main>
+                    <footer>
+                        Blagovest Panayotov
+                    </footer>
+                </DestinationsProvider>
+            </UserProvider>
+        </ErrorBoundary>
     );
 }
 
