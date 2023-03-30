@@ -213,3 +213,21 @@ footer {
   color: blue;
   cursor: pointer;
 }
+
+#errorBoundary {
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.8),
+    rgba(225, 225, 225, 0.2)
+  );
+  border-radius: 16px;
+  color: white;
+  width: 104em;
+  margin-left: 0;
+  margin-top: 8em;
+  position: fixed;
+  text-align: center;
+}
+
+#errorBoundary img{
+  padding: 3em;
+}

@@ -23,7 +23,12 @@ export default class ErrorBoundary extends Component {
 
     render() {
         if (this.state.hasError) {
-            return <h1>404</h1>;
+            return (
+                <div id='errorBoundary'>
+                    <h1>Something went wrong. Please try again later!</h1>
+                    <img src='img/crying-face.jpg' alt='cry-face' />
+                </div>
+            );
         }
 
         return (
