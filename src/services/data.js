@@ -27,7 +27,7 @@ const endpoints = {
             }
         }));
 
-        return `/classes/Destination?where=${query}`;
+        return `/classes/Destination?where=${query}&count=1&include=owner`;
     },
     'getMyItems': (userId) => {
         const query = encodeURIComponent(JSON.stringify({
