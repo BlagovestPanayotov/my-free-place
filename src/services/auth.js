@@ -8,23 +8,31 @@ const endpoints = {
 };
 
 export async function login({ username, password }) {
-    const { objectId, sessionToken } = await post(endpoints.login, undefined, { username, password });
-    const user = {
-        sessionToken,
-        objectId,
-        username
-    };
-    return user;
+    try {
+        const { objectId, sessionToken } = await post(endpoints.login, undefined, { username, password });
+        const user = {
+            sessionToken,
+            objectId,
+            username
+        };
+        return user;
+    } catch (err) {
+        throw err;
+    }
 }
 
 export async function register({ email, username, password }) {
-    const { sessionToken, objectId } = await post(endpoints.register, undefined, { email, username, password });
-    const user = {
-        sessionToken,
-        objectId,
-        username
-    };
-    return user;
+    try {
+        const { sessionToken, objectId } = await post(endpoints.register, undefined, { email, username, password });
+        const user = {
+            sessionToken,
+            objectId,
+            username
+        };
+        return user;
+    } catch (err) {
+        throw err;
+    }
 }
 
 export async function logout(user) {

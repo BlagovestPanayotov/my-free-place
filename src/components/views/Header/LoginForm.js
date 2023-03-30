@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { object, string } from 'yup';
@@ -10,6 +10,7 @@ import { login } from '../../../services/auth';
 function LoginForm({ navigate }) {
 
     const { setUser } = useContext(UserContext);
+    const [serverError, setServerError] = useState(null);
 
     const defaultValues = {
         username: '',
@@ -30,10 +31,11 @@ function LoginForm({ navigate }) {
         login(data)
             .then(newUser => {
                 setUser(newUser);
+                setServerError(null);
                 navigate('/catalog');
             })
             .catch(err => {
-                console.log(err);
+                setServerError(err.message);
                 setUser(null);
             });
     }
@@ -49,7 +51,7 @@ function LoginForm({ navigate }) {
                 <label htmlFor='password'>Password:</label>
                 <input {...register('password')} type="password" />
                 <div className='error'>{errors.password?.message}</div>
-                <div className='login-error'>Username or password not correct!</div>
+                <div className='login-error'>{serverError}</div>
                 <button type="submit" >Login </button>
             </form>
             <span>Not a member? Register <Link to={'/register'}>here</Link>.</span>
