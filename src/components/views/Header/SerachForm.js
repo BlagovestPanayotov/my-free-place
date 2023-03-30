@@ -22,13 +22,23 @@ function SearchForm({ navigate }) {
         country: string()
     });
 
-    const { register, handleSubmit } = useForm({
+    const { register, handleSubmit, reset } = useForm({
         defaultValues,
         resolver: yupResolver(schema)
     });
 
     function onSubmit(data) {
         searchItems(data, user)
+            .then(result => {
+                setDestinations(result.results);
+                navigate('/catalog');
+            })
+            .catch(err => console.log);
+    }
+
+    function onClickClear() {
+        reset();
+        searchItems(defaultValues, user)
             .then(result => {
                 setDestinations(result.results);
                 navigate('/catalog');
@@ -48,6 +58,7 @@ function SearchForm({ navigate }) {
                 <label>Destiantion name:</label>
                 <input {...register('destination')} type="text" />
                 <button type="submit">Search</button>
+                <a id='clearSearch' onClick={onClickClear}>Clear</a>
             </form>
         </div>
     );

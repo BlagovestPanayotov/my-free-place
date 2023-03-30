@@ -201,3 +201,15 @@ footer {
     transform: rotate(360deg);
   }
 }
+
+#clearSearch {
+  display: block;
+  position: absolute;
+  bottom: 1em;
+  left: 10em;
+}
+
+#clearSearch:hover {
+  color: blue;
+  cursor: pointer;
+}
