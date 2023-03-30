@@ -45,7 +45,7 @@ table tr {
   margin-top: 4px;
   background-color: aliceblue;
   width: 19.6em;
-  height: auto;
+  max-height: 58px;
   top: -30px;
   border-radius: 4px;
 }

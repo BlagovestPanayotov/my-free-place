@@ -10,15 +10,18 @@ function Catalog({ loading }) {
     const { user } = useContext(UserContext);
     const { destinations } = useContext(DestinationsContext);
 
+    console.log(destinations);
     return (
         <div className={styles.content}>
             {loading
                 ? <div className="loader"></div>
-                : destinations.map(x => <DestinationCard
-                    user={user}
-                    key={x.objectId}
-                    {...x}
-                />)
+                : destinations.length > 0
+                    ? destinations.map(x => <DestinationCard
+                        user={user}
+                        key={x.objectId}
+                        {...x}
+                    />)
+                    : <h2 id={styles.noDestination}>No Destinations Found!</h2>
             }
         </div>
     );

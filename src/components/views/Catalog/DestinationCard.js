@@ -15,7 +15,6 @@ function DestinationCard({
     owner
 }) {
     const { user } = useContext(UserContext);
-    console.log(owner);
     return (
         <div className={styles.destinationCart}>
             <h3>{destination}</h3>

@@ -19,7 +19,7 @@ function Details() {
     const { currentDestination, setCurrentDestination,
         destinations, setDestinations,
         setLastDestinations,
-        loading, setLoading, setUserDestination } = useContext(DestinationsContext);
+        loading, setLoading, setUserDestinations } = useContext(DestinationsContext);
     const { user } = useContext(UserContext);
 
     const navigate = useNavigate();
@@ -58,7 +58,7 @@ function Details() {
         deleteItem(destinationId, user);
 
         const newDestinations = destinations.filter(x => x.objectId !== destinationId);
-        setUserDestination(state => state.filter(x => x.objectId !== destinationId));
+        setUserDestinations(state => state.filter(x => x.objectId !== destinationId));
 
         setDestinations(newDestinations);
         setLastDestinations(newDestinations.slice(-2));

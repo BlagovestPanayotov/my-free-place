@@ -9,7 +9,7 @@ export const DestinationsProvider = ({ children }) => {
     const { user } = useContext(UserContext);
 
     const [countries, setCountries] = useState([]);
-    const [userDestinations, setUserDestination] = useState([]);
+    const [userDestinations, setUserDestinations] = useState([]);
     const [currentDestination, setCurrentDestination] = useState({});
     const [destinations, setDestinations] = useState([]);
     const [lastDestinations, setLastDestinations] = useState([]);
@@ -19,7 +19,7 @@ export const DestinationsProvider = ({ children }) => {
         countries,
         setCountries,
         userDestinations,
-        setUserDestination,
+        setUserDestinations,
         currentDestination,
         setCurrentDestination,
         destinations,
@@ -46,7 +46,7 @@ export const DestinationsProvider = ({ children }) => {
             setLoading(true);
             getMyItems(user.objectId, user)
                 .then((data) => {
-                    setUserDestination(data.results);
+                    setUserDestinations(data.results);
                     setLoading(false);
                 }
                 )

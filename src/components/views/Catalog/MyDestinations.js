@@ -14,13 +14,15 @@ function MyDestinations() {
         <div className={styles.content}>
             {loading
                 ? <div className="loader"></div>
-                : userDestinations.map(x => <DestinationCard
-                    user={user}
-                    key={x.objectId}
-                    {...x}
-                />)
+                : userDestinations.length > 0
+                    ? userDestinations.map(x => <DestinationCard
+                        user={user}
+                        key={x.objectId}
+                        {...x}
+                    />)
+                    : < h2 id={styles.noDestination}>You have no Destinations yet!</h2>
             }
-        </div>
+        </div >
     );
 }
 
