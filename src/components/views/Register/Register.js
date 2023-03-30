@@ -18,10 +18,10 @@ function Register({ navigate }) {
     };
 
     const schema = object({
-        username: string().min(8, 'The username must contain at least 8 characters!'),
-        email: string().email('Invalid email!'),
+        username: string().min(8, 'The username must contain at least 8 characters!').required(),
+        email: string().email('Invalid email!').required(),
         password: string()
-            .min(8, 'Password must be 8 characters long'),
+            .min(8, 'Password must be 8 characters long').required(),
         // .matches(/[0-9]/, 'Password requires a number')
         // .matches(/[a-z]/, 'Password requires a lowercase letter')
         // .matches(/[A-Z]/, 'Password requires an uppercase letter')
