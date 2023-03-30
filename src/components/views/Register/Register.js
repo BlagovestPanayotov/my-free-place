@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { object, ref, string } from 'yup';
 import { UserContext } from '../../../contexts/UserContext';
@@ -9,7 +9,8 @@ import styles from './Register.module.css';
 
 function Register({ navigate }) {
     const { setUser } = useContext(UserContext);
-    
+    const [serverError, setServerError] = useState(null);
+
     const defaultValues = {
         username: '',
         email: '',
@@ -38,19 +39,21 @@ function Register({ navigate }) {
         authService.register(data)
             .then(newUser => {
                 setUser(newUser);
+                setServerError(null);
                 navigate('/catalog');
             })
             .catch(err => {
-                console.log(err.message);
+                setServerError(err.message);
                 setUser(null);
             });
     }
-    
+
     return (
         <>
             <div className={styles.content}>
                 <h1><i>Register</i></h1>
                 <form id={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                    <div id={styles['register-error']}>{serverError}</div>
                     <label htmlFor="username">Username:</label>
                     <input {...register('username')} type="text" />
                     <div className={styles.error}>{errors.username?.message}</div>

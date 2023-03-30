@@ -75,3 +75,10 @@
   margin-left: 40em;
   margin-bottom: 1em;
 }
+
+#register-error {
+  font-size: 24px;
+  color: red;
+  margin-left: 8em;
+  margin-bottom: 1em;
+}
