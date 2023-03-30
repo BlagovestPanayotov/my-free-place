@@ -32,13 +32,9 @@ function CommentCart({ content, objectId: commentId, setComments, owner }) {
     }
 
     function onDelete() {
-        if (window.confirm('Are you sure you want to delete this post?')) {
             deleteComent(commentId, user)
                 .then(result => setComments(state => state.filter(c => c.objectId !== commentId)))
-                .catch(err => console.log);
-        } else {
-            return;
-        }
+                .catch(console.log);
     }
 
     return (

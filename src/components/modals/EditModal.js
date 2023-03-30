@@ -14,7 +14,7 @@ function EditModal({ openEditModal, setOpenEditModal }) {
     const { user } = useContext(UserContext);
     const { currentDestination, setCurrentDestination,
         destinations, setDestinations,
-        setLastDestinations,
+        setLastDestinations, setUserDestinations,
         loading, setLoading,
         countries } = useContext(DestinationsContext);
     const { destinationId } = useParams();
@@ -47,6 +47,7 @@ function EditModal({ openEditModal, setOpenEditModal }) {
             .then((result) => {
                 setDestinations(state => state.map(x => x.objectId === destinationId ? Object.assign(x, data) : x));
                 setLastDestinations(destinations.slice(-2));
+                setUserDestinations(state => state.map(x => x.objectId === destinationId ? Object.assign(x, data) : x));
                 setCurrentDestination(state => Object.assign(state, data));
                 setLoading(false);
             })
