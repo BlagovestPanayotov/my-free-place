@@ -105,9 +105,6 @@ function Details() {
             .catch(err => console.log);
     }
 
-
-
-
     const destinationOwner = currentDestination.owner?.objectId;
 
     return (
@@ -118,7 +115,7 @@ function Details() {
                     <h1><i>{currentDestination.destination}</i></h1>
                     <img className={styles.imgDetails} onClick={() => setOpenModalImage(true)} src={currentDestination.imageUrl} alt={currentDestination.destination} />
                     <ImageModal open={openModalImage} setOpenModalImage={setOpenModalImage} imageUrl={currentDestination.imageUrl} />
-                    <DeleteModal openDeleteModal={openDeleteModal} setOenDeleteModal={setOpenDeleteModal} onDeleteClick={onDeleteClick} />
+                    <DeleteModal name={currentDestination.destination} openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} onDeleteClick={onDeleteClick} />
                     <EditModal openEditModal={openEditModal} setOpenEditModal={setOpenEditModal} />
                     <table id={styles.form}>
                         <tbody>

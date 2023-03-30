@@ -1,14 +1,15 @@
 import styles from './Modals.module.css';
 
-export const DeleteModal = ({ openDeleteModal, setOenDeleteModal, onDeleteClick }) => {
+export const DeleteModal = ({ openDeleteModal, setOpenDeleteModal, onDeleteClick, name }) => {
     if (!openDeleteModal) {
         return null;
     }
     return (
         <div className={styles.overlay} id={styles['overlay-delete']}>
-            <h3>Do you really want to delete it? Will be lost FOREVER!</h3>
+            <h2 className={styles.deleteWarning}>Do you really want to delete {name ? `"${name}"` : 'your comment'}?</h2>
+            <h2 className={styles.deleteWarning}>Will be lost FOREVER!</h2>
             <button id={styles['btn-delete-yes']} onClick={() => onDeleteClick()}>Yes</button>
-            <button id={styles['btn-delete-no']} onClick={() => setOenDeleteModal(false)}>No</button>
+            <button id={styles['btn-delete-no']} onClick={() => setOpenDeleteModal(false)}>No</button>
         </div>
     );
 };

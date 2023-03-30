@@ -1,12 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { addLikeComment, deleteComent, getLikesComment, hasLikedComment } from '../../../services/data';
+import { DeleteModal } from '../../modals/DeleteModal';
 import styles from './Details.module.css';
 
 function CommentCart({ content, objectId: commentId, setComments, owner }) {
     const { user } = useContext(UserContext);
     const [countLikes, setCountLikes] = useState(0);
     const [hasLiked, setHasLiked] = useState(true);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+
 
 
 
@@ -38,13 +42,16 @@ function CommentCart({ content, objectId: commentId, setComments, owner }) {
     }
 
     return (
-        <div className={styles['comment-cart']}>
-            <p>{content}</p>
-            {owner?.objectId === user?.objectId && <button onClick={onDelete}>Delete</button>}
-            {!hasLiked && <button onClick={onLike}>Like</button>}
+        <>
+            <DeleteModal openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} onDeleteClick={onDelete} />
+            <div className={styles['comment-cart']}>
+                <p>{content}</p>
+                {owner?.objectId === user?.objectId && <button onClick={()=>setOpenDeleteModal(true)}>Delete</button>}
+                {!hasLiked && <button onClick={onLike}>Like</button>}
 
-            <div className={styles.likes}>Likes: {countLikes}</div>
-        </div>
+                <div className={styles.likes}>Likes: {countLikes}</div>
+            </div>
+        </>
     );
 }
 
