@@ -31,7 +31,7 @@ async function request(method, url = '/', user, body) {
         const result = await response.json();
 
         if (!response.ok) {
-            
+            console.log(response);
             if (response.status === 400) {
                 localStorage.removeItem('user');
             }
@@ -42,6 +42,11 @@ async function request(method, url = '/', user, body) {
 
     } catch (err) {
         // alert(err.message);
+        console.log(err.message);
+        if (err.message === 'Invalid session token') {
+            localStorage.removeItem('user');
+            window.location.reload(false);
+        }
         throw err;
     }
 }
