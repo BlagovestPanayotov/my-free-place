@@ -1,19 +1,22 @@
 import { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { logout } from '../../../services/auth';
+import { getAll } from '../../../services/data';
 
 
 function Navigation({ navigate }) {
     const { user, setUser, userData } = useContext(UserContext);
+    const {setDestinations} = useContext(DestinationsContext);
 
     function onLogoutClick(e) {
         e.preventDefault();
-        logout(user)
-            .then(data => {
+        Promise.all([logout(user),getAll()])
+            .then(([userData,destinations]) => {
+                setDestinations(destinations.results);
                 setUser();
             });
-
         navigate('/');
     }
 
