@@ -8,13 +8,14 @@ export const UserProvider = ({
 }) => {
     const [user, setUser] = useState(() => {
         try {
-            return JSON.parse(window.localStorage.getItem('user'));
+            return JSON.parse(localStorage.getItem('user'));
         } catch (err) {
+            localStorage.removeItem('user');
             console.log(err.message);
             return null;
         }
     });
-    
+
     const [userData, setUserData] = useState();
 
 
@@ -22,7 +23,7 @@ export const UserProvider = ({
         if (!user) {
             localStorage.removeItem('user');
         } else {
-            window.localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
         }
     }, [user]);
 

@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { object, string } from 'yup';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
@@ -58,7 +59,7 @@ function SearchForm({ navigate }) {
                 <label>Destiantion name:</label>
                 <input {...register('destination')} type="text" />
                 <button type="submit">Search</button>
-                <a id='clearSearch' onClick={onClickClear}>Clear</a>
+                <Link id='clearSearch' onClick={onClickClear}>Clear</Link>
             </form>
         </div>
     );

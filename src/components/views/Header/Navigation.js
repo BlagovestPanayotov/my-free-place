@@ -12,10 +12,10 @@ function Navigation({ navigate }) {
 
     function onLogoutClick(e) {
         e.preventDefault();
+        setUser();
         Promise.all([logout(user),getAll()])
             .then(([userData,destinations]) => {
                 setDestinations(destinations.results);
-                setUser();
             });
         navigate('/');
     }

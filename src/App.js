@@ -16,7 +16,6 @@ import { UserProvider } from './contexts/UserContext';
 import { UserGuard } from './components/guards/UserGuard';
 import { NotUserGuard } from './components/guards/NotUserGuard';
 import ErrorBoundary from './components/views/ErrorBoundary';
-import { Snake } from './games/Snake/Snake';
 import FreeTime from './components/views/FreeTime/FreeTime';
 
 

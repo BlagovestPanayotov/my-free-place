@@ -10,7 +10,6 @@ function Catalog({ loading }) {
     const { user } = useContext(UserContext);
     const { destinations } = useContext(DestinationsContext);
 
-    console.log(destinations);
     return (
         <div className={styles.content}>
             {loading
