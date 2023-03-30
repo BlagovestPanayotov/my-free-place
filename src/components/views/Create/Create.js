@@ -9,9 +9,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
 
 function Create({ navigate }) {
-    const { user, userData } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const { setDestinations, setLastDestinations, countries, setUserDestinations } = useContext(DestinationsContext);
-    console.log(userData);
 
     const defaultValues = {
         destination: '',
@@ -23,10 +22,10 @@ function Create({ navigate }) {
 
 
     const schema = object({
-        destination: string().min(3, 'The destination must contain at least 3 characters!'),
-        location: string().min(3, 'The locatrion must contain at least 3 characters!'),
-        imageUrl: string(),
-        description: string().max(100, 'The description can contain maximum 100 characters!'),
+        destination: string().min(3, 'The destination must contain at least 3 characters!').required(),
+        location: string().min(3, 'The locatrion must contain at least 3 characters!').required(),
+        imageUrl: string().url().required(),
+        description: string().max(100, 'The description can contain maximum 100 characters!').required(),
         country: string()
     }).required();
 
@@ -71,6 +70,7 @@ function Create({ navigate }) {
                     <label htmlFor='imageUrl'>ImageURL:</label>
                     <input {...register('imageUrl')} type="text" />
                     <div className={styles.error}>{errors.repass?.message}</div>
+                    <div className={styles.imgUpload}>To upload your image click <a href='https://prikachi.net/' target="_blank" rel="noreferrer">HERE!</a></div>
                 </div>
                 <div className={styles.conteiner}>
                     <label htmlFor='description'>Descriptuion:</label>

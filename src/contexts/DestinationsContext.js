@@ -13,6 +13,10 @@ export const DestinationsProvider = ({ children }) => {
     const [currentDestination, setCurrentDestination] = useState({});
     const [destinations, setDestinations] = useState([]);
     const [lastDestinations, setLastDestinations] = useState([]);
+    const [destinationsCount, setDestinationCount] = useState(0);
+    const [pageDestination, setPageDestination] = useState(1);
+    const [userDestinationsCount, setUserDestinationCount] = useState(0);
+    const [userPageDestination, setUserPageDestination] = useState(1);
     const [loading, setLoading] = useState(false);
 
     const destinationsContext = {
@@ -27,26 +31,38 @@ export const DestinationsProvider = ({ children }) => {
         lastDestinations,
         setLastDestinations,
         loading,
-        setLoading
+        setLoading,
+        destinationsCount,
+        setDestinationCount,
+        pageDestination,
+        setPageDestination,
+        userDestinationsCount,
+        setUserDestinationCount,
+        userPageDestination,
+        setUserPageDestination
     };
+
+    const skip = (page) => ((page - 1) * 6);
 
     useEffect(() => {
         setLoading(true);
-        Promise.all([getAll(), getCountries()]).then(([data, countries]) => {
+        Promise.all([getAll(skip(pageDestination)), getCountries()]).then(([data, countries]) => {
             setDestinations(data.results);
+            setDestinationCount(data.count);
             setLastDestinations(data.results.slice(-2));
             setCountries(countries.results);
             setLoading(false);
         });
 
-    }, []);
+    }, [pageDestination]);
 
     useEffect(() => {
         if (user) {
             setLoading(true);
-            getMyItems(user.objectId, user)
+            getMyItems(skip(userPageDestination), user.objectId, user)
                 .then((data) => {
                     setUserDestinations(data.results);
+                    setUserDestinationCount(data.count);
                     setLoading(false);
                 }
                 )
@@ -54,7 +70,7 @@ export const DestinationsProvider = ({ children }) => {
         } else {
             return;
         }
-    }, [user]);
+    }, [user, userPageDestination]);
 
 
 

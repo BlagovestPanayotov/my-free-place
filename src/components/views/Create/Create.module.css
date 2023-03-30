@@ -94,3 +94,11 @@
 .conteiner {
   display: inline-table;
 }
+
+.imgUpload {
+  font-size: 16px;
+  color: blue;
+  position: relative;
+  margin-left: 40em;
+  margin-bottom: 1em;
+}

@@ -4,15 +4,11 @@ import { addLikeComment, deleteComent, getLikesComment, hasLikedComment } from '
 import { DeleteModal } from '../../modals/DeleteModal';
 import styles from './Details.module.css';
 
-function CommentCart({ content, objectId: commentId, setComments, owner }) {
+function CommentCart({ content, objectId: commentId, setComments, owner, setCountComments, setPageComments }) {
     const { user } = useContext(UserContext);
     const [countLikes, setCountLikes] = useState(0);
     const [hasLiked, setHasLiked] = useState(true);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
-
-
-
 
     useEffect(() => {
         Promise.all([getLikesComment(commentId), hasLikedComment(commentId, user?.objectId)])
@@ -32,9 +28,21 @@ function CommentCart({ content, objectId: commentId, setComments, owner }) {
     }
 
     function onDelete() {
-            deleteComent(commentId, user)
-                .then(result => setComments(state => state.filter(c => c.objectId !== commentId)))
-                .catch(console.log);
+        deleteComent(commentId, user)
+            .then(result => {
+                setComments(state => state.filter(c => c.objectId !== commentId));
+                
+                setCountComments(c => {
+                    c = c - 1;
+                    
+                    if ((c / 3) % 1 === 0) {
+                        setPageComments(p => p - 1);
+                    }
+                    return c;
+                });
+
+            })
+            .catch(console.log);
     }
 
     return (
@@ -42,7 +50,7 @@ function CommentCart({ content, objectId: commentId, setComments, owner }) {
             <DeleteModal openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} onDeleteClick={onDelete} />
             <div className={styles['comment-cart']}>
                 <p>{content}</p>
-                {owner?.objectId === user?.objectId && <button onClick={()=>setOpenDeleteModal(true)}>Delete</button>}
+                {owner?.objectId === user?.objectId && <button onClick={() => setOpenDeleteModal(true)}>Delete</button>}
                 {!hasLiked && <button onClick={onLike}>Like</button>}
 
                 <div className={styles.likes}>Likes: {countLikes}</div>

@@ -11,7 +11,7 @@ const commentPointer = (commentId) => ({ __type: 'Pointer', className: 'Comment'
 
 const endpoints = {
     //destinations data
-    'getAll': '/classes/Destination/?count=1&include=owner',
+    'getAll': (skip) => `/classes/Destination/?count=1&include=owner&skip=${skip}&limit=6`,
     'getById': '/classes/Destination/',
     'createItem': '/classes/Destination',
     'deleteItem': '/classes/Destination/',
@@ -27,20 +27,20 @@ const endpoints = {
             }
         }));
 
-        return `/classes/Destination?where=${query}&count=1&include=owner`;
+        return `/classes/Destination?where=${query}&count=1&include=owner&skip=0&limit=6`;
     },
-    'getMyItems': (userId) => {
+    'getMyItems': (skip, userId) => {
         const query = encodeURIComponent(JSON.stringify({
             "owner": {
                 "$regex": userId
             }
         }));
 
-        return `/classes/Destination?count=1&where=${query}&include=owner`;
+        return `/classes/Destination?count=1&where=${query}&include=owner&skip=${skip}&limit=6`;
     },
 
     //comments data
-    'getComments': (destinationId, ownerId) => {
+    'getComments': (skip, destinationId) => {
         //Kz8JWGaAcS owner
         //ZQcrzDGT6S destination
         const query = encodeURIComponent(JSON.stringify({
@@ -49,7 +49,7 @@ const endpoints = {
             }
         }));
 
-        return `/classes/Comment?where=${query}&count=1`;
+        return `/classes/Comment?&count=1&where=${query}&skip=${skip}&limit=3`;
     },
     'postComment': '/classes/Comment',
     'deleteComent': (commentId) => `/classes/Comment/${commentId}`,
@@ -117,8 +117,8 @@ export function getCountries() {
     return get(endpoints.getCountries);
 }
 
-export function getAll() {
-    return get(endpoints.getAll);
+export function getAll(page) {
+    return get(endpoints.getAll(page));
 }
 
 export function getById(itemId) {
@@ -139,16 +139,16 @@ export function editItem(itemId, data, user) {
     return put(endpoints.editItem + itemId, user, destinationData);
 }
 
-export function getMyItems(userId, user) {
-    return get(endpoints.getMyItems(userId), user);
+export function getMyItems(skip, userId, user) {
+    return get(endpoints.getMyItems(skip, userId), user);
 }
 
 export function searchItems(values, user) {
     return get(endpoints.searchItems(values), user);
 }
 
-export function getComments(destinationId) {
-    return get(endpoints.getComments(destinationId));
+export function getComments(skip,destinationId) {
+    return get(endpoints.getComments(skip,destinationId));
 }
 
 export function postComment(data, user, destinationId) {
@@ -198,7 +198,7 @@ export function addLikeDestination(destinationId, user) {
 }
 
 export function getUserData(user) {
-    return get(endpoints.getUserData(user.objectId, user)); 
+    return get(endpoints.getUserData(user.objectId, user));
 }
 
 

@@ -32,18 +32,23 @@ function Details() {
     const [openModalImage, setOpenModalImage] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
+    const [countComments, setCountComments] = useState(0);
+    const [pageComments, setPageComments] = useState(1);
 
+
+    const skip = (page) => ((page - 1) * 3);
 
     useEffect(() => {
         setLoading(true);
         if (destinationId) {
             Promise.all([getById(destinationId),
-            getComments(destinationId),
+            getComments(skip(pageComments), destinationId),
             getLikesDestination(destinationId),
             hasLikedDestination(destinationId, user?.objectId)])
                 .then(([dataDestination, dataComments, likesData, hasLikedData]) => {
                     setCurrentDestination(dataDestination);
                     setComments(dataComments.results);
+                    setCountComments(dataComments.count);
                     setCountLikesPost(likesData.count);
                     setHasLikedPost(hasLikedData.results?.length > 0);
                     setLoading(false);
@@ -52,7 +57,7 @@ function Details() {
         } else {
             return;
         }
-    }, [destinationId, setCurrentDestination, user, setLoading]);
+    }, [destinationId, setCurrentDestination, user, setLoading, pageComments]);
 
     function onDeleteClick() {
         deleteItem(destinationId, user);
@@ -90,6 +95,7 @@ function Details() {
                     objectId: result.objectId
                 };
                 setComments(state => [...state, newComment]);
+                setCountComments(c => c + 1);
                 reset();
             })
             .catch(err => console.log);
@@ -106,6 +112,9 @@ function Details() {
     }
 
     const destinationOwner = currentDestination.owner?.objectId;
+    const maxPage = Math.ceil(countComments / 3);
+
+    console.log(comments);
 
     return (
         <div className={styles.content}>
@@ -149,7 +158,6 @@ function Details() {
                                 : !hasLikedPost && <button onClick={onLike}>{'Give a Like <3'}</button>
 
                         }
-
                         <br />
                         <br />
                         <button onClick={e => onBackClick(e, navigate)}>Back</button>
@@ -166,19 +174,25 @@ function Details() {
 
                         <div id={styles.commentCardsContainer}>
                             {comments?.length > 0 ?
-                                comments.map(c =>
+                                comments.slice(0, 3).map(c =>
                                     <CommentCart
                                         key={c.objectId}
                                         setComments={setComments}
+                                        setCountComments={setCountComments}
+                                        setPageComments={setPageComments}
                                         {...c}>
                                     </CommentCart>)
                                 : <h3>No comments yet</h3>
                             }
                         </div>
                         <div id={styles.pagin}>
-                            <span>&lt;Prev</span>
-                            <span>3 from 5</span>
-                            <span>Next&gt;</span>
+                            {countComments > 3
+                                ? (<>
+                                    {pageComments > 1 ? <span onClick={() => setPageComments(p => p - 1)}>&lt;Prev</span> : null}
+                                    <span>{pageComments} from {maxPage}</span>
+                                    {pageComments === maxPage ? null : <span onClick={() => setPageComments(p => p + 1)}>Next&gt;</span>}
+                                </>)
+                                : null}
                         </div>
                     </div>
                 </>
