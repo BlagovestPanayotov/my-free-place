@@ -18,7 +18,6 @@ import styles from './Details.module.css';
 function Details() {
     const { currentDestination, setCurrentDestination,
         destinations, setDestinations,
-        setLastDestinations,
         loading, setLoading, setUserDestinations } = useContext(DestinationsContext);
     const { user } = useContext(UserContext);
 
@@ -66,7 +65,6 @@ function Details() {
         setUserDestinations(state => state.filter(x => x.objectId !== destinationId));
 
         setDestinations(newDestinations);
-        setLastDestinations(newDestinations.slice(-2));
         navigate('/catalog');
     }
 

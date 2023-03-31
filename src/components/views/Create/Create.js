@@ -10,7 +10,7 @@ import { object, string } from 'yup';
 
 function Create({ navigate }) {
     const { user } = useContext(UserContext);
-    const { setDestinations, setLastDestinations, countries, setUserDestinations } = useContext(DestinationsContext);
+    const { setDestinations, countries, setUserDestinations } = useContext(DestinationsContext);
 
     const defaultValues = {
         destination: '',
@@ -39,7 +39,6 @@ function Create({ navigate }) {
             .then(({ objectId }) => {
                 setDestinations(state => [...state, { ...data, objectId, owner: user }]);
                 setUserDestinations(state => [...state, { ...data, objectId, owner: user }]);
-                setLastDestinations(state => [state.pop(), { ...data, objectId, owner: user }]);
                 navigate('/catalog');
             })
             .catch(err => console.log);

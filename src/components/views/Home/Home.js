@@ -1,13 +1,25 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import style from './Home.module.css';
 import FrontCart from './FrontCart';
 import { UserContext } from '../../../contexts/UserContext';
-import { DestinationsContext } from '../../../contexts/DestinationsContext';
+import { getLastTwo } from '../../../services/data';
 
 function HomePage({ loading }) {
     const { user } = useContext(UserContext);
-    const { lastDestinations } = useContext(DestinationsContext);
+    const [lastDestinations, setLastDestinations] = useState([]);
+
+    useEffect(() => {
+        getLastTwo()
+            .then(data => {
+                setLastDestinations(data.results);
+            })
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
+    }, []);
+
     return (
         <>
             <div className={style.content}>

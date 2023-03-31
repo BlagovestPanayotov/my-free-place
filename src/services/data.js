@@ -13,6 +13,7 @@ const endpoints = {
     //destinations data
     'getAll': (skip) => `/classes/Destination/?count=1&include=owner&skip=${skip}&limit=6`,
     'getById': '/classes/Destination/',
+    'getLastTwo': '/classes/Destination/?skip=0&limit=2&order=-createdAt',
     'createItem': '/classes/Destination',
     'deleteItem': '/classes/Destination/',
     'editItem': '/classes/Destination/',
@@ -119,6 +120,10 @@ export function getCountries() {
 
 export function getAll(page) {
     return get(endpoints.getAll(page));
+}
+
+export function getLastTwo() {
+    return get(endpoints.getLastTwo);
 }
 
 export function getById(itemId) {

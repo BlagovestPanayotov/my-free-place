@@ -12,7 +12,6 @@ export const DestinationsProvider = ({ children }) => {
     const [userDestinations, setUserDestinations] = useState([]);
     const [currentDestination, setCurrentDestination] = useState({});
     const [destinations, setDestinations] = useState([]);
-    const [lastDestinations, setLastDestinations] = useState([]);
     const [destinationsCount, setDestinationCount] = useState(0);
     const [pageDestination, setPageDestination] = useState(1);
     const [userDestinationsCount, setUserDestinationCount] = useState(0);
@@ -28,8 +27,6 @@ export const DestinationsProvider = ({ children }) => {
         setCurrentDestination,
         destinations,
         setDestinations,
-        lastDestinations,
-        setLastDestinations,
         loading,
         setLoading,
         destinationsCount,
@@ -49,7 +46,6 @@ export const DestinationsProvider = ({ children }) => {
         Promise.all([getAll(skip(pageDestination)), getCountries()]).then(([data, countries]) => {
             setDestinations(data.results);
             setDestinationCount(data.count);
-            setLastDestinations(data.results.slice(-2));
             setCountries(countries.results);
             setLoading(false);
         });
