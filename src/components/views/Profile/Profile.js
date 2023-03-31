@@ -74,6 +74,7 @@ function Profile({ navigate }) {
                             <label>Image Url:</label>
                             <input {...register('imageUrl')} type="text" />
                             <div className={styles.error}>{errors['imageUrl']?.message}</div>
+                            <div className={styles.imgUpload}>To upload your image click <a href='https://prikachi.net/' target="_blank" rel="noreferrer">HERE!</a></div>
                         </div>
                         <span>
                             <button type="submit">Update</button>
