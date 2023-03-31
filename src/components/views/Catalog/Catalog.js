@@ -9,13 +9,13 @@ import DestinationCard from './DestinationCard';
 function Catalog() {
 
     const { user } = useContext(UserContext);
+    const { catalogPage, setCatalogPage } = useContext(DestinationsContext);
     const [destinations, setDestinations] = useState([]);
     const [destinationsCount, setDestinationCount] = useState(0);
-    const { catalogPage, setCatalogPage } = useContext(DestinationsContext);
-
     const [loading, setLoading] = useState(false);
-
+    
     const skip = (page) => ((page - 1) * 6);
+    const maxPage = Math.ceil(destinationsCount / 6);
 
     useEffect(() => {
         setLoading(true);
@@ -31,9 +31,6 @@ function Catalog() {
                 throw err;
             });
     }, [catalogPage]);
-
-
-    const maxPage = Math.ceil(destinationsCount / 6);
 
     return (
         <div className={styles.content}>

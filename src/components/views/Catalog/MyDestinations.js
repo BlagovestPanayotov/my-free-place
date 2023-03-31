@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
+import { getMyItems } from '../../../services/data';
 import styles from './Catalog.module.css';
 import DestinationCard from './DestinationCard';
 
@@ -8,9 +9,33 @@ import DestinationCard from './DestinationCard';
 function MyDestinations() {
 
     const { user } = useContext(UserContext);
-    const { userDestinations, loading, userDestinationsCount, userPageDestination, setUserPageDestination } = useContext(DestinationsContext);
+    const { userCatalogPage, setUserCatalogPage } = useContext(DestinationsContext);
+    const [userDestinations, setUserDestinations] = useState([]);
+    const [userDestinationsCount, setUserDestinationCount] = useState(0);
 
+    const [loading, setLoading] = useState(false);
+
+    const skip = (page) => ((page - 1) * 6);
     const maxPage = Math.ceil(userDestinationsCount / 6);
+
+    useEffect(() => {
+        if (user) {
+            setLoading(true);
+            getMyItems(skip(setUserCatalogPage), user.objectId, user)
+                .then((data) => {
+                    setUserDestinations(data.results);
+                    setUserDestinationCount(data.count);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err);
+                    setLoading(false);
+                    throw err;
+                });
+        } else {
+            return;
+        }
+    }, [user, setUserCatalogPage]);
 
     return (
         <div className={styles.content}>
@@ -27,13 +52,13 @@ function MyDestinations() {
             <div id={styles.pagin}>
                 {userDestinationsCount > 6
                     ? (<>
-                        {userPageDestination > 1 ? <span onClick={() => setUserPageDestination(p => p - 1)}>&lt;Prev</span> : null}
-                        <span>{userPageDestination} from {maxPage}</span>
-                        {userPageDestination === maxPage ? null : <span onClick={() => setUserPageDestination(p => p + 1)}>Next&gt;</span>}
+                        {userCatalogPage > 1 ? <span onClick={() => setUserCatalogPage(p => p - 1)}>&lt;Prev</span> : null}
+                        <span>{userCatalogPage} from {maxPage}</span>
+                        {userCatalogPage === maxPage ? null : <span onClick={() => setUserCatalogPage(p => p + 1)}>Next&gt;</span>}
                     </>)
                     : null}
             </div>
-        </div >
+        </div>
     );
 }
 
