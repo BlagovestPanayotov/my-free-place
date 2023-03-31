@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styles from './EditModal.module.css';
 import { useParams } from 'react-router-dom';
 import { object, string } from 'yup';
@@ -8,16 +8,14 @@ import { UserContext } from '../../contexts/UserContext';
 import { DestinationsContext } from '../../contexts/DestinationsContext';
 import { editItem } from '../../services/data';
 
-function EditModal({ openEditModal, setOpenEditModal }) {
+function EditModal({ openEditModal, setOpenEditModal, currentDestination }) {
 
 
     const { user } = useContext(UserContext);
-    const { currentDestination, setCurrentDestination,
-        destinations, setDestinations,
-    setUserDestinations,
-        loading, setLoading,
-        countries } = useContext(DestinationsContext);
+    const { countries } = useContext(DestinationsContext);
     const { destinationId } = useParams();
+    const [loading, setLoading] = useState(false);
+
 
     const defaultValues = {
         destination: currentDestination.destination,
@@ -42,15 +40,12 @@ function EditModal({ openEditModal, setOpenEditModal }) {
 
     function onSubmit(data) {
         setOpenEditModal(false);
-        setLoading(true);
         editItem(destinationId, data, user)
             .then((result) => {
-                setDestinations(state => state.map(x => x.objectId === destinationId ? Object.assign(x, data) : x));
-                setUserDestinations(state => state.map(x => x.objectId === destinationId ? Object.assign(x, data) : x));
-                setCurrentDestination(state => Object.assign(state, data));
-                setLoading(false);
             })
-            .catch(err => console.log);
+            .catch(err => {
+                throw err;
+            });
     }
 
     if (!openEditModal) {

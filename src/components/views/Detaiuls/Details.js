@@ -16,14 +16,12 @@ import styles from './Details.module.css';
 
 
 function Details() {
-    const { currentDestination, setCurrentDestination,
-        destinations, setDestinations,
-        loading, setLoading, setUserDestinations } = useContext(DestinationsContext);
     const { user } = useContext(UserContext);
 
     const navigate = useNavigate();
 
     const { destinationId } = useParams();
+    const [currentDestination, setCurrentDestination] = useState({});
 
     const [comments, setComments] = useState([]);
     const [countLikesPost, setCountLikesPost] = useState(0);
@@ -33,6 +31,8 @@ function Details() {
     const [openEditModal, setOpenEditModal] = useState(false);
     const [countComments, setCountComments] = useState(0);
     const [pageComments, setPageComments] = useState(1);
+    const [loading, setLoading] = useState(false);
+
 
 
     const skip = (page) => ((page - 1) * 3);
@@ -52,7 +52,11 @@ function Details() {
                     setHasLikedPost(hasLikedData.results?.length > 0);
                     setLoading(false);
                 })
-                .catch(err => console.log);
+                .catch(err => {
+                    console.log(err);
+                    setLoading(false);
+                    throw err;
+                });
         } else {
             return;
         }
@@ -60,11 +64,6 @@ function Details() {
 
     function onDeleteClick() {
         deleteItem(destinationId, user);
-
-        const newDestinations = destinations.filter(x => x.objectId !== destinationId);
-        setUserDestinations(state => state.filter(x => x.objectId !== destinationId));
-
-        setDestinations(newDestinations);
         navigate('/catalog');
     }
 
@@ -96,7 +95,10 @@ function Details() {
                 setCountComments(c => c + 1);
                 reset();
             })
-            .catch(err => console.log);
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
     }
 
     //On like
@@ -106,13 +108,15 @@ function Details() {
             .then(result => {
                 setCountLikesPost(state => state += 1);
             })
-            .catch(err => console.log);
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
     }
 
     const destinationOwner = currentDestination.owner?.objectId;
     const maxPage = Math.ceil(countComments / 3);
 
-    console.log(comments);
 
     return (
         <div className={styles.content}>
@@ -123,7 +127,7 @@ function Details() {
                     <img className={styles.imgDetails} onClick={() => setOpenModalImage(true)} src={currentDestination.imageUrl} alt={currentDestination.destination} />
                     <ImageModal open={openModalImage} setOpenModalImage={setOpenModalImage} imageUrl={currentDestination.imageUrl} />
                     <DeleteModal name={currentDestination.destination} openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} onDeleteClick={onDeleteClick} />
-                    <EditModal openEditModal={openEditModal} setOpenEditModal={setOpenEditModal} />
+                    {/* <EditModal openEditModal={openEditModal} setOpenEditModal={setOpenEditModal} /> */}
                     <table id={styles.form}>
                         <tbody>
                             <tr>

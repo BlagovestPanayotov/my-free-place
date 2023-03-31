@@ -16,7 +16,10 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
                 setCountLikes(likesData.count);
                 setHasLiked(result.results?.length > 0);
             })
-            .catch(err => console.log);
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
     }, [commentId, user]);
 
     function onLike() {

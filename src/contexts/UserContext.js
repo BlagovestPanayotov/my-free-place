@@ -31,7 +31,10 @@ export const UserProvider = ({
         if (user) {
             getUserData(user)
                 .then(setUserData)
-                .catch(err => console.log);
+                .catch(err => {
+                    console.log(err);
+                    throw err;
+                });
         } else {
             setUserData(null);
         }

@@ -9,18 +9,12 @@ export const DestinationsProvider = ({ children }) => {
     const [catalogPage, setCatalogPage] = useState(1);
     const [userCatalogPage, setUserCatalogPage] = useState(1);
 
-   
-    const [currentDestination, setCurrentDestination] = useState({});
+
 
     const destinationsContext = {
         countries, setCountries,
         userCatalogPage, setUserCatalogPage,
-        catalogPage, setCatalogPage,
-
-
-       
-        currentDestination,
-        setCurrentDestination,
+        catalogPage, setCatalogPage
     };
 
 
@@ -32,7 +26,7 @@ export const DestinationsProvider = ({ children }) => {
 
     }, []);
 
-    
+
 
 
 

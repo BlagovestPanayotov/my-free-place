@@ -10,7 +10,7 @@ import { object, string } from 'yup';
 
 function Create({ navigate }) {
     const { user } = useContext(UserContext);
-    const { setDestinations, countries, setUserDestinations } = useContext(DestinationsContext);
+    const { countries } = useContext(DestinationsContext);
 
     const defaultValues = {
         destination: '',
@@ -36,12 +36,13 @@ function Create({ navigate }) {
 
     function onSubmit(data) {
         createItem(data, user)
-            .then(({ objectId }) => {
-                setDestinations(state => [...state, { ...data, objectId, owner: user }]);
-                setUserDestinations(state => [...state, { ...data, objectId, owner: user }]);
-                navigate('/catalog');
+            .then(({objectId}) => {
+                navigate(`/${objectId}/details/`);
             })
-            .catch(err => console.log);
+            .catch(err => {
+                console.log(err);
+                throw err;
+            });
     }
 
     return (

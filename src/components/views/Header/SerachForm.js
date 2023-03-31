@@ -34,7 +34,10 @@ function SearchForm({ navigate }) {
                 setDestinations(result.results);
                 navigate('/catalog');
             })
-            .catch(err => console.log);
+            .catch(err => {
+                    console.log(err);
+                    throw err;
+                });
     }
 
     function onClickClear() {
@@ -44,7 +47,10 @@ function SearchForm({ navigate }) {
                 setDestinations(result.results);
                 navigate('/catalog');
             })
-            .catch(err => console.log);
+            .catch(err => {
+                    console.log(err);
+                    throw err;
+                });
     }
 
     return (
