@@ -34,16 +34,13 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
         deleteComent(commentId, user)
             .then(result => {
                 setComments(state => state.filter(c => c.objectId !== commentId));
-                
                 setCountComments(c => {
                     c = c - 1;
-                    
                     if ((c / 3) % 1 === 0) {
                         setPageComments(p => p - 1);
                     }
                     return c;
                 });
-
             })
             .catch(console.log);
     }

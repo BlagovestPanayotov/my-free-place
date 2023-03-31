@@ -17,7 +17,6 @@ function HomePage() {
             .then(data => {
                 setLastDestinations(data.results);
                 setLoading(false);
-
             })
             .catch(err => {
                 console.log(err);

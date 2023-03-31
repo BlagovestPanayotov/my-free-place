@@ -9,14 +9,11 @@ export const DestinationsProvider = ({ children }) => {
     const [catalogPage, setCatalogPage] = useState(1);
     const [userCatalogPage, setUserCatalogPage] = useState(1);
 
-
-
     const destinationsContext = {
         countries, setCountries,
         userCatalogPage, setUserCatalogPage,
         catalogPage, setCatalogPage
     };
-
 
     useEffect(() => {
         getCountries()
@@ -25,10 +22,6 @@ export const DestinationsProvider = ({ children }) => {
             });
 
     }, []);
-
-
-
-
 
     return (
         <DestinationsContext.Provider value={destinationsContext}>

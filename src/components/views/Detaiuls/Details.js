@@ -127,7 +127,12 @@ function Details() {
                     <img className={styles.imgDetails} onClick={() => setOpenModalImage(true)} src={currentDestination.imageUrl} alt={currentDestination.destination} />
                     <ImageModal open={openModalImage} setOpenModalImage={setOpenModalImage} imageUrl={currentDestination.imageUrl} />
                     <DeleteModal name={currentDestination.destination} openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} onDeleteClick={onDeleteClick} />
-                    {/* <EditModal openEditModal={openEditModal} setOpenEditModal={setOpenEditModal} /> */}
+                    <EditModal openEditModal={openEditModal}
+                        setOpenEditModal={setOpenEditModal}
+                        currentDestination={currentDestination}
+                        setCurrentDestination={setCurrentDestination}
+                        loading={loading}
+                        setLoading={setLoading} />
                     <table id={styles.form}>
                         <tbody>
                             <tr>

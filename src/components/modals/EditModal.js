@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import styles from './EditModal.module.css';
 import { useParams } from 'react-router-dom';
 import { object, string } from 'yup';
@@ -8,14 +8,12 @@ import { UserContext } from '../../contexts/UserContext';
 import { DestinationsContext } from '../../contexts/DestinationsContext';
 import { editItem } from '../../services/data';
 
-function EditModal({ openEditModal, setOpenEditModal, currentDestination }) {
+function EditModal({ openEditModal, setOpenEditModal, currentDestination, setCurrentDestination, loading, setLoading }) {
 
 
     const { user } = useContext(UserContext);
     const { countries } = useContext(DestinationsContext);
     const { destinationId } = useParams();
-    const [loading, setLoading] = useState(false);
-
 
     const defaultValues = {
         destination: currentDestination.destination,
@@ -39,11 +37,16 @@ function EditModal({ openEditModal, setOpenEditModal, currentDestination }) {
     });
 
     function onSubmit(data) {
+        setLoading(true);
         setOpenEditModal(false);
         editItem(destinationId, data, user)
             .then((result) => {
+                setCurrentDestination(state => Object.assign(state, data));
+                setLoading(false);
             })
             .catch(err => {
+                console.log(err);
+                setLoading(false);
                 throw err;
             });
     }
