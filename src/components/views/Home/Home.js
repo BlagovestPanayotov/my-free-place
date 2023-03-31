@@ -5,17 +5,23 @@ import FrontCart from './FrontCart';
 import { UserContext } from '../../../contexts/UserContext';
 import { getLastTwo } from '../../../services/data';
 
-function HomePage({ loading }) {
+function HomePage() {
     const { user } = useContext(UserContext);
     const [lastDestinations, setLastDestinations] = useState([]);
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
+        setLoading(true);
         getLastTwo()
             .then(data => {
                 setLastDestinations(data.results);
+                setLoading(false);
+
             })
             .catch(err => {
                 console.log(err);
+                setLoading(false);
                 throw err;
             });
     }, []);

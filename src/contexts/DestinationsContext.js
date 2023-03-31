@@ -9,11 +9,10 @@ export const DestinationsProvider = ({ children }) => {
     const { user } = useContext(UserContext);
 
     const [countries, setCountries] = useState([]);
+    const [catalogPage, setCatalogPage] = useState(1);
+
     const [userDestinations, setUserDestinations] = useState([]);
     const [currentDestination, setCurrentDestination] = useState({});
-    const [destinations, setDestinations] = useState([]);
-    const [destinationsCount, setDestinationCount] = useState(0);
-    const [pageDestination, setPageDestination] = useState(1);
     const [userDestinationsCount, setUserDestinationCount] = useState(0);
     const [userPageDestination, setUserPageDestination] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -25,14 +24,10 @@ export const DestinationsProvider = ({ children }) => {
         setUserDestinations,
         currentDestination,
         setCurrentDestination,
-        destinations,
-        setDestinations,
         loading,
         setLoading,
-        destinationsCount,
-        setDestinationCount,
-        pageDestination,
-        setPageDestination,
+        catalogPage,
+        setCatalogPage,
         userDestinationsCount,
         setUserDestinationCount,
         userPageDestination,
@@ -42,15 +37,12 @@ export const DestinationsProvider = ({ children }) => {
     const skip = (page) => ((page - 1) * 6);
 
     useEffect(() => {
-        setLoading(true);
-        Promise.all([getAll(skip(pageDestination)), getCountries()]).then(([data, countries]) => {
-            setDestinations(data.results);
-            setDestinationCount(data.count);
-            setCountries(countries.results);
-            setLoading(false);
-        });
+        getCountries()
+            .then(countries => {
+                setCountries(countries.results);
+            });
 
-    }, [pageDestination]);
+    }, []);
 
     useEffect(() => {
         if (user) {

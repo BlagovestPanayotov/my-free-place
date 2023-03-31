@@ -1,14 +1,37 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
+import { getAll } from '../../../services/data';
 import styles from './Catalog.module.css';
 import DestinationCard from './DestinationCard';
 
 
-function Catalog({ loading }) {
+function Catalog() {
 
     const { user } = useContext(UserContext);
-    const { destinations, destinationsCount, pageDestination, setPageDestination, } = useContext(DestinationsContext);
+    const [destinations, setDestinations] = useState([]);
+    const [destinationsCount, setDestinationCount] = useState(0);
+    const { catalogPage, setCatalogPage } = useContext(DestinationsContext);
+
+    const [loading, setLoading] = useState(false);
+
+    const skip = (page) => ((page - 1) * 6);
+
+    useEffect(() => {
+        setLoading(true);
+        getAll(skip(catalogPage))
+            .then(data => {
+                setDestinations(data.results);
+                setDestinationCount(data.count);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+                throw err;
+            });
+    }, [catalogPage]);
+
 
     const maxPage = Math.ceil(destinationsCount / 6);
 
@@ -27,9 +50,9 @@ function Catalog({ loading }) {
             <div id={styles.pagin}>
                 {destinationsCount > 6
                     ? (<>
-                        {pageDestination > 1 ? <span onClick={() => setPageDestination(p => p - 1)}>&lt;Prev</span> : null}
-                        <span>{pageDestination} from {maxPage}</span>
-                        {pageDestination === maxPage ? null : <span onClick={() => setPageDestination(p => p + 1)}>Next&gt;</span>}
+                        {catalogPage > 1 ? <span onClick={() => setCatalogPage(p => p - 1)}>&lt;Prev</span> : null}
+                        <span>{catalogPage} from {maxPage}</span>
+                        {catalogPage === maxPage ? null : <span onClick={() => setCatalogPage(p => p + 1)}>Next&gt;</span>}
                     </>)
                     : null}
             </div>
