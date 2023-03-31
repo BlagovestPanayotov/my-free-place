@@ -21,7 +21,7 @@ function MyDestinations() {
     useEffect(() => {
         if (user) {
             setLoading(true);
-            getMyItems(skip(setUserCatalogPage), user.objectId, user)
+            getMyItems(skip(userCatalogPage), user.objectId, user)
                 .then((data) => {
                     setUserDestinations(data.results);
                     setUserDestinationCount(data.count);
@@ -35,7 +35,7 @@ function MyDestinations() {
         } else {
             return;
         }
-    }, [user, setUserCatalogPage]);
+    }, [user, userCatalogPage]);
 
     return (
         <div className={styles.content}>

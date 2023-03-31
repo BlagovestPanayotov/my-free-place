@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm, } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { object, string } from 'yup';
-import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { addLikeDestination, deleteItem, getById, getComments, getLikesDestination, hasLikedDestination, postComment } from '../../../services/data';
 import { onBackClick } from '../../../utils/util';
@@ -32,8 +31,6 @@ function Details() {
     const [countComments, setCountComments] = useState(0);
     const [pageComments, setPageComments] = useState(1);
     const [loading, setLoading] = useState(false);
-
-
 
     const skip = (page) => ((page - 1) * 3);
 
