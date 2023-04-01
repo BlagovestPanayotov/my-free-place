@@ -33,9 +33,9 @@ function App() {
                     <main>
                         <Routes>
                             <Route path='/' element={<Home />} />
-                            <Route path='/catalog' element={<Catalog />} />
+                            <Route path='/catalog/:page' element={<Catalog />} />
                             <Route element={<UserGuard />}>
-                                <Route path='/my-destinations' element={<MyDestinations />} />
+                                <Route path='/my-destinations/:page' element={<MyDestinations />} />
                                 <Route path='/:destinationId/details/' element={<Details />} />
                                 <Route path='/create' element={<Create navigate={navigate} />} />
                                 <Route path='/profile' element={<Profile navigate={navigate} />} />

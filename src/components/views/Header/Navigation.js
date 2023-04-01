@@ -28,10 +28,10 @@ function Navigation({ navigate }) {
             </NavLink></div>}
             <ul>
                 <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/'}>Home</NavLink></div></li>
-                <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/catalog'}>Catalog</NavLink></div></li>
+                <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/catalog/1'}>Catalog</NavLink></div></li>
                 {user
                     ? <>
-                        <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/my-destinations'}>My Destinations</NavLink></div></li>
+                        <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/my-destinations/1'}>My Destinations</NavLink></div></li>
                         <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/create'}>Create</NavLink></div></li>
                         <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/free-time'}>Free Time</NavLink></div></li>
                         <li><div><Link to={'/'} onClick={e => onLogoutClick(e)}>Logout</Link></div></li>

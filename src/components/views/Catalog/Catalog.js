@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { DestinationsContext } from '../../../contexts/DestinationsContext';
+import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../../contexts/UserContext';
 import { getAll } from '../../../services/data';
 import styles from './Catalog.module.css';
@@ -8,18 +8,21 @@ import DestinationCard from './DestinationCard';
 
 function Catalog() {
 
+    const navigate = useNavigate();
+
     const { user } = useContext(UserContext);
-    const { catalogPage, setCatalogPage } = useContext(DestinationsContext);
+    const { page } = useParams();
+    const [currentPage, setCurrentPage] = useState(Number(page) ? Number(page) : 1);
     const [destinations, setDestinations] = useState([]);
     const [destinationsCount, setDestinationCount] = useState(0);
     const [loading, setLoading] = useState(false);
-    
+
     const skip = (page) => ((page - 1) * 6);
     const maxPage = Math.ceil(destinationsCount / 6);
 
     useEffect(() => {
         setLoading(true);
-        getAll(skip(catalogPage))
+        getAll(skip(currentPage))
             .then(data => {
                 setDestinations(data.results);
                 setDestinationCount(data.count);
@@ -30,7 +33,17 @@ function Catalog() {
                 setLoading(false);
                 throw err;
             });
-    }, [catalogPage]);
+    }, [currentPage]);
+
+    function onClickNext() {
+        navigate(`/catalog/${currentPage - 1}`);
+        setCurrentPage(p => p - 1);
+    }
+
+    function onPreviousNext() {
+        navigate(`/catalog/${currentPage + 1}`);
+        setCurrentPage(p => p + 1);
+    }
 
     return (
         <div className={styles.content}>
@@ -47,9 +60,9 @@ function Catalog() {
             <div id={styles.pagin}>
                 {destinationsCount > 6
                     ? (<>
-                        {catalogPage > 1 ? <span onClick={() => setCatalogPage(p => p - 1)}>&lt;Prev</span> : null}
-                        <span>{catalogPage} from {maxPage}</span>
-                        {catalogPage === maxPage ? null : <span onClick={() => setCatalogPage(p => p + 1)}>Next&gt;</span>}
+                        {currentPage > 1 ? <span onClick={onClickNext}>&lt;Prev</span> : null}
+                        <span>{currentPage} from {maxPage}</span>
+                        {currentPage === maxPage ? null : <span onClick={onPreviousNext}>Next&gt;</span>}
                     </>)
                     : null}
             </div>
