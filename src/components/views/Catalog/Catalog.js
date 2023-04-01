@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
-import { getAll } from '../../../services/data';
+import { searchItems } from '../../../services/data';
 import styles from './Catalog.module.css';
 import DestinationCard from './DestinationCard';
 
@@ -11,6 +12,7 @@ function Catalog() {
     const navigate = useNavigate();
 
     const { user } = useContext(UserContext);
+    const { search } = useContext(DestinationsContext);
     const { page } = useParams();
     const [currentPage, setCurrentPage] = useState(Number(page) ? Number(page) : 1);
     const [destinations, setDestinations] = useState([]);
@@ -22,7 +24,7 @@ function Catalog() {
 
     useEffect(() => {
         setLoading(true);
-        getAll(skip(currentPage))
+        searchItems(skip(currentPage), search)
             .then(data => {
                 setDestinations(data.results);
                 setDestinationCount(data.count);
@@ -33,7 +35,7 @@ function Catalog() {
                 setLoading(false);
                 throw err;
             });
-    }, [currentPage]);
+    }, [search, currentPage]);
 
     function onClickNext() {
         navigate(`/catalog/${currentPage - 1}`);
