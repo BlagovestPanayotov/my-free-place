@@ -1,24 +1,20 @@
 /* eslint-disable quotes */
 import { del, get, post, put } from './api.js';
 
-// pagination for back4app => https://parseapi.back4app.com/classes/Destination?limit={1}&skip={0}
-// count of collection => https://parseapi.back4app.com/classes/Destination?count=1&limit=0
-//serch query => https://parseapi.back4app.com/classes/{collection name}?where=%7B%22{field name}%22%3A%7B%22%24regex%22%3A%22{text}%22%7D%7D
-
 const ownerPointer = (userId) => ({ __type: 'Pointer', className: '_User', objectId: userId });
 const destinationPointer = (destinationId) => ({ __type: 'Pointer', className: 'Destination', objectId: destinationId });
 const commentPointer = (commentId) => ({ __type: 'Pointer', className: 'Comment', objectId: commentId });
 
 const endpoints = {
     //destinations data
-    'getAll': (skip) => `/classes/Destination/?count=1&include=owner&order=-createdAt&skip=${skip}&limit=6`,
+    // 'getAll': (skip) => `/classes/Destination/?count=1&include=owner&order=-createdAt&skip=${skip}&limit=6`,
     'getById': '/classes/Destination/',
     'getLastTwo': '/classes/Destination/?skip=0&limit=2&order=-createdAt',
     'createItem': '/classes/Destination',
     'deleteItem': '/classes/Destination/',
     'editItem': '/classes/Destination/',
     'getCountries': '/classes/Country',
-    'searchItems': ({ destination, country }) => {
+    'searchItems': (skip, { destination, country }) => {
         const query = encodeURIComponent(JSON.stringify({
             "destination": {
                 "$regex": destination
@@ -28,7 +24,7 @@ const endpoints = {
             }
         }));
 
-        return `/classes/Destination?where=${query}&count=1&include=owner&order=-createdAt&skip=0&limit=6`;
+        return `/classes/Destination?where=${query}&count=1&include=owner&order=-createdAt&skip=${skip}&limit=6`;
     },
     'getMyItems': (skip, userId) => {
         const query = encodeURIComponent(JSON.stringify({
@@ -42,8 +38,6 @@ const endpoints = {
 
     //comments data
     'getComments': (skip, destinationId) => {
-        //Kz8JWGaAcS owner
-        //ZQcrzDGT6S destination
         const query = encodeURIComponent(JSON.stringify({
             "destination": {
                 "$regex": destinationId
@@ -105,9 +99,6 @@ const endpoints = {
 
     'getUserData': (userId) => `/users/${userId}`
 
-    // 'getMyItems': (userId) => `/data/theaters?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`,
-    // 'addLike': '/data/likes',
-    // 'getResentGames': '/data/games?sortBy=_createdOn%20desc&distinct=category&offset=0&pageSize=3',
 
 };
 
@@ -118,9 +109,9 @@ export function getCountries() {
     return get(endpoints.getCountries);
 }
 
-export function getAll(page) {
-    return get(endpoints.getAll(page));
-}
+// export function getAll(page) {
+//     return get(endpoints.getAll(page));
+// }
 
 export function getLastTwo() {
     return get(endpoints.getLastTwo);
@@ -148,12 +139,12 @@ export function getMyItems(skip, userId, user) {
     return get(endpoints.getMyItems(skip, userId), user);
 }
 
-export function searchItems(values, user) {
-    return get(endpoints.searchItems(values), user);
+export function searchItems(skip, values) {
+    return get(endpoints.searchItems(skip, values));
 }
 
-export function getComments(skip,destinationId) {
-    return get(endpoints.getComments(skip,destinationId));
+export function getComments(skip, destinationId) {
+    return get(endpoints.getComments(skip, destinationId));
 }
 
 export function postComment(data, user, destinationId) {
@@ -205,12 +196,3 @@ export function addLikeDestination(destinationId, user) {
 export function getUserData(user) {
     return get(endpoints.getUserData(user.objectId, user));
 }
-
-
-// // // export function getResentGames() {
-// // //     return get(endpoints.getResentGames);
-// // // }
-
-// // export function addLike(data) {
-// //     return post(endpoints.addLike, data);
-// // }

@@ -3,20 +3,17 @@ import { Link, NavLink } from 'react-router-dom';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { logout } from '../../../services/auth';
-import { getAll } from '../../../services/data';
 
 
 function Navigation({ navigate }) {
     const { user, setUser, userData } = useContext(UserContext);
-    const {setDestinations} = useContext(DestinationsContext);
+    const { setSearch } = useContext(DestinationsContext);
 
     function onLogoutClick(e) {
         e.preventDefault();
         setUser();
-        Promise.all([logout(user),getAll()])
-            .then(([userData,destinations]) => {
-                setDestinations(destinations.results);
-            });
+        logout(user);
+        setSearch({ destination: '', country: '' });
         navigate('/');
     }
 
