@@ -50,7 +50,7 @@ const endpoints = {
             }
         }));
 
-        return `/classes/Comment?&count=1&where=${query}&skip=${skip}&limit=3`;
+        return `/classes/Comment?&count=1&where=${query}&order=-createdAt&skip=${skip}&limit=3`;
     },
     'postComment': '/classes/Comment',
     'deleteComent': (commentId) => `/classes/Comment/${commentId}`,

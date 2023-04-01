@@ -33,6 +33,8 @@ function Details() {
     const [loading, setLoading] = useState(false);
 
     const skip = (page) => ((page - 1) * 3);
+    const destinationOwner = currentDestination.owner?.objectId;
+    const maxPage = Math.ceil(countComments / 3);
 
     useEffect(() => {
         setLoading(true);
@@ -88,7 +90,7 @@ function Details() {
                     owner: { __type: 'Pointer', className: '_User', objectId: user.objectId },
                     objectId: result.objectId
                 };
-                setComments(state => [...state, newComment]);
+                setComments(state => [newComment, ...state]);
                 setCountComments(c => c + 1);
                 reset();
             })
@@ -111,8 +113,7 @@ function Details() {
             });
     }
 
-    const destinationOwner = currentDestination.owner?.objectId;
-    const maxPage = Math.ceil(countComments / 3);
+
 
 
     return (
