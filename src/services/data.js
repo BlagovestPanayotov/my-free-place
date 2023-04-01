@@ -11,7 +11,7 @@ const commentPointer = (commentId) => ({ __type: 'Pointer', className: 'Comment'
 
 const endpoints = {
     //destinations data
-    'getAll': (skip) => `/classes/Destination/?count=1&include=owner&skip=${skip}&limit=6`,
+    'getAll': (skip) => `/classes/Destination/?count=1&include=owner&order=-createdAt&skip=${skip}&limit=6`,
     'getById': '/classes/Destination/',
     'getLastTwo': '/classes/Destination/?skip=0&limit=2&order=-createdAt',
     'createItem': '/classes/Destination',
@@ -28,7 +28,7 @@ const endpoints = {
             }
         }));
 
-        return `/classes/Destination?where=${query}&count=1&include=owner&skip=0&limit=6`;
+        return `/classes/Destination?where=${query}&count=1&include=owner&order=-createdAt&skip=0&limit=6`;
     },
     'getMyItems': (skip, userId) => {
         const query = encodeURIComponent(JSON.stringify({
@@ -37,7 +37,7 @@ const endpoints = {
             }
         }));
 
-        return `/classes/Destination?count=1&where=${query}&include=owner&skip=${skip}&limit=6`;
+        return `/classes/Destination?count=1&where=${query}&include=owner&order=-createdAt&skip=${skip}&limit=6`;
     },
 
     //comments data
