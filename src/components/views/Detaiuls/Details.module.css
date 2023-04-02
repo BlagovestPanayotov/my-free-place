@@ -201,7 +201,7 @@ span button :disabled {
   text-decoration: underline;
 }
 
-#pagin span:hover{
+#pagin span:hover {
   color: aqua;
   cursor: pointer;
 }
@@ -211,9 +211,30 @@ span button :disabled {
   color: rgb(255, 120, 120);
 }
 
-#likeDisplay{
+#likeDisplay {
   background-color: white;
   color: blue;
   cursor: auto;
   border-radius: 1em;
+}
+
+.loader-comments {
+  margin: auto;
+  border: 16px solid #000;
+  border-radius: 50%;
+  border-top: 16px solid #f3f3f3;
+  border-bottom: 16px solid #f3f3f3;
+  width: 2em;
+  height: 2em;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

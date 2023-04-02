@@ -9,52 +9,63 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
     const [countLikes, setCountLikes] = useState(0);
     const [hasLiked, setHasLiked] = useState(true);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
+        setLoading(true);
         Promise.all([getLikesComment(commentId), hasLikedComment(commentId, user?.objectId)])
             .then(([likesData, result]) => {
                 setCountLikes(likesData.count);
                 setHasLiked(result.results?.length > 0);
+                setLoading(false);
             })
             .catch(err => {
                 console.log(err);
+                setLoading(false);
                 throw err;
             });
     }, [commentId, user]);
 
     function onLike() {
+        setLoading(true);
         setHasLiked(true);
         addLikeComment(commentId, user)
             .then(result => {
-                setCountLikes(state => state += 1);
+                setCountLikes(state => state + 1);
+                setLoading(false);
             });
     }
 
     function onDelete() {
+        setLoading(true);
         deleteComent(commentId, user)
             .then(result => {
+                setCountComments(c => c - 1);
+                setPageComments(p => p);
                 setComments(state => state.filter(c => c.objectId !== commentId));
-                setCountComments(c => {
-                    c = c - 1;
-                    if ((c / 3) % 1 === 0) {
-                        setPageComments(p => p - 1);
-                    }
-                    return c;
-                });
+                setLoading(false);
             })
-            .catch(console.log);
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+                throw err;
+            });
     }
 
     return (
         <>
-            <DeleteModal openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} onDeleteClick={onDelete} />
-            <div className={styles['comment-cart']}>
-                <p>{content}</p>
-                {owner?.objectId === user?.objectId && <button onClick={() => setOpenDeleteModal(true)}>Delete</button>}
-                {!hasLiked && <button onClick={onLike}>Like</button>}
+            <DeleteModal openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} onDelete={onDelete} />
+            {loading
+                ? <div className={styles['loader-comments']}></div>
+                : <div className={styles['comment-cart']}>
+                    <p>{content}</p>
+                    {owner?.objectId === user?.objectId && <button onClick={() => setOpenDeleteModal(true)}>Delete</button>}
+                    {!hasLiked && <button onClick={onLike}>Like</button>}
 
-                <div className={styles.likes}>Likes: {countLikes}</div>
-            </div>
+                    <div className={styles.likes}>Likes: {countLikes}</div>
+                </div>
+            }
         </>
     );
 }

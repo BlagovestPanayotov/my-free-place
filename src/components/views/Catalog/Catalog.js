@@ -19,7 +19,7 @@ function Catalog() {
     const [destinationsCount, setDestinationCount] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    const skip = (page) => ((page - 1) * 6);
+    const skip = (page) => page <= 0 ? 1 : ((page - 1) * 6);
     const maxPage = Math.ceil(destinationsCount / 6);
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 export function onBackClick(e, navigate) {
     e.preventDefault();
-    navigate('/catalog');
+    navigate('/catalog/1');
 }
 

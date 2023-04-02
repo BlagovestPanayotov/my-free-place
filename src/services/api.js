@@ -42,7 +42,7 @@ async function request(method, url = '/', user, body) {
 
     } catch (err) {
         // alert(err.message);
-        console.log(err.message);
+        console.log(err);
         if (err.message === 'Invalid session token') {
             localStorage.removeItem('user');
             window.location.reload(false);
