@@ -4,7 +4,7 @@ import { addLikeComment, deleteComent, getLikesComment, hasLikedComment } from '
 import { DeleteModal } from '../../modals/DeleteModal';
 import styles from './Details.module.css';
 
-function CommentCart({ content, objectId: commentId, setComments, owner, setCountComments, setPageComments }) {
+function CommentCart({ content, objectId: commentId, setComments, owner, setCountComments, setPageComments, countComments, reset }) {
     const { user } = useContext(UserContext);
     const [countLikes, setCountLikes] = useState(0);
     const [hasLiked, setHasLiked] = useState(true);
@@ -39,18 +39,16 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
 
     function onDelete() {
         setLoading(true);
-        deleteComent(commentId, user)
-            .then(result => {
-                setCountComments(c => c - 1);
-                setPageComments(p => p);
-                setComments(state => state.filter(c => c.objectId !== commentId));
-                setLoading(false);
-            })
-            .catch(err => {
-                console.log(err);
-                setLoading(false);
-                throw err;
-            });
+        deleteComent(commentId, user);
+
+        setCountComments(c => c - 1);
+        setPageComments(p => {
+            if (countComments % 3 === 1) { return p - 1; }
+            return p;
+        });
+        setComments(state => state.filter(c => c.objectId !== commentId));
+        setLoading(false);
+        reset();
     }
 
     return (

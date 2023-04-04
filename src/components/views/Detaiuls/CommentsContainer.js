@@ -19,9 +19,10 @@ function CommentsContainer() {
     const [comments, setComments] = useState([]);
     const [countComments, setCountComments] = useState(0);
     const [pageComments, setPageComments] = useState(1);
+    const [postButtonsLoading, setPostButtonLoading] = useState(false);
 
     const maxPage = Math.ceil(countComments / 3);
-    const skip = (page) => (page - 1) * 3;
+    const skip = (page) => page <= 0 ? 0 : (page - 1) * 3;
 
     useEffect(() => {
         setLoading(true);
@@ -30,13 +31,14 @@ function CommentsContainer() {
                 setComments(dataComments.results);
                 setCountComments(dataComments.count);
                 setLoading(false);
+                if (pageComments <= 0) { setPageComments(1); }
             })
             .catch(err => {
                 console.log(err);
                 setLoading(false);
                 throw err;
             });
-    }, [destinationId, pageComments]);
+    }, [destinationId, pageComments, countComments]);
 
     const defaultValues = {
         content: ''
@@ -52,6 +54,7 @@ function CommentsContainer() {
     });
 
     function onSubmit(data) {
+        setPostButtonLoading(true);
         postComment(data, user, destinationId)
             .then(result => {
                 const newComment = {
@@ -63,6 +66,7 @@ function CommentsContainer() {
                 setComments(state => [newComment, ...state]);
                 setCountComments(c => c + 1);
                 setPageComments(p => p);
+                setPostButtonLoading(false);
                 reset();
             })
             .catch(err => {
@@ -78,10 +82,10 @@ function CommentsContainer() {
                 <label htmlFor='content' id={styles.labelComentForm}>Write Comment</label>
                 <textarea {...register('content')}></textarea>
                 <p id={styles.errorP}>{errors.content?.message}</p>
-                <button type='submiut' id={styles.btnComentForm}>Post Comment</button>
+                <button type='submiut' id={styles.btnComentForm} disabled={postButtonsLoading}>Post Comment</button>
             </form>
             {loading
-                ? <h3>loading,..</h3>
+                ? <div className="loader"></div>
                 : <>
                     <div id={styles.commentCardsContainer}>
                         {comments?.length > 0 ?
@@ -91,6 +95,9 @@ function CommentsContainer() {
                                     setComments={setComments}
                                     setCountComments={setCountComments}
                                     setPageComments={setPageComments}
+                                    countComments={countComments}
+                                    pageComments={pageComments}
+                                    reset={reset}
                                     {...c}>
                                 </CommentCart>)
                             : <h3>No comments yet</h3>
@@ -102,7 +109,7 @@ function CommentsContainer() {
                 {countComments > 3
                     ? (<>
                         {pageComments > 1 ? <span onClick={() => setPageComments(p => p - 1)}>&lt;Prev</span> : null}
-                        <span>{pageComments} from {maxPage}</span>
+                        <span>{pageComments <= 0 ? 1 : pageComments} from {maxPage}</span>
                         {pageComments === maxPage ? null : <span onClick={() => setPageComments(p => p + 1)}>Next&gt;</span>}
                     </>)
                     : null}

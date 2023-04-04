@@ -151,6 +151,10 @@ span button :disabled {
   cursor: pointer;
 }
 
+#btnComentForm:disabled{
+  background-color: grey;
+}
+
 .likes {
   position: absolute;
   text-align: center;
