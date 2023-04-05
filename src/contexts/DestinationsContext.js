@@ -8,12 +8,14 @@ export const DestinationsProvider = ({ children }) => {
     const [countries, setCountries] = useState([]);
     const [catalogPage, setCatalogPage] = useState(1);
     const [userCatalogPage, setUserCatalogPage] = useState(1);
+    const [destiantions,setDestinations] = useState([]);
     const [search, setSearch] = useState({ destination: '', country: '' });
 
     const destinationsContext = {
         countries, setCountries,
         userCatalogPage, setUserCatalogPage,
         catalogPage, setCatalogPage,
+        destiantions,setDestinations,
         search, setSearch
     };
 

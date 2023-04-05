@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { getMyItems } from '../../../services/data';
 import styles from './Catalog.module.css';
@@ -11,22 +12,25 @@ function MyDestinations() {
     const navigate = useNavigate();
 
     const { user } = useContext(UserContext);
+    const { destiantions, setDestinations } = useContext(DestinationsContext);
+
     const { page } = useParams();
     const [userCatalogPage, setUserCurrentPage] = useState(Number(page) ? Number(page) : 1);
-    const [userDestinations, setUserDestinations] = useState([]);
+    // const [userDestinations, setUserDestinations] = useState([]);
     const [userDestinationsCount, setUserDestinationCount] = useState(0);
     const [loading, setLoading] = useState(false);
 
     const skip = (page) => ((page - 1) * 6);
-    const maxPage = Math.ceil(userDestinationsCount / 6);
+    const maxPage = useRef(Math.ceil(userDestinationsCount / 6));
 
     useEffect(() => {
         if (user) {
             setLoading(true);
             getMyItems(skip(userCatalogPage), user.objectId, user)
                 .then((data) => {
-                    setUserDestinations(data.results);
+                    setDestinations(data.results);
                     setUserDestinationCount(data.count);
+                    maxPage.current = Math.ceil(data.count / 6);
                     setLoading(false);
                 })
                 .catch(err => {
@@ -37,7 +41,7 @@ function MyDestinations() {
         } else {
             return;
         }
-    }, [user, userCatalogPage]);
+    }, [user, userCatalogPage, setDestinations]);
 
     function onClickNext() {
         navigate(`/my-destinations/${userCatalogPage - 1}`);
@@ -53,8 +57,8 @@ function MyDestinations() {
         <div className={styles.content}>
             {loading
                 ? <div className="loader"></div>
-                : userDestinations.length > 0
-                    ? userDestinations.map(x => <DestinationCard
+                : destiantions.length > 0
+                    ? destiantions.map(x => <DestinationCard
                         user={user}
                         key={x.objectId}
                         {...x}
@@ -65,8 +69,8 @@ function MyDestinations() {
                 {userDestinationsCount > 6
                     ? (<>
                         {userCatalogPage > 1 ? <span onClick={onClickNext}>&lt;Prev</span> : null}
-                        <span>{userCatalogPage} from {maxPage}</span>
-                        {userCatalogPage === maxPage ? null : <span onClick={onPreviousNext}>Next&gt;</span>}
+                        <span>{userCatalogPage} from {maxPage.current}</span>
+                        {userCatalogPage === maxPage.current ? null : <span onClick={onPreviousNext}>Next&gt;</span>}
                     </>)
                     : null}
             </div>
