@@ -68,6 +68,7 @@ function CommentsContainer() {
                     ++maxPage.current;
                 }
                 setPostButtonLoading(false);
+                setPageComments(1);
                 reset();
             })
             .catch(err => {
@@ -113,7 +114,7 @@ function CommentsContainer() {
                     ? (<>
                         {pageComments > 1 ? <span onClick={() => setPageComments(p => p - 1)}>&lt;Prev</span> : null}
                         <span>{pageComments <= 0 ? 1 : pageComments} from {maxPage.current}</span>
-                        {pageComments > maxPage.current ? null : <span onClick={() => setPageComments(p => p + 1)}>Next&gt;</span>}
+                        {pageComments >= maxPage.current ? null : <span onClick={() => setPageComments(p => p + 1)}>Next&gt;</span>}
                     </>)
                     : null}
             </div>

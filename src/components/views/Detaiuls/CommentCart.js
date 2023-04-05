@@ -39,16 +39,8 @@ function CommentCart({ content, objectId: commentId, comments, setComments, owne
     function onDelete() {
         setLoading(true);
         deleteComent(commentId, user);
-
         setComments(({ results, count }) => ({ results: results.filter(c => c.objectId !== commentId), count: count - 1 }));
-
-        setPageComments(p => {
-            if (comments.count % 3 === 1) {
-                maxPage.current = Math.ceil(comments.count / 3);
-                return p - 1;
-            }
-            return p;
-        });
+        setPageComments(1);
         setLoading(false);
         reset();
     }
