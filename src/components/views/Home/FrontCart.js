@@ -5,8 +5,6 @@ import { NavLink } from 'react-router-dom';
 function FrontCart({
     objectId,
     destination,
-    country,
-    location,
     imageUrl,
     description,
     user

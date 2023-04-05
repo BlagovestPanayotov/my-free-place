@@ -4,14 +4,11 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { object, string } from 'yup';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
-import { UserContext } from '../../../contexts/UserContext';
-import { searchItems } from '../../../services/data';
 
 
 function SearchForm({ navigate }) {
 
-    const { setDestinations, countries } = useContext(DestinationsContext);
-    const { user } = useContext(UserContext);
+    const { countries, setSearch } = useContext(DestinationsContext);
 
     const defaultValues = {
         destination: '',
@@ -29,22 +26,16 @@ function SearchForm({ navigate }) {
     });
 
     function onSubmit(data) {
-        searchItems(data, user)
-            .then(result => {
-                setDestinations(result.results);
-                navigate('/catalog');
-            })
-            .catch(err => console.log);
+        navigate('/catalog/1');
+        setSearch({...data});
     }
 
     function onClickClear() {
         reset();
-        searchItems(defaultValues, user)
-            .then(result => {
-                setDestinations(result.results);
-                navigate('/catalog');
-            })
-            .catch(err => console.log);
+        setSearch({
+            destination: '',
+            country: ''
+        });
     }
 
     return (

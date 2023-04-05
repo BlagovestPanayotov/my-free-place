@@ -40,7 +40,7 @@ function Register({ navigate }) {
             .then(newUser => {
                 setUser(newUser);
                 setServerError(null);
-                navigate('/catalog');
+                navigate('/catalog/1');
             })
             .catch(err => {
                 setServerError(err.message);

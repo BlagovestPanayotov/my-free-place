@@ -3,20 +3,17 @@ import { Link, NavLink } from 'react-router-dom';
 import { DestinationsContext } from '../../../contexts/DestinationsContext';
 import { UserContext } from '../../../contexts/UserContext';
 import { logout } from '../../../services/auth';
-import { getAll } from '../../../services/data';
 
 
 function Navigation({ navigate }) {
     const { user, setUser, userData } = useContext(UserContext);
-    const {setDestinations} = useContext(DestinationsContext);
+    const { setSearch } = useContext(DestinationsContext);
 
     function onLogoutClick(e) {
         e.preventDefault();
         setUser();
-        Promise.all([logout(user),getAll()])
-            .then(([userData,destinations]) => {
-                setDestinations(destinations.results);
-            });
+        logout(user);
+        setSearch({ destination: '', country: '' });
         navigate('/');
     }
 
@@ -28,10 +25,10 @@ function Navigation({ navigate }) {
             </NavLink></div>}
             <ul>
                 <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/'}>Home</NavLink></div></li>
-                <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/catalog'}>Catalog</NavLink></div></li>
+                <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/catalog/1'}>Catalog</NavLink></div></li>
                 {user
                     ? <>
-                        <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/my-destinations'}>My Destinations</NavLink></div></li>
+                        <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/my-destinations/1'}>My Destinations</NavLink></div></li>
                         <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/create'}>Create</NavLink></div></li>
                         <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/free-time'}>Free Time</NavLink></div></li>
                         <li><div><Link to={'/'} onClick={e => onLogoutClick(e)}>Logout</Link></div></li>
@@ -45,7 +42,10 @@ function Navigation({ navigate }) {
                 <li><div><NavLink className={({ isActive }) => isActive ? 'activeNav' : null} to={'/about'}>About</NavLink></div></li>
 
             </ul>
-            <h1><i>My free place</i></h1>
+            {user
+                ? <h1><i>Hello {user.username}</i></h1>
+                : <h1><i>My free place</i></h1>}
+
         </div>
     );
 }
