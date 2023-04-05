@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { object, string } from 'yup';
@@ -16,30 +16,29 @@ function CommentsContainer() {
     const { destinationId } = useParams();
 
     const [loading, setLoading] = useState(false);
-    
-    const [comments, setComments] = useState([]);
-    const [countComments, setCountComments] = useState(0);
+
+    const [comments, setComments] = useState({ results: [], count: 1 });
     const [pageComments, setPageComments] = useState(1);
     const [postButtonsLoading, setPostButtonLoading] = useState(false);
 
-    const maxPage = Math.ceil(countComments / 3);
+    const maxPage = useRef(Math.ceil(comments.count / 3));
     const skip = (page) => page <= 0 ? 0 : (page - 1) * 3;
 
     useEffect(() => {
         setLoading(true);
         getComments(skip(pageComments), destinationId)
-            .then(dataComments => {
-                setComments(dataComments.results);
-                setCountComments(dataComments.count);
-                setLoading(false);
+            .then(data => {
+                setComments(data);
+                maxPage.current = Math.ceil(data.count / 3);
                 if (pageComments <= 0) { setPageComments(1); }
+                setLoading(false);
             })
             .catch(err => {
                 console.log(err);
                 setLoading(false);
                 throw err;
             });
-    }, [destinationId, pageComments, countComments]);
+    }, [destinationId, pageComments]);
 
     const defaultValues = {
         content: ''
@@ -64,9 +63,10 @@ function CommentsContainer() {
                     owner: { __type: 'Pointer', className: '_User', objectId: user.objectId },
                     objectId: result.objectId
                 };
-                setComments(state => [newComment, ...state]);
-                setCountComments(c => c + 1);
-                setPageComments(p => p);
+                setComments(({ results, count }) => ({ results: [newComment, ...results], count: Number(count) + 1 }));
+                if (comments.count % 3 === 0) {
+                    ++maxPage.current;
+                }
                 setPostButtonLoading(false);
                 reset();
             })
@@ -75,6 +75,7 @@ function CommentsContainer() {
                 throw err;
             });
     }
+
     return (
         <div id={styles.comments}>
             <h4>Comments:</h4>
@@ -89,15 +90,16 @@ function CommentsContainer() {
                 ? <div>Please wait...</div>
                 : <>
                     <div id={styles.commentCardsContainer}>
-                        {comments?.length > 0 ?
-                            comments.slice(0, 3).map(c =>
+                        {comments.results.length > 0 ?
+                            comments.results.slice(0, 3).map(c =>
                                 <CommentCart
                                     key={c.objectId}
+                                    comments={comments}
                                     setComments={setComments}
-                                    setCountComments={setCountComments}
-                                    setPageComments={setPageComments}
-                                    countComments={countComments}
                                     pageComments={pageComments}
+                                    setPageComments={setPageComments}
+                                    maxPage={maxPage}
+                                    skip={skip}
                                     reset={reset}
                                     {...c}>
                                 </CommentCart>)
@@ -107,11 +109,11 @@ function CommentsContainer() {
                 </>
             }
             <div id={styles.pagin}>
-                {countComments > 3
+                {comments.count > 3
                     ? (<>
                         {pageComments > 1 ? <span onClick={() => setPageComments(p => p - 1)}>&lt;Prev</span> : null}
-                        <span>{pageComments <= 0 ? 1 : pageComments} from {maxPage}</span>
-                        {pageComments === maxPage ? null : <span onClick={() => setPageComments(p => p + 1)}>Next&gt;</span>}
+                        <span>{pageComments <= 0 ? 1 : pageComments} from {maxPage.current}</span>
+                        {pageComments > maxPage.current ? null : <span onClick={() => setPageComments(p => p + 1)}>Next&gt;</span>}
                     </>)
                     : null}
             </div>

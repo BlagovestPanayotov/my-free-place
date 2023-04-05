@@ -4,11 +4,13 @@ import { addLikeComment, deleteComent, getLikesComment, hasLikedComment } from '
 import { DeleteModal } from '../../modals/DeleteModal';
 import styles from './Details.module.css';
 
-function CommentCart({ content, objectId: commentId, setComments, owner, setCountComments, setPageComments, countComments, reset }) {
+function CommentCart({ content, objectId: commentId, comments, setComments, owner, setPageComments, maxPage, reset }) {
     const { user } = useContext(UserContext);
     const [likes, setLikes] = useState({ count: 0, hasLiked: true });
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    console.log('here');
 
 
     useEffect(() => {
@@ -27,10 +29,9 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
 
     function onLike() {
         setLoading(true);
-        setLikes(s => ({ ...s, hasLiked: true }));
+        setLikes(({ count, hasLiked }) => ({ count: count + 1, hasLiked: !hasLiked }));
         addLikeComment(commentId, user)
             .then(result => {
-                setLikes(state => ({ ...state, count: state.count + 1 }));
                 setLoading(false);
             });
     }
@@ -39,12 +40,15 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
         setLoading(true);
         deleteComent(commentId, user);
 
-        setCountComments(c => c - 1);
+        setComments(({ results, count }) => ({ results: results.filter(c => c.objectId !== commentId), count: count - 1 }));
+
         setPageComments(p => {
-            if (countComments % 3 === 1) { return p - 1; }
+            if (comments.count % 3 === 1) {
+                maxPage.current = Math.ceil(comments.count / 3);
+                return p - 1;
+            }
             return p;
         });
-        setComments(state => state.filter(c => c.objectId !== commentId));
         setLoading(false);
         reset();
     }

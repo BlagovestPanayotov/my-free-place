@@ -26,8 +26,7 @@ function Catalog() {
     useEffect(() => {
         setLoading(true);
         searchItems(skip(currentPage), search)
-            .then(data => {
-                console.log(data);
+            .then(data => { 
                 setDestinations(data);
                 maxPage.current = Math.ceil(data.count / 6);
                 setLoading(false);
