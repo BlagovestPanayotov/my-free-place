@@ -6,16 +6,12 @@ export const DestinationsContext = createContext(null);
 export const DestinationsProvider = ({ children }) => {
 
     const [countries, setCountries] = useState([]);
-    const [catalogPage, setCatalogPage] = useState(1);
-    const [userCatalogPage, setUserCatalogPage] = useState(1);
-    const [destiantions,setDestinations] = useState([]);
+    const [destinations, setDestinations] = useState({ results: [], count: 0 });
     const [search, setSearch] = useState({ destination: '', country: '' });
 
     const destinationsContext = {
         countries, setCountries,
-        userCatalogPage, setUserCatalogPage,
-        catalogPage, setCatalogPage,
-        destiantions,setDestinations,
+        destinations, setDestinations,
         search, setSearch
     };
 

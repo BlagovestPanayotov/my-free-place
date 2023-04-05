@@ -11,25 +11,23 @@ function MyDestinations() {
 
     const navigate = useNavigate();
 
-    const { user } = useContext(UserContext);
-    const { destiantions, setDestinations } = useContext(DestinationsContext);
-
     const { page } = useParams();
-    const [userCatalogPage, setUserCurrentPage] = useState(Number(page) ? Number(page) : 1);
-    // const [userDestinations, setUserDestinations] = useState([]);
-    const [userDestinationsCount, setUserDestinationCount] = useState(0);
+
+    const { user } = useContext(UserContext);
+    const { destinations, setDestinations } = useContext(DestinationsContext);
+
+    const [userCatalogPage, setUserCurrentPage] = useState(Number(page) ? Number(page) : 0);
     const [loading, setLoading] = useState(false);
 
     const skip = (page) => ((page - 1) * 6);
-    const maxPage = useRef(Math.ceil(userDestinationsCount / 6));
+    const maxPage = useRef(Math.ceil(destinations.count / 6));
 
     useEffect(() => {
         if (user) {
             setLoading(true);
             getMyItems(skip(userCatalogPage), user.objectId, user)
                 .then((data) => {
-                    setDestinations(data.results);
-                    setUserDestinationCount(data.count);
+                    setDestinations(data);
                     maxPage.current = Math.ceil(data.count / 6);
                     setLoading(false);
                 })
@@ -57,8 +55,8 @@ function MyDestinations() {
         <div className={styles.content}>
             {loading
                 ? <div className="loader"></div>
-                : destiantions.length > 0
-                    ? destiantions.map(x => <DestinationCard
+                : destinations.results.length > 0
+                    ? destinations.results.map(x => <DestinationCard
                         user={user}
                         key={x.objectId}
                         {...x}
@@ -66,7 +64,7 @@ function MyDestinations() {
                     : < h2 id={styles.noDestination}>You have no Destinations yet!</h2>
             }
             <div id={styles.pagin}>
-                {userDestinationsCount > 6
+                {destinations.count > 6 && page > 0
                     ? (<>
                         {userCatalogPage > 1 ? <span onClick={onClickNext}>&lt;Prev</span> : null}
                         <span>{userCatalogPage} from {maxPage.current}</span>

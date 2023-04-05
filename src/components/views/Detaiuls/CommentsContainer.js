@@ -85,7 +85,7 @@ function CommentsContainer() {
                 <button type='submiut' id={styles.btnComentForm} disabled={postButtonsLoading}>Post Comment</button>
             </form>
             {loading
-                ? <div className="loader"></div>
+                ? <div>Please wait...</div>
                 : <>
                     <div id={styles.commentCardsContainer}>
                         {comments?.length > 0 ?
