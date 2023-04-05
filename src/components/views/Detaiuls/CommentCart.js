@@ -6,8 +6,7 @@ import styles from './Details.module.css';
 
 function CommentCart({ content, objectId: commentId, setComments, owner, setCountComments, setPageComments, countComments, reset }) {
     const { user } = useContext(UserContext);
-    const [countLikes, setCountLikes] = useState(0);
-    const [hasLiked, setHasLiked] = useState(true);
+    const [likes, setLikes] = useState({ count: 0, hasLiked: true });
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -15,9 +14,8 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
     useEffect(() => {
         setLoading(true);
         Promise.all([getLikesComment(commentId), hasLikedComment(commentId, user?.objectId)])
-            .then(([likesData, result]) => {
-                setCountLikes(likesData.count);
-                setHasLiked(result.results?.length > 0);
+            .then(([likesData, liked]) => {
+                setLikes({ count: likesData.count, hasLiked: liked.results?.length > 0 });
                 setLoading(false);
             })
             .catch(err => {
@@ -29,10 +27,10 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
 
     function onLike() {
         setLoading(true);
-        setHasLiked(true);
+        setLikes(s => ({ ...s, hasLiked: true }));
         addLikeComment(commentId, user)
             .then(result => {
-                setCountLikes(state => state + 1);
+                setLikes(state => ({ ...state, count: state.count + 1 }));
                 setLoading(false);
             });
     }
@@ -59,9 +57,9 @@ function CommentCart({ content, objectId: commentId, setComments, owner, setCoun
                 : <div className={styles['comment-cart']}>
                     <p>{content}</p>
                     {owner?.objectId === user?.objectId && <button onClick={() => setOpenDeleteModal(true)}>Delete</button>}
-                    {!hasLiked && <button onClick={onLike}>Like</button>}
+                    {!likes.hasLiked && <button onClick={onLike}>Like</button>}
 
-                    <div className={styles.likes}>Likes: {countLikes}</div>
+                    <div className={styles.likes}>Likes: {likes.count}</div>
                 </div>
             }
         </>
