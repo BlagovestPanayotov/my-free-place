@@ -18,9 +18,9 @@ function CommentsContainer() {
     const [loading, setLoading] = useState(false);
 
     const [comments, setComments] = useState({ results: [], count: 1 });
-    const [pageComments, setPageComments] = useState(1);
     const [postButtonsLoading, setPostButtonLoading] = useState(false);
-
+    
+    const [pageComments, setPageComments] = useState(1);
     const maxPage = useRef(Math.ceil(comments.count / 3));
     const skip = (page) => page <= 0 ? 0 : (page - 1) * 3;
 
