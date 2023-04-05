@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../../contexts/UserContext';
 import { onBackClick } from '../../../utils/util';
@@ -17,14 +17,18 @@ function ButtonsContainer({ currentDestination,
     const { user } = useContext(UserContext);
     const { destinationId } = useParams();
 
+    const [loading, setLoading] = useState();
+
     const navigate = useNavigate();
     const destinationOwner = currentDestination.owner?.objectId;
 
     function onLike() {
+        setLoading(true);
         setHasLikedPost(true);
         addLikeDestination(destinationId, user)
             .then(result => {
                 setCountLikesPost(state => state += 1);
+                setLoading(false);
             })
             .catch(err => {
                 console.log(err);
@@ -34,7 +38,7 @@ function ButtonsContainer({ currentDestination,
 
     return (
         <span>
-            <button id={styles.likeDisplay} disabled>Likes: {countLikesPost}</button>
+            <button className={loading? styles.buttonload: styles.likeDisplay} disabled>Likes: {countLikesPost}</button>
             {
                 destinationOwner === user?.objectId
                     ? <>

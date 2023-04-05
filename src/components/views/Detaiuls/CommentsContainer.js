@@ -16,6 +16,7 @@ function CommentsContainer() {
     const { destinationId } = useParams();
 
     const [loading, setLoading] = useState(false);
+    
     const [comments, setComments] = useState([]);
     const [countComments, setCountComments] = useState(0);
     const [pageComments, setPageComments] = useState(1);

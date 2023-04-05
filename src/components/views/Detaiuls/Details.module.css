@@ -151,7 +151,7 @@ span button :disabled {
   cursor: pointer;
 }
 
-#btnComentForm:disabled{
+#btnComentForm:disabled {
   background-color: grey;
 }
 
@@ -215,10 +215,17 @@ span button :disabled {
   color: rgb(255, 120, 120);
 }
 
-#likeDisplay {
+.likeDisplay {
   background-color: white;
   color: blue;
-  cursor: auto;
+  pointer-events: none;
+  border-radius: 1em;
+}
+
+.buttonload {
+  background-color: grey;
+  color: white;
+  pointer-events: none;
   border-radius: 1em;
 }
 
