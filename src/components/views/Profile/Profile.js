@@ -26,7 +26,7 @@ function Profile({ navigate }) {
         firstName: string().min(3, 'The First name must contain at least 3 characters!'),
         lastName: string().min(3, 'The Last name must contain at least 3 characters!'),
         countryOfLiving: string().min(3, 'The country must contain at least 3 characters!'),
-        imageUrl: string().min(1, 'Image URL is required~'),
+        imageUrl: string().min(1, 'Image URL is required!'),
     }).required();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -66,7 +66,7 @@ function Profile({ navigate }) {
                             <div className={styles.error}>{errors['lastName']?.message}</div>
                         </div>
                         <div className={styles.conteiner}>
-                            <label>Contry of living:</label>
+                            <label>Country of living:</label>
                             <input {...register('countryOfLiving')} type="text" />
                             <div className={styles.error}>{errors['countryOfLiving']?.message}</div>
                         </div>

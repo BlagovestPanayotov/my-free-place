@@ -22,10 +22,10 @@ function Create({ navigate }) {
 
 
     const schema = object({
-        destination: string().min(3, 'The destination must contain at least 3 characters!').required(),
-        location: string().min(3, 'The locatrion must contain at least 3 characters!').required(),
-        imageUrl: string().url().required(),
-        description: string().max(100, 'The description can contain maximum 100 characters!').required(),
+        destination: string().min(3, 'The destination must contain at least 3 characters!'),
+        location: string().min(3, 'The locatrion must contain at least 3 characters!'),
+        imageUrl: string().url('Invalid URL').min(1, 'Image URL is required!'),
+        description: string().max(100, 'The description can contain maximum 100 characters!'),
         country: string()
     }).required();
 
@@ -34,6 +34,7 @@ function Create({ navigate }) {
         resolver: yupResolver(schema)
     });
 
+    console.log(errors);
     function onSubmit(data) {
         createItem(data, user)
             .then(({objectId}) => {
@@ -50,32 +51,32 @@ function Create({ navigate }) {
             <h1><i>Create your place</i></h1>
             <form onSubmit={handleSubmit(onSubmit)} id={styles.form}>
                 <div className={styles.conteiner}>
-                    <label htmlFor="destination">Destiantion name:</label>
+                    <label htmlFor="destination">Destination name:</label>
                     <input {...register('destination')} type="text" />
-                    <div className={styles.error}>{errors.repass?.message}</div>
+                    <div className={styles.error}>{errors.destination?.message}</div>
                 </div>
                 <div className={styles.conteiner}>
                     <label htmlFor='country'>Country:</label>
                     <select {...register('country')}>
                         {countries.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
                     </select>
-                    <div className={styles.error}>{errors.repass?.message}</div>
+                    <div className={styles.error}>{errors.country?.message}</div>
                 </div>
                 <div className={styles.conteiner}>
                     <label htmlFor='location'>Location:</label>
                     <input {...register('location')} type="text" />
-                    <div className={styles.error}>{errors.repass?.message}</div>
+                    <div className={styles.error}>{errors.location?.message}</div>
                 </div>
                 <div className={styles.conteiner}>
                     <label htmlFor='imageUrl'>ImageURL:</label>
                     <input {...register('imageUrl')} type="text" />
-                    <div className={styles.error}>{errors.repass?.message}</div>
+                    <div className={styles.error}>{errors.imageUrl?.message}</div>
                     <div className={styles.imgUpload}>To upload your image click <a href='https://prikachi.net/' target="_blank" rel="noreferrer">HERE!</a></div>
                 </div>
                 <div className={styles.conteiner}>
-                    <label htmlFor='description'>Descriptuion:</label>
+                    <label htmlFor='description'>Description:</label>
                     <textarea {...register('description')} type="text" />
-                    <div className={styles.error}>{errors.repass?.message}</div>
+                    <div className={styles.error}>{errors.description?.message}</div>
                 </div>
                 <span>
                     <button type="submit">Submit</button>

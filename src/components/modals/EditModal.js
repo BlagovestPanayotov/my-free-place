@@ -26,7 +26,7 @@ function EditModal({ openEditModal, setOpenEditModal, currentDestination, setCur
     const schema = object({
         destination: string().min(3, 'The destination must contain at least 3 characters!'),
         location: string().min(3, 'The locatrion must contain at least 3 characters!'),
-        imageUrl: string(),
+        imageUrl: string().url('Invalid URL').min(1, 'Image URL is required!'),
         description: string().max(100, 'The description can contain maximum 100 characters!'),
         country: string()
     }).required();
@@ -65,31 +65,31 @@ function EditModal({ openEditModal, setOpenEditModal, currentDestination, setCur
                         <h1><i>Edit {currentDestination.destination}</i></h1>
                         <form onSubmit={handleSubmit(onSubmit)} id={styles.form}>
                             <div className={styles.conteiner}>
-                                <label htmlFor="destination">Destiantion name:</label>
+                                <label htmlFor="destination">Destination name:</label>
                                 <input {...register('destination')} type="text" />
-                                <div className={styles.error}>{errors.repass?.message}</div>
+                                <div className={styles.error}>{errors.destination?.message}</div>
                             </div>
                             <div className={styles.conteiner}>
                                 <label htmlFor='country'>Country:</label>
                                 <select {...register('country')}>
                                     {countries.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
                                 </select>
-                                <div className={styles.error}>{errors.repass?.message}</div>
+                                <div className={styles.error}>{errors.country?.message}</div>
                             </div>
                             <div className={styles.conteiner}>
                                 <label htmlFor='location'>Location:</label>
                                 <input {...register('location')} type="text" />
-                                <div className={styles.error}>{errors.repass?.message}</div>
+                                <div className={styles.error}>{errors.location?.message}</div>
                             </div>
                             <div className={styles.conteiner}>
                                 <label htmlFor='imageUrl'>ImageURL:</label>
                                 <input {...register('imageUrl')} type="text" />
-                                <div className={styles.error}>{errors.repass?.message}</div>
+                                <div className={styles.error}>{errors.imageUrl?.message}</div>
                             </div>
                             <div className={styles.conteiner}>
-                                <label htmlFor='description'>Descriptuion:</label>
+                                <label htmlFor='description'>Description:</label>
                                 <textarea {...register('description')} type="text" />
-                                <div className={styles.error}>{errors.repass?.message}</div>
+                                <div className={styles.error}>{errors.description?.message}</div>
                             </div>
                             <span>
                                 <button type="submit">Submit</button>

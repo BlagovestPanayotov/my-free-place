@@ -47,10 +47,10 @@ function LoginForm({ navigate }) {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor='username'>Username:</label>
                 <input {...register('username')} type="text" />
-                <div className='error'>{errors.username?.message}</div>
+                <div className='error-login-fields'>{errors.username?.message}</div>
                 <label htmlFor='password'>Password:</label>
                 <input {...register('password')} type="password" />
-                <div className='error'>{errors.password?.message}</div>
+                <div className='error-login-fields'>{errors.password?.message}</div>
                 <div className='login-error'>{serverError}</div>
                 <button type="submit" >Login </button>
             </form>

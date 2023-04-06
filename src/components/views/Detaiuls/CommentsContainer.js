@@ -82,10 +82,10 @@ function CommentsContainer() {
             <h4>Comments:</h4>
 
             <form id={styles.postComentForm} onSubmit={handleSubmit(onSubmit)}>
-                <label htmlFor='content' id={styles.labelComentForm}>Write Comment</label>
+                <label htmlFor='content' id={styles.labelComentForm}>Write a Comment</label>
                 <textarea {...register('content')}></textarea>
                 <p id={styles.errorP}>{errors.content?.message}</p>
-                <button type='submiut' id={styles.btnComentForm} disabled={postButtonsLoading}>Post Comment</button>
+                <button type='submiut' id={styles.btnComentForm} disabled={postButtonsLoading}>Post a Comment</button>
             </form>
             {loading
                 ? <div>Please wait...</div>

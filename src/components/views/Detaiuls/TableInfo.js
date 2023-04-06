@@ -10,7 +10,7 @@ function TableInfo({ currentDestination }) {
                     <td><div id='destination'>{currentDestination.destination} </div></td>
                 </tr>
                 <tr>
-                    <td><label>Countrey:</label></td>
+                    <td><label>Country:</label></td>
                     <td><div id='country'>{currentDestination.country} </div></td>
                 </tr>
                 <tr>

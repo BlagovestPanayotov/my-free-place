@@ -47,7 +47,7 @@ function SearchForm({ navigate }) {
                     <option key={'<*%all%*>'} value={''}>All</option>
                     {countries.map(({ objectId, name }) => <option key={objectId} value={name}>{name}</option>)}
                 </select>
-                <label>Destiantion name:</label>
+                <label>Destination name:</label>
                 <input {...register('destination')} type="text" />
                 <button type="submit">Search</button>
                 <Link id='clearSearch' onClick={onClickClear}>Clear</Link>
