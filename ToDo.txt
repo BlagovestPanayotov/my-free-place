@@ -1,0 +1,12 @@
+Update CSS for better UX
+
+Create Admin role with the folloing functionality:
+    -remove any destination
+    -approve destinations
+    -ban users
+    -add counties
+
+Refactor services
+
+Use cloud store for images
+

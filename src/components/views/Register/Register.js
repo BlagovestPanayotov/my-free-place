@@ -22,11 +22,11 @@ function Register({ navigate }) {
         username: string().min(8, 'The username must contain at least 8 characters!').required(),
         email: string().email('Invalid email!').required(),
         password: string()
-            .min(8, 'Password must be 8 characters long').required(),
-        // .matches(/[0-9]/, 'Password requires a number')
-        // .matches(/[a-z]/, 'Password requires a lowercase letter')
-        // .matches(/[A-Z]/, 'Password requires an uppercase letter')
-        // .matches(/[^\w]/, 'Password requires a symbol'),
+            .min(8, 'Password must be 8 characters long')
+            .matches(/[0-9]/, 'Password requires a number')
+            .matches(/[a-z]/, 'Password requires a lowercase letter')
+            .matches(/[A-Z]/, 'Password requires an uppercase letter')
+            .matches(/[^\w]/, 'Password requires a symbol'),
         repass: string().oneOf([ref('password'), null], 'Password dosen\'t match')
     }).required();
 

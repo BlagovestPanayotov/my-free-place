@@ -24,4 +24,8 @@ Getting Started
 
     Run npm start in the terminal.
 
-Disclaimer: This project is only for educaton purposes and is stll in development.
+    or
+
+    just visit https://my-free-place.web.app/
+
+Note: This project is only for educaton purposes and is stll in development. In the project there is a ToDo file saying the incoming changes.
