@@ -26,7 +26,7 @@ export default class ErrorBoundary extends Component {
             return (
                 <div id='errorBoundary'>
                     <h1>Something went wrong. Please try again later!</h1>
-                    <img src='img/crying-face.jpg' alt='cry-face' />
+                    <img src='/img/crying-face.png' alt='cry-face' />
                 </div>
             );
         }

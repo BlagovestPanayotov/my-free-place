@@ -5,6 +5,7 @@ import { addLikeDestination, getById, getLikesDestination, hasLikedDestination }
 import { DeleteModal } from '../../modals/DeleteModal';
 import EditModal from '../../modals/EditModal';
 import { ImageModal } from '../../modals/ImageModal';
+import NotFound from '../NotFound/NotFound';
 import ButtonsContainer from './ButtonsContainer';
 
 import CommentsContainer from './CommentsContainer';
@@ -24,6 +25,8 @@ function Details() {
     const [openModalImage, setOpenModalImage] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
+
+    const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -36,10 +39,11 @@ function Details() {
                     setCurrentDestination(dataDestination);
                     setCountLikesPost(likesData.count);
                     setHasLikedPost(hasLikedData.results?.length > 0);
+                    setError(false);
                     setLoading(false);
                 })
                 .catch(err => {
-                    console.log(err);
+                    if (err.code === 101) { setError(true); }
                     setLoading(false);
                     throw err;
                 });
@@ -48,7 +52,7 @@ function Details() {
         }
     }, [destinationId, setCurrentDestination, user, setLoading]);
 
-
+    if (error) { return <NotFound />; }
 
     return (
         <div className={styles.content}>

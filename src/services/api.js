@@ -31,19 +31,19 @@ async function request(method, url = '/', user, body) {
         const result = await response.json();
 
         if (!response.ok) {
-            console.log(response);
+            // console.log(response);
             if (response.status === 400) {
                 localStorage.removeItem('user');
             }
-            throw new Error(result.message || result.error);
+            throw result;
         }
 
         return result;
 
     } catch (err) {
-        // alert(err.message);
-        console.log(err);
-        if (err.message === 'Invalid session token') {
+        // alert(err.error);
+        // console.log(err);
+        if (err.error === 'Invalid session token') {
             localStorage.removeItem('user');
             window.location.reload(false);
         }

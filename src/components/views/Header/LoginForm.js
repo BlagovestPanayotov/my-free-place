@@ -35,7 +35,8 @@ function LoginForm({ navigate }) {
                 navigate('/catalog/1');
             })
             .catch(err => {
-                setServerError(err.message);
+                console.log(err);
+                setServerError(err.error);
                 setUser(null);
             });
     }

@@ -11,7 +11,7 @@ export const UserProvider = ({
             return JSON.parse(localStorage.getItem('user'));
         } catch (err) {
             localStorage.removeItem('user');
-            console.log(err.message);
+            console.log(err.error);
             return null;
         }
     });

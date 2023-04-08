@@ -43,7 +43,7 @@ function Register({ navigate }) {
                 navigate('/catalog/1');
             })
             .catch(err => {
-                setServerError(err.message);
+                setServerError(err.error);
                 setUser(null);
             });
     }
