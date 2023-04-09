@@ -13,7 +13,9 @@
 }
 
 #overlay-img {
-  padding-top: 1em;
+  padding: 1em;
+  max-width: 100vw;
+  max-height: 100vh;
 }
 
 #overlay-delete {
@@ -37,6 +39,6 @@
   cursor: pointer;
 }
 
-.deleteWarning{
+.deleteWarning {
   color: aliceblue;
 }

@@ -7,7 +7,7 @@ export const ImageModal = ({ open, imageUrl, setOpenModalImage }) => {
     return (
         <div className={styles.overlay} id={styles['overlay-img']}>
             <div className="modal-Contailner">
-                <img onClick={() => setOpenModalImage(false)} src={imageUrl} alt='profile' />
+                <img id={styles['overlay-img']} onClick={() => setOpenModalImage(false)} src={imageUrl} alt='profile' />
             </div>
         </div>
     );

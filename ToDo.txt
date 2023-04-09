@@ -8,5 +8,12 @@ Create Admin role with the folloing functionality:
 
 Refactor services
 
+Fix default picture for profile
+
 Use cloud store for images
 
+Show owner comment
+
+Add sorting of destination
+
+Create testing
